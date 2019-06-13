@@ -40,7 +40,7 @@ call vundle#end()            " required
 set autoread               " auto read when file is changed from outside
 syntax on                  " Enable syntax highlighting.
 filetype plugin indent on  " Enable file type based indentation.
-colorscheme laravel " Change a colorscheme.
+colorscheme base16-onedark " Change a colorscheme.
 
 " indent
 set expandtab              " replace <TAB> with spaces
@@ -90,15 +90,18 @@ let g:nerdtree_tabs_focus_on_files = 1
 let g:nerdtree_tabs_open_on_gui_startup = 0
 
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+let g:UltiSnipsExpandTrigger = "<tab>"
+let g:UltiSnipsJumpForwardTrigger = "<c-j>"
+let g:UltiSnipsJumpBackwardTrigger = "<c-k>"
+let g:UltiSnipsSnippetsDir = $HOME."/.config/nvim/UltiSnips"
+let g:UltiSnipsSnippetDirectories = ['UltiSnips', $HOME.'/.config/nvim/UltiSnips']
+let g:UltiSnipsEnableSnipMate = 0
 
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
 
 " Auto save 
-" let g:auto_save = 1  " enable AutoSave on Vim startup
+ let g:auto_save = 1  " enable AutoSave on Vim startup
 " let g:auto_save_silent = 1  " do not display the auto-save notification
 
 "normal mode map
@@ -128,10 +131,10 @@ let g:fzf_colors={
   \ 'header':  ['fg', 'Comment']
   \ }
 
-nmap <C-P> :Files<CR>
+nmap <C-o> :Files<CR>
 nmap <Leader>t :Tags<CR>
 nmap <Leader>r :BTags<CR>
-nmap <Leader>b :Buffers<CR>
+nmap <C-e> :Buffers<CR>
 imap <C-X><C-K> <Plug>(fzf-complete-word)
 imap <C-X><C-F> <Plug>(fzf-complete-path)
 imap <C-X><C-J> <Plug>(fzf-complete-file-ag)
@@ -154,6 +157,10 @@ vmap <C-k> :m '<-2<CR>gv=gv
 " Copy
 " xnoremap <c-c> "*y
 
+" Search
+ nmap <C-f> :Ag 
+ imap <C-f> <Esc> :Ag
+ vmap <C-f> <Esc> :Ag
 " code style mapping
 inoremap <A-k> <esc>YpAa<esc>0v$F.hr f.lC
 
