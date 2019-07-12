@@ -31,6 +31,12 @@ Plugin 'thoughtbot/vim-rspec'
 Plugin 'junegunn/fzf'
 Plugin 'junegunn/fzf.vim'
 
+" Add deoplete
+ Plugin 'shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+
+" Add neocomplete
+" Plugin 'shougo/neocomplete.vim'
+
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 "  settings
@@ -101,8 +107,11 @@ let g:UltiSnipsEnableSnipMate = 0
 let g:UltiSnipsEditSplit="vertical"
 
 " Auto save 
- let g:auto_save = 1  " enable AutoSave on Vim startup
+let g:auto_save = 1  " enable AutoSave on Vim startup
 " let g:auto_save_silent = 1  " do not display the auto-save notification
+
+" deoplete
+let g:deoplete#enable_at_startup = 1
 
 "normal mode map
 "NERDTree
@@ -139,6 +148,7 @@ imap <C-X><C-K> <Plug>(fzf-complete-word)
 imap <C-X><C-F> <Plug>(fzf-complete-path)
 imap <C-X><C-J> <Plug>(fzf-complete-file-ag)
 imap <C-X><C-L> <Plug>(fzf-complete-line)
+imap <Tab> <C-n>
 
 " RSpec.vim mappings
 map <Leader>t :call RunCurrentSpecFile()<CR>
