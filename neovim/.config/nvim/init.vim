@@ -1,44 +1,73 @@
 " ===================
-" Vundle Plugin
+" Plug Manager
 " ===================
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-set rtp+=/usr/local/opt/fzf
-call vundle#begin()
+call plug#begin('~/.vim/autoload')
 
 " let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
+Plug 'VundleVim/Vundle.vim'
 
 " The following are examples of different formats supported.
 " plugin on GitHub repo
-Plugin 'tpope/vim-fugitive'
+" Plug 'tpope/vim-fugitive'
 " Git plugin not hosted on GitHub
-Plugin 'git://git.wincent.com/command-t.git'
+Plug 'git://git.wincent.com/command-t.git'
 " Pass the path to set the runtimepath properly.
-Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+Plug 'rstacruz/sparkup', {'rtp': 'vim/'}
 " colors style
-Plugin 'rainglow/vim'
+Plug 'rainglow/vim'
 " snips
-Plugin 'sirver/ultisnips'
-Plugin 'honza/vim-snippets'
+Plug 'sirver/ultisnips'
+Plug 'honza/vim-snippets'
 " folder tree
-Plugin 'scrooloose/nerdtree'
-Plugin 'Xuyuanp/nerdtree-git-plugin'
+Plug 'scrooloose/nerdtree'
+Plug 'scrooloose/nerdcommenter'
+Plug 'scrooloose/syntastic'
+Plug 'Xuyuanp/nerdtree-git-plugin'
 " ruby-vim
-Plugin 'vim-ruby/vim-ruby'
-Plugin 'thoughtbot/vim-rspec'
+Plug 'vim-ruby/vim-ruby'
+Plug 'thoughtbot/vim-rspec'
 " Add the fzf.vim plugin to wrap fzf:
-Plugin 'junegunn/fzf'
-Plugin 'junegunn/fzf.vim'
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
+Plug 'majutsushi/tagbar'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'jiangmiao/auto-pairs'
+Plug 'kien/ctrlp.vim'
+Plug 'ervandew/supertab'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'matze/vim-move'
+Plug 'ryanoasis/vim-devicons'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" Themes
+Plug 'arcticicestudio/nord-vim'
+
+" Git
+Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-fugitive'
+
+" Python
+Plug 'roxma/nvim-yarp'
+
+" JS
+
+" HTML
+Plug 'mattn/emmet-vim'
+Plug 'othree/html5.vim'
+Plug 'alvan/vim-closetag'
+
+" CSS
+Plug 'ap/vim-css-color'
 
 " Add deoplete
- Plugin 'shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugs' }
 
 " Add neocomplete
-" Plugin 'shougo/neocomplete.vim'
+" Plug 'shougo/neocomplete.vim'
 
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
+" All of your Plugs must be added before the following line
+call plug#end()
 "  settings
 " =================
 
@@ -87,7 +116,7 @@ let NERDTreeChDirMode = 2
 let NERDTreeMouseMode = 2
 let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
-let NERDTreeShowHidden = 1
+let NERDTreeShowHidden = 3
 let NERDTreeShowBookmarks = 0
 let NERDTreeHighlightCursorline = 0
 let NERDTreeIgnore = ['\.git$', '\.DS_Store$']
