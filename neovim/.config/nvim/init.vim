@@ -15,6 +15,7 @@ Plug 'git://git.wincent.com/command-t.git'
 Plug 'rstacruz/sparkup', {'rtp': 'vim/'}
 " colors style
 Plug 'rainglow/vim'
+Plug 'chriskempson/base16-vim'
 " snips
 Plug 'sirver/ultisnips'
 Plug 'honza/vim-snippets'
@@ -63,13 +64,19 @@ Plug 'ap/vim-css-color'
 " Add deoplete
 Plug 'shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugs' }
 
+" Add Icon
+Plug 'ryanoasis/vim-devicons'
+
 " Add neocomplete
 " Plug 'shougo/neocomplete.vim'
 
 " All of your Plugs must be added before the following line
 call plug#end()
+
 "  settings
 " =================
+language en_US
+set tags=tags,tags.vendor
 
 " theme
 set autoread               " auto read when file is changed from outside
@@ -124,6 +131,44 @@ let g:NERDTreeWinSize = 30
 let g:nerdtree_tabs_focus_on_files = 1
 let g:nerdtree_tabs_open_on_gui_startup = 0
 
+" NERDTrees File highlighting
+function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
+ exec 'autocmd FileType nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
+ exec 'autocmd FileType nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
+endfunction
+
+call NERDTreeHighlightFile('jade', 'green', 'none', 'green', '#151515')
+call NERDTreeHighlightFile('ini', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('md', 'blue', 'none', '#3366FF', '#151515')
+call NERDTreeHighlightFile('yml', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('config', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('conf', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('json', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('html', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('styl', 'cyan', 'none', 'cyan', '#151515')
+call NERDTreeHighlightFile('css', 'cyan', 'none', 'cyan', '#151515')
+call NERDTreeHighlightFile('coffee', 'Red', 'none', 'red', '#151515')
+call NERDTreeHighlightFile('js', 'Red', 'none', '#ffa500', '#151515')
+call NERDTreeHighlightFile('php', 'Magenta', 'none', '#ff00ff', '#151515')
+call NERDTreeHighlightFile('ds_store', 'Gray', 'none', '#686868', '#151515')
+call NERDTreeHighlightFile('gitconfig', 'Gray', 'none', '#686868', '#151515')
+call NERDTreeHighlightFile('gitignore', 'Gray', 'none', '#686868', '#151515')
+call NERDTreeHighlightFile('bashrc', 'Gray', 'none', '#686868', '#151515')
+call NERDTreeHighlightFile('bashprofile', 'Gray', 'none', '#686868', '#151515')
+
+" NERDTrees File highlighting only the glyph/icon
+" test highlight just the glyph (icons) in nerdtree:
+autocmd filetype nerdtree highlight haskell_icon ctermbg=none ctermfg=Red guifg=#ffa500
+autocmd filetype nerdtree highlight html_icon ctermbg=none ctermfg=Red guifg=#ffa500
+autocmd filetype nerdtree highlight go_icon ctermbg=none ctermfg=Red guifg=#ffa500
+
+autocmd filetype nerdtree syn match haskell_icon ## containedin=NERDTreeFile
+" if you are using another syn highlight for a given line (e.g.
+" NERDTreeHighlightFile) need to give that name in the 'containedin' for this
+" other highlight to work with it
+autocmd filetype nerdtree syn match html_icon ## containedin=NERDTreeFile,html
+autocmd filetype nerdtree syn match go_icon ## containedin=NERDTreeFile
+
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 let g:UltiSnipsExpandTrigger = "<tab>"
 let g:UltiSnipsJumpForwardTrigger = "<c-j>"
@@ -135,7 +180,7 @@ let g:UltiSnipsEnableSnipMate = 0
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
 
-" Auto save 
+" Auto save
 let g:auto_save = 1  " enable AutoSave on Vim startup
 " let g:auto_save_silent = 1  " do not display the auto-save notification
 
@@ -197,7 +242,7 @@ vmap <C-k> :m '<-2<CR>gv=gv
 " xnoremap <c-c> "*y
 
 " Search
- nmap <C-f> :Ag 
+ nmap <C-f> :Ag
  imap <C-f> <Esc> :Ag
  vmap <C-f> <Esc> :Ag
 " code style mapping
@@ -207,3 +252,26 @@ inoremap <A-k> <esc>YpAa<esc>0v$F.hr f.lC
 if (has("termguicolors"))
  set termguicolors
 endif
+
+" remove tailing whitespace
+autocmd BufWritePre * :%s/\s\+$//e
+
+" ctags
+function! UpdateTags()
+  let tags = 'tags'
+
+  if filereadable(tags)
+    let file = substitute(expand('%:p'), getcwd() . '/', '', '')
+
+    " remove tags of file
+    call system('sed -ri "/\s+' . escape(file, './') . '/d"' . tags)
+
+    " append tags of file
+    call system('ctags -a "' . file . '"')
+  endif
+endfunction
+
+autocmd BufWritePost *.rb call UpdateTags()
+autocmd BufWritePost *.php call UpdateTags()
+command! Ctags call system('ctags --recurse --exclude=vendor --exclude=node_modules --exclude=public --exclude="*.json" --exclude="*.min.*" && ctags --recurse -f tags.vendor vendor node_modules &')
+
