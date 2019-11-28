@@ -196,7 +196,8 @@ command! -bang -nargs=* Commits call fzf#vim#commits({'options': '--no-reverse'}
 command! -bang -nargs=* BTags call fzf#vim#buffer_tags('', {'options': '--no-reverse'})
 command! -bang -nargs=* BCommits call fzf#vim#buffer_commits({'options': '--no-reverse'})
 " Ag need install the_silver_searcher https://github.com/ggreer/the_silver_searcher
-command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, '--ignore=*.lock --ignore=.git --hidden', {'options': '--bind ctrl-a:select-all,ctrl-d:deselect-all'})
+" command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, '--ignore=*.lock --ignore=.git --hidden', {'options': '--bind ctrl-a:select-all,ctrl-d:deselect-all'})
+command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, {'options': '--bind ctrl-a:select-all,ctrl-d:deselect-all'})
 command! -bang -nargs=* Ah call fzf#vim#history({'options': '--no-sort'})
 let g:fzf_colors={
   \ 'fg':      ['fg', 'Normal'],
@@ -224,6 +225,9 @@ imap <C-X><C-J> <Plug>(fzf-complete-file-ag)
 imap <C-X><C-L> <Plug>(fzf-complete-line)
 imap <Tab> <C-n>
 
+" tig
+nmap <Leader>B :exec '!tig blame % +'.line('.')<CR>
+
 " RSpec.vim mappings
 map <Leader>t :call RunCurrentSpecFile()<CR>
 map <Leader>s :call RunNearestSpec()<CR>
@@ -242,9 +246,9 @@ vmap <C-k> :m '<-2<CR>gv=gv
 " xnoremap <c-c> "*y
 
 " Search
- nmap <C-f> :Ag
- imap <C-f> <Esc> :Ag
- vmap <C-f> <Esc> :Ag
+ imap <C-f> <Esc> :Ag<space>
+ nmap <C-f> :Ag<space>
+ vmap <C-f> <Esc> :Ag<space>
 " code style mapping
 inoremap <A-k> <esc>YpAa<esc>0v$F.hr f.lC
 
