@@ -233,6 +233,7 @@ map <Leader>t :call RunCurrentSpecFile()<CR>
 map <Leader>s :call RunNearestSpec()<CR>
 map <Leader>l :call RunLastSpec()<CR>
 map <Leader>a :call RunAllSpecs()<CR>
+nmap <Leader>rr :call RunRspecTest()<cr>
 
 " Move line
 nmap <C-j> :m .+1<CR>==
@@ -244,6 +245,9 @@ vmap <C-k> :m '<-2<CR>gv=gv
 
 " Copy
 " xnoremap <c-c> "*y
+
+" cancel search
+nmap <Leader><space> :nohlsearch<cr>
 
 " Search
  imap <C-f> <Esc> :Ag<space>
@@ -273,6 +277,10 @@ function! UpdateTags()
     " append tags of file
     call system('ctags -a "' . file . '"')
   endif
+endfunction
+
+function! RunRspecTest()
+  execute '!bin/bundle exec spring rspec ' . expand('%:p') . ':' . line('.')
 endfunction
 
 autocmd BufWritePost *.rb call UpdateTags()

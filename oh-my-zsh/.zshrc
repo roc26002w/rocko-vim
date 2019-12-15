@@ -98,6 +98,7 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias nv="nvim"
+alias rspec="rspec --fail-fast"
 
 export PATH="/usr/local/opt/ncurses/bin:$PATH"
 export PATH="/usr/local/opt/gettext/bin:$PATH"
