@@ -99,6 +99,8 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias nv="nvim"
 alias rspec="rspec --fail-fast"
+alias zshconfig="nv ~/.zshrc"
+alias nvconfig="nv ~/.config/nvim/init.vim"
 
 export PATH="/usr/local/opt/ncurses/bin:$PATH"
 export PATH="/usr/local/opt/gettext/bin:$PATH"

@@ -47,6 +47,7 @@ Plug 'arcticicestudio/nord-vim'
 " Git
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
+Plug 'tveskag/nvim-blame-line'
 
 " Python
 Plug 'roxma/nvim-yarp'
@@ -226,7 +227,8 @@ imap <C-X><C-L> <Plug>(fzf-complete-line)
 imap <Tab> <C-n>
 
 " tig
-nmap <Leader>B :exec '!tig blame % +'.line('.')<CR>
+" nmap <Leader>B :exec '!tig blame % +'.line('.')<CR>
+nnoremap <silent> <leader>b :ToggleBlameLine<CR>
 
 " RSpec.vim mappings
 map <Leader>t :call RunCurrentSpecFile()<CR>
