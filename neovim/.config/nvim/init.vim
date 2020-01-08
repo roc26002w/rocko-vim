@@ -226,6 +226,13 @@ imap <C-X><C-J> <Plug>(fzf-complete-file-ag)
 imap <C-X><C-L> <Plug>(fzf-complete-line)
 imap <Tab> <C-n>
 
+" git
+set diffopt+=vertical
+noremap <leader>gl :Git log<cr>
+noremap <leader>gb :Gblame<cr>
+noremap <leader>gs :Gstatus<cr>
+noremap <leader>gd :Gdiff<cr>
+
 " tig
 " nmap <Leader>B :exec '!tig blame % +'.line('.')<CR>
 nnoremap <silent> <leader>b :ToggleBlameLine<CR>
