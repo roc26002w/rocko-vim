@@ -53,6 +53,8 @@ Plug 'tveskag/nvim-blame-line'
 Plug 'roxma/nvim-yarp'
 
 " JS
+" mark
+Plug 'tpope/vim-commentary'
 
 " HTML
 Plug 'mattn/emmet-vim'
@@ -294,5 +296,6 @@ endfunction
 
 autocmd BufWritePost *.rb call UpdateTags()
 autocmd BufWritePost *.php call UpdateTags()
+" autocmd BufEnter * lcd %:p:h
 command! Ctags call system('ctags --recurse --exclude=vendor --exclude=node_modules --exclude=public --exclude="*.json" --exclude="*.min.*" && ctags --recurse -f tags.vendor vendor node_modules &')
 
