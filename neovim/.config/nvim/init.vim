@@ -7,9 +7,7 @@ call plug#begin('~/.vim/autoload')
 Plug 'VundleVim/Vundle.vim'
 
 " The following are examples of different formats supported.
-" plugin on GitHub repo
-" Plug 'tpope/vim-fugitive'
-" Git plugin not hosted on GitHub
+
 Plug 'git://git.wincent.com/command-t.git'
 " Pass the path to set the runtimepath properly.
 Plug 'rstacruz/sparkup', {'rtp': 'vim/'}
@@ -71,7 +69,7 @@ Plug 'shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugs' }
 Plug 'ryanoasis/vim-devicons'
 
 " Add neocomplete
-" Plug 'shougo/neocomplete.vim'
+Plug 'shougo/neocomplete.vim'
 
 " All of your Plugs must be added before the following line
 call plug#end()
