@@ -1,9 +1,15 @@
 " ===================
 " Plug Manager
 " ===================
-call plug#begin('~/.vim/autoload')
+set nocompatible              " be iMproved, required
+filetype off                  " required
+
+" set the runtime path to include Vundle and initialize
+" set rtp+=~/.vim/bundle/Vundle.vim
+call plug#begin()
 
 " let Vundle manage Vundle, required
+" git clone https://github.com/VundleVim/Vundle.vim.git ~/.local/share/nvim/site/autoload/Vundle.vim
 Plug 'VundleVim/Vundle.vim'
 
 " The following are examples of different formats supported.
