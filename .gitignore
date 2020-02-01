@@ -1,3 +1,5 @@
 /neovim/.config/coc/
 /neovim/.config/configstore/
 /neovim/.config/.DS_Store
+/neovim/.config/.config
+/neovim/.config/nvim/plugged/
