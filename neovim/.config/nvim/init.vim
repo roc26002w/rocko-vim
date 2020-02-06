@@ -5,13 +5,8 @@ set nocompatible              " be iMproved, required
 filetype off                  " required
 
 " set the runtime path to include Vundle and initialize
-" set rtp+=~/.vim/bundle/Vundle.vim
+" https://github.com/junegunn/vim-plug
 call plug#begin()
-
-" let Vundle manage Vundle, required
-" git clone https://github.com/VundleVim/Vundle.vim.git ~/.local/share/nvim/site/autoload/Vundle.vim
-Plug 'VundleVim/Vundle.vim'
-
 " The following are examples of different formats supported.
 
 Plug 'git://git.wincent.com/command-t.git'
@@ -82,7 +77,7 @@ call plug#end()
 
 "  settings
 " =================
-language en_US
+" language en_US
 set tags=tags,tags.vendor
 
 " theme
