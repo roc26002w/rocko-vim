@@ -1,8 +1,19 @@
+global !p
+def ucfirst(string):
+	return string[0].upper() + string[1:]
+
+def get_class_name(filename):
+	return ucfirst(filename.split(".")[0])
+
+def get_namespace(path):
+	return "\\".join(map(lambda d: ucfirst(d), path.split("/")[:-1]))
+endglobal
+
 snippet echo
-  echo "$0";
+echo "$0";
 endsnippet
 
-snippet fore 
+snippet fore
 foreach ($${1:array} as $${2:key} => $${3:value}) {
 	${0:${VISUAL:\/\////}}
 }
@@ -15,3 +26,158 @@ public function ${1:methodName}($2): ${3:void}
 }
 endsnippet
 
+snippet handle
+${1/(,\s*)?(?:\w+)?(?:\s+)?(?:\$(\w+)?)?/(?2:private $$2;\\n    )/g}${1/^[^$]*(\$\w+)?.*$/(?1:\\n    )/}public function handle($1): ${2:void}
+{
+	${0:${VISUAL:\/\////}}
+}
+endsnippet
+
+snippet namespace
+namespace ${1:`!p snip.rv = get_namespace(path)`};
+endsnippet
+
+snippet class
+<?php
+
+namespace ${1:`!p snip.rv = get_namespace(path)`};
+
+class ${2:`!p snip.rv = get_class_name(fn)`}
+{
+	${0:${VISUAL:\/\////}}
+}
+endsnippet
+
+snippet aclass
+<?php
+
+namespace ${1:`!p snip.rv = get_namespace(path)`};
+
+abstract class ${2:`!p snip.rv = get_class_name(fn)`}
+{
+	${0:${VISUAL:\/\////}}
+}
+endsnippet
+
+snippet interface
+<?php
+
+namespace ${1:`!p snip.rv = get_namespace(path)`};
+
+interface ${2:`!p snip.rv = get_class_name(fn)`}
+{
+	${0:${VISUAL:\/\////}}
+}
+endsnippet
+
+snippet trait
+<?php
+
+namespace ${1:`!p snip.rv = get_namespace(path)`};
+
+trait ${2:`!p snip.rv = get_class_name(fn)`}
+{
+	${0:${VISUAL:\/\////}}
+}
+endsnippet
+
+snippet phpunit
+<?php
+
+namespace ${1:`!p snip.rv = get_namespace(path)`};
+
+use PHPUnit\Framework\TestCase;
+
+class ${2:`!p snip.rv = get_class_name(fn)`} extends TestCase
+{
+	${0:${VISUAL:\/\////}}
+}
+endsnippet
+
+snippet setup
+protected function setUp(): void
+{
+	parent::setUp();
+
+	${0:${VISUAL:\/\////}}
+}
+endsnippet
+
+snippet teardown
+protected function tearDown(): void
+{
+	m::close();
+
+	parent::tearDown();
+}
+endsnippet
+
+snippet test
+/**
+ * @test
+ */
+public function ${1:testName}()
+{
+	${0:${VISUAL:\/\////}}
+}
+endsnippet
+
+snippet ase
+$this->assertEquals(${1:$expected}, ${2:$actual});
+endsnippet
+
+snippet ast
+$this->assertTrue(${1:$actual});
+endsnippet
+
+snippet asi
+$this->assertInstanceOf(${1:Expected}::class, ${2:$actual});
+endsnippet
+
+snippet asco
+$this->assertContains(${1:$needle}, ${2:$haystack});
+endsnippet
+
+snippet ashk
+$this->assertArrayHasKey(${1:$key}, ${2:$haystack});
+endsnippet
+
+snippet em
+$this->expectException(${1:$Exception}::class);
+endsnippet
+
+snippet tdd
+<?php
+
+namespace ${1:`!p snip.rv = get_namespace(path)`};
+
+use Tests\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+
+class ${2:`!p snip.rv = get_class_name(fn)`} extends TestCase
+{
+	use RefreshDatabase;
+
+	${0:${VISUAL:\/\////}}
+}
+endsnippet
+
+snippet factory
+$${1:user} = factory(${2:`!p snip.rv = ucfirst(t[1])`}::class)->create();
+endsnippet
+
+snippet get
+$${1:response} = $this->get('/api/v1/${2:users}');
+endsnippet
+
+snippet post
+$${1:response} = $this->post('/api/v1/${2:users}', $data = [
+	${3:'name' => 'foo',}
+]);
+endsnippet
+
+snippet put
+$${1:response} = $this->put('/api/v1/${2:users}', $data = [
+	${3:'name' => 'foo',}
+]);
+endsnippet
