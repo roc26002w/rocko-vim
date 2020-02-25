@@ -52,7 +52,10 @@ Plug 'tveskag/nvim-blame-line'
 Plug 'roxma/nvim-yarp'
 
 " PHP
+Plug 'StanAngeloff/php.vim'
+Plug 'arnaud-lb/vim-php-namespace'
 Plug 'phpactor/phpactor', {'for': 'php', 'do': 'composer install'}
+Plug 'stephpy/vim-php-cs-fixer'
 
 " Require ncm2 and this plugin from phpactor plugin
 Plug 'ncm2/ncm2'
@@ -62,6 +65,9 @@ Plug 'phpactor/ncm2-phpactor'
 " JS
 " mark
 Plug 'tpope/vim-commentary'
+
+" join '' to word
+Plug 'tpope/vim-surround'
 
 " HTML
 Plug 'mattn/emmet-vim'
@@ -95,11 +101,15 @@ filetype plugin indent on  " Enable file type based indentation.
 colorscheme base16-onedark " Change a colorscheme.
 
 " indent
+set autoindent
+set copyindent
+set smarttab
 set expandtab              " replace <TAB> with spaces
 set softtabstop=2          " tab indent size
 set shiftwidth=2           " auto indent size
 set tabstop=2              " tab character size
 set noswapfile
+
 
 " gui setting
 set termguicolors
@@ -119,6 +129,20 @@ filetype plugin on    " Enable filetype-specific plugins
 set number
 set rnu
 set numberwidth=4
+
+" syntastic
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_check_on_open = 0
+let g:syntastic_check_on_wq = 1
+let g:syntastic_aggregate_errors = 1
+let g:syntastic_php_checkers = ['php', 'phpcs']
+let g:syntastic_php_phpcs_args = '--standard=psr2'
+let g:syntastic_javascript_checkers = ['eslint']
+
+" php cs fixer
+let g:php_cs_fixer_rules = '@PSR2,no_unused_imports,ordered_imports'
+let g:php_cs_fixer_enable_default_mapping = 0
 
 " =================
 "  plugin settings
@@ -247,10 +271,10 @@ noremap <leader>gd :Gdiff<cr>
 nnoremap <silent> <leader>b :ToggleBlameLine<CR>
 
 " RSpec.vim mappings
-map <Leader>t :call RunCurrentSpecFile()<CR>
-map <Leader>s :call RunNearestSpec()<CR>
-map <Leader>l :call RunLastSpec()<CR>
-map <Leader>a :call RunAllSpecs()<CR>
+map <Leader>rt :call RunCurrentSpecFile()<CR>
+map <Leader>rs :call RunNearestSpec()<CR>
+map <Leader>rl :call RunLastSpec()<CR>
+map <Leader>ra :call RunAllSpecs()<CR>
 nmap <Leader>rr :call RunRspecTest()<cr>
 
 " Move line
@@ -271,6 +295,7 @@ nmap <Leader><space> :nohlsearch<cr>
  imap <C-f> <Esc> :Ag<space>
  nmap <C-f> :Ag<space>
  vmap <C-f> <Esc> :Ag<space>
+
 " code style mapping
 inoremap <A-k> <esc>YpAa<esc>0v$F.hr f.lC
 
@@ -309,3 +334,161 @@ command! Ctags call system('ctags --recurse --exclude=vendor --exclude=node_modu
 " phpactor ncm2
 autocmd BufEnter * call ncm2#enable_for_buffer()
 set completeopt=noinsert,menuone,noselect
+
+" php.vim setting
+function! PhpSyntaxOverride()
+  " Put snippet overrides in this function.
+  hi! link phpDocTags phpDefine
+  hi! link phpDocParam phpType
+  hi phpUseNamespaceSeparator guifg=#808080 guibg=NONE gui=NONE
+  hi phpClassNamespaceSeparator guifg=#808080 guibg=NONE gui=NONE
+  syn match phpParentOnly "[()]" contained containedin=phpParent
+  hi phpParentOnly guifg=#f08080 guibg=NONE gui=NONE
+endfunction
+
+augroup phpSyntaxOverride
+  autocmd!
+  autocmd FileType php call PhpSyntaxOverride()
+augroup END
+
+" php-vim-namespace setting
+function! NPhpactorInsertUse()
+  call phpactor#UseAdd()
+endfunction
+
+function! IPhpactorInsertUse()
+  call NPhpactorInsertUse()
+  call feedkeys('a', 'n')
+endfunction
+
+function! NPhpactorExpandClass()
+  call phpactor#ClassExpand()
+endfunction
+
+function! IPhpactorExpandClass()
+  call NPhpactorExpandClass()
+  call feedkeys('a', 'n')
+endfunction
+
+function! PhpactorGotoDefinition()
+  if !exists('s:phpactor_trace_stack')
+    let s:phpactor_trace_stack = []
+  endif
+
+  call add(s:phpactor_trace_stack, [expand('%:p'), line('.'), col('.')])
+  call phpactor#GotoDefinition()
+endfunction
+
+function! PhpactorTraceBack()
+  if !exists('s:phpactor_trace_stack') || empty(s:phpactor_trace_stack)
+    return
+  endif
+
+  let l:position = remove(s:phpactor_trace_stack, -1)
+
+  silent execute 'e ' . l:position[0]
+  call cursor(l:position[1], l:position[2])
+endfunction
+
+autocmd FileType php command! ClassNew call phpactor#ClassNew()
+autocmd FileType php command! Transform call phpactor#Transform()
+autocmd FileType php command! References call phpactor#FindReferences()
+autocmd FileType php nmap <C-]> :call PhpactorGotoDefinition()<CR>
+autocmd FileType php nmap <C-T> :call PhpactorTraceBack()<CR>
+autocmd FileType php nmap <Leader>l :call phpactor#ClassNew()<CR>
+autocmd FileType php nmap <Leader>m :call phpactor#ContextMenu()<CR>
+autocmd FileType php nmap <Leader>a :call phpactor#Navigate()<CR>
+autocmd FileType php nmap <Leader>i :call NPhpactorInsertUse()<CR>
+autocmd FileType php imap <Leader>i <ESC>:call IPhpactorInsertUse()<CR>
+autocmd FileType php nmap <Leader>e :call NPhpactorExpandClass()<CR>
+autocmd FileType php imap <Leader>e <ESC>:call IPhpactorExpandClass()<CR>
+autocmd FileType php nmap <silent><Leader>v :call phpactor#ChangeVisibility()<CR>
+autocmd FileType php nmap <silent><Leader>x :call phpactor#ExtractExpression(v:false)<CR>
+autocmd FileType php vmap <silent><Leader>x :<C-U>call phpactor#ExtractExpression(v:true)<CR>
+autocmd FileType php vmap <silent><Leader>m :<C-U>call phpactor#ExtractMethod()<CR>
+" php indent
+autocmd FileType php setlocal iskeyword-=$
+autocmd FileType php setlocal sw=4 sts=4 ts=4
+
+" =================
+"  custom
+" =================
+
+" coercion
+function! CheckCaseType(string)
+  " abc abc
+  if a:string =~ ' '
+    return 0
+  endif
+
+  " abc-abc
+  if a:string =~ '-'
+    return 1
+  endif
+
+  " abc.abc
+  if a:string =~ '\.'
+    return 2
+  endif
+
+  " abc_abc
+  if a:string =~# '_' && a:string !~# '[A-Z]'
+    return 3
+  endif
+
+  " ABC_ABC
+  if a:string =~# '_' && a:string !~# '[a-z]'
+    return 4
+  endif
+
+  " abcAbc
+  if a:string =~# '^[a-z0-9]\+\([A-Z0-9][a-z0-9]*\)*$'
+    return 5
+  endif
+
+  " AbcAbc
+  if a:string =~# '^\([A-Z0-9][a-z0-9]*\)\+$'
+    return 6
+  endif
+
+  return -1
+endfunction
+
+function! CoerceString()
+  normal! gv"zy
+
+  let l:string = @z
+  let l:origin_type = CheckCaseType(l:string)
+  let l:target_type = (l:origin_type + 1) % 7
+
+  if l:origin_type >= 5
+    let l:string = substitute(l:string, '\([a-z0-9]\)\([A-Z0-9]\)\C', '\1 \2', 'g')
+  endif
+
+  let l:mapping = [' ', '-', '.', '_', '_', '_', '_']
+  let l:words = split(l:string, '[ -._]')
+  let l:string = join(l:words, l:mapping[l:target_type])
+
+  if l:target_type == 4
+    let l:string = toupper(l:string)
+  else
+    let l:string = tolower(l:string)
+  endif
+
+  if l:target_type >= 5
+    let l:string = substitute(l:string, '_\([A-Za-z0-9]\)', '\U\1', 'g')
+  endif
+
+  if l:target_type == 6
+    let l:string = substitute(l:string, '^[A-Za-z]', '\U\0', '')
+  end
+
+  let @z = l:string
+
+  normal! gv"zpgv
+endfunction
+
+" Change String Case
+nnoremap <C-u> viw:call CoerceString()<CR>
+vnoremap <C-u> :call CoerceString()<CR>
+
