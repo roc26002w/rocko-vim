@@ -51,6 +51,14 @@ Plug 'tveskag/nvim-blame-line'
 " Python
 Plug 'roxma/nvim-yarp'
 
+" PHP
+Plug 'phpactor/phpactor', {'for': 'php', 'do': 'composer install'}
+
+" Require ncm2 and this plugin from phpactor plugin
+Plug 'ncm2/ncm2'
+Plug 'roxma/nvim-yarp'
+Plug 'phpactor/ncm2-phpactor'
+
 " JS
 " mark
 Plug 'tpope/vim-commentary'
@@ -298,3 +306,6 @@ autocmd BufWritePost *.php call UpdateTags()
 " autocmd BufEnter * lcd %:p:h
 command! Ctags call system('ctags --recurse --exclude=vendor --exclude=node_modules --exclude=public --exclude="*.json" --exclude="*.min.*" && ctags --recurse -f tags.vendor vendor node_modules &')
 
+" phpactor ncm2
+autocmd BufEnter * call ncm2#enable_for_buffer()
+set completeopt=noinsert,menuone,noselect
