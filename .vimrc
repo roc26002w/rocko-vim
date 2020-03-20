@@ -9,7 +9,7 @@ filetype off                  " required
 call plug#begin()
 " The following are examples of different formats supported.
 
-Plug 'git://git.wincent.com/command-t.git'
+Plug 'wincent/command-t'
 " Pass the path to set the runtimepath properly.
 Plug 'rstacruz/sparkup', {'rtp': 'vim/'}
 " colors style
@@ -33,11 +33,10 @@ Plug 'majutsushi/tagbar'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'jiangmiao/auto-pairs'
-Plug 'kien/ctrlp.vim'
+Plug 'ctrlpvim/ctrlp.vim'
 Plug 'ervandew/supertab'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'matze/vim-move'
-Plug 'ryanoasis/vim-devicons'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Themes
