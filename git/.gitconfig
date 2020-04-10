@@ -1,0 +1,15 @@
+[merge]
+	tool = nvim
+  conflictstyle = diff3
+[user]
+	email = rockolo@novax.com.tw
+  name = Rocko
+[diff]
+  # 使用 icdiff 來取代 git 內建的 diff
+  external = /home/vagrant/code/rocko-vim/icdiff/git-diff-wrapper.sh
+[mergetool "nvim"]
+  cmd = nvim -f -c \"Gdiffsplit!\" \"$MERGED\"
+[core]
+	editor = nvim
+[commit]
+	template = /home/vagrant/.config/git/.gitmessage.txt
