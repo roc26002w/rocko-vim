@@ -102,7 +102,7 @@ alias nv="nvim"
 alias rspec="rspec --fail-fast"
 alias zshconfig="nv ~/.zshrc"
 alias nvconfig="nv ~/.config/nvim/init.vim"
-alias phpunit="./vender/bin/phpunit"
+alias phpunit="./vendor/bin/phpunit"
 
 export PATH="/usr/local/opt/ncurses/bin:$PATH"
 export PATH="/usr/local/opt/gettext/bin:$PATH"
@@ -117,11 +117,11 @@ export NVM_DIR="$HOME/.nvm"
 
 # use lazyload use nvm
 # https://github.com/qoomon/zsh-lazyload
-# $> lazyload nvm -- '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"'
+lazyload nvm -- '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"'
 
 # go
 # Install https://www.opencli.com/linux/ubuntu-install-golang-compile-helloworld
 # export GOROOT=/usr/local/go
 # export GOPATH=$HOME/go
 # export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
-# lazyload go -- 'export GOROOT=/usr/local/go && export GOPATH=$HOME/go && export PATH=$GOPATH/bin:$GOROOT/bin:$PATH'
+lazyload go -- 'export GOROOT=/usr/local/go && export GOPATH=$HOME/go && export PATH=$GOPATH/bin:$GOROOT/bin:$PATH'
