@@ -42,6 +42,9 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Themes
 Plug 'arcticicestudio/nord-vim'
 
+" Flod
+Plug 'pseewald/vim-anyfold'
+
 " Git
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
@@ -263,7 +266,9 @@ set diffopt+=vertical
 noremap <leader>gl :Git log<cr>
 noremap <leader>gb :Gblame<cr>
 noremap <leader>gs :Gstatus<cr>
-noremap <leader>gd :Gdiff<cr>
+noremap <leader>gd :Gdiffsplit!<cr>
+noremap gdh :diffget //2<CR>
+noremap gdl :diffget //3<CR>
 
 " tig
 " nmap <Leader>B :exec '!tig blame % +'.line('.')<CR>
@@ -393,7 +398,7 @@ autocmd FileType php command! ClassNew call phpactor#ClassNew()
 autocmd FileType php command! Transform call phpactor#Transform()
 autocmd FileType php command! References call phpactor#FindReferences()
 autocmd FileType php nmap <C-]> :call PhpactorGotoDefinition()<CR>
-autocmd FileType php nmap <C-T> :call PhpactorTraceBack()<CR>
+autocmd FileType php nmap <C-[> :call PhpactorTraceBack()<CR>
 autocmd FileType php nmap <Leader>l :call phpactor#ClassNew()<CR>
 autocmd FileType php nmap <Leader>m :call phpactor#ContextMenu()<CR>
 autocmd FileType php nmap <Leader>a :call phpactor#Navigate()<CR>
@@ -408,6 +413,14 @@ autocmd FileType php vmap <silent><Leader>m :<C-U>call phpactor#ExtractMethod()<
 " php indent
 autocmd FileType php setlocal iskeyword-=$
 autocmd FileType php setlocal sw=4 sts=4 ts=4
+
+"==================
+"  anyfold
+"==================
+autocmd Filetype * AnyFoldActivate
+let g:anyfold_fold_comments=1
+set foldlevel=99
+hi Folded term=underline
 
 " =================
 "  custom
