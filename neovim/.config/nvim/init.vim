@@ -139,11 +139,11 @@ let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 1
 let g:syntastic_aggregate_errors = 1
 let g:syntastic_php_checkers = ['php', 'phpcs']
-let g:syntastic_php_phpcs_args = '--standard=psr2'
+let g:syntastic_php_phpcs_args = '--standard=psr12'
 let g:syntastic_javascript_checkers = ['eslint']
 
 " php cs fixer
-let g:php_cs_fixer_rules = '@PSR2,no_unused_imports,ordered_imports'
+let g:php_cs_fixer_rules = '@PSR12,no_unused_imports,ordered_imports'
 let g:php_cs_fixer_enable_default_mapping = 0
 
 " =================
@@ -398,7 +398,7 @@ autocmd FileType php command! ClassNew call phpactor#ClassNew()
 autocmd FileType php command! Transform call phpactor#Transform()
 autocmd FileType php command! References call phpactor#FindReferences()
 autocmd FileType php nmap <C-]> :call PhpactorGotoDefinition()<CR>
-autocmd FileType php nmap <C-[> :call PhpactorTraceBack()<CR>
+autocmd FileType php nmap <C-t> :call PhpactorTraceBack()<CR>
 autocmd FileType php nmap <Leader>l :call phpactor#ClassNew()<CR>
 autocmd FileType php nmap <Leader>m :call phpactor#ContextMenu()<CR>
 autocmd FileType php nmap <Leader>a :call phpactor#Navigate()<CR>
@@ -410,6 +410,7 @@ autocmd FileType php nmap <silent><Leader>v :call phpactor#ChangeVisibility()<CR
 autocmd FileType php nmap <silent><Leader>x :call phpactor#ExtractExpression(v:false)<CR>
 autocmd FileType php vmap <silent><Leader>x :<C-U>call phpactor#ExtractExpression(v:true)<CR>
 autocmd FileType php vmap <silent><Leader>m :<C-U>call phpactor#ExtractMethod()<CR>
+
 " php indent
 autocmd FileType php setlocal iskeyword-=$
 autocmd FileType php setlocal sw=4 sts=4 ts=4
