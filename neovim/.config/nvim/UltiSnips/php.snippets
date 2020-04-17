@@ -26,6 +26,20 @@ public function ${1:methodName}($2): ${3:void}
 }
 endsnippet
 
+snippet prif
+private function ${1:methodName}($2): ${3:void}
+{
+	${0:${VISUAL:\/\////}}
+}
+endsnippet
+
+snippet prof
+protected function ${1:methodName}($2): ${3:void}
+{
+	${0:${VISUAL:\/\////}}
+}
+endsnippet
+
 snippet handle
 ${1/(,\s*)?(?:\w+)?(?:\s+)?(?:\$(\w+)?)?/(?2:private $$2;\\n    )/g}${1/^[^$]*(\$\w+)?.*$/(?1:\\n    )/}public function handle($1): ${2:void}
 {

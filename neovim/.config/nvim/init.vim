@@ -15,6 +15,8 @@ Plug 'rstacruz/sparkup', {'rtp': 'vim/'}
 " colors style
 Plug 'rainglow/vim'
 Plug 'chriskempson/base16-vim'
+" tab
+Plug 'ervandew/supertab'
 " snips
 Plug 'sirver/ultisnips'
 Plug 'honza/vim-snippets'
@@ -38,12 +40,13 @@ Plug 'ervandew/supertab'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'matze/vim-move'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Themes
 Plug 'arcticicestudio/nord-vim'
 
 " Flod
 Plug 'pseewald/vim-anyfold'
+Plug 'michaeljsmith/vim-indent-object'
 
 " Git
 Plug 'airblade/vim-gitgutter'
@@ -111,6 +114,7 @@ set softtabstop=2          " tab indent size
 set shiftwidth=2           " auto indent size
 set tabstop=2              " tab character size
 set noswapfile
+set clipboard+=unnamedplus " enable
 
 
 " gui setting
@@ -207,8 +211,8 @@ autocmd filetype nerdtree syn match go_icon ## containedin=NERDTreeFile
 
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 let g:UltiSnipsExpandTrigger = "<tab>"
-let g:UltiSnipsJumpForwardTrigger = "<c-j>"
-let g:UltiSnipsJumpBackwardTrigger = "<c-k>"
+let g:UltiSnipsJumpForwardTrigger = "<tab>"
+let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
 let g:UltiSnipsSnippetsDir = $HOME."/.config/nvim/UltiSnips"
 let g:UltiSnipsSnippetDirectories = ['UltiSnips', $HOME.'/.config/nvim/UltiSnips']
 let g:UltiSnipsEnableSnipMate = 0
@@ -217,7 +221,7 @@ let g:UltiSnipsEnableSnipMate = 0
 let g:UltiSnipsEditSplit="vertical"
 
 " Auto save
-let g:auto_save = 1  " enable AutoSave on Vim startup
+" let g:auto_save = 1  " enable AutoSave on Vim startup
 " let g:auto_save_silent = 1  " do not display the auto-save notification
 
 " deoplete
@@ -415,13 +419,54 @@ autocmd FileType php vmap <silent><Leader>m :<C-U>call phpactor#ExtractMethod()<
 autocmd FileType php setlocal iskeyword-=$
 autocmd FileType php setlocal sw=4 sts=4 ts=4
 
+" php unit test
+function! RunPHPUnitTest(filter)
+  if a:filter
+    normal! T yw
+    execute "!./vendor/bin/phpunit --filter " . @" . " " . bufname("%")
+  else
+    execute "!./vendor/bin/phpunit " . bufname("%")
+  endif
+endfunction
+
+function! RunAllPHPUnitTest()
+  execute "!./vendor/bin/phpunit --stop-on-failure"
+endfunction
+
+nnoremap <leader>ur :call RunPHPUnitTest(0)<cr>
+nnoremap <leader>urr :call RunPHPUnitTest(1)<cr>
+nnoremap <leader>uu :call RunAllPHPUnitTest()<cr>
+
 "==================
 "  anyfold
 "==================
 autocmd Filetype * AnyFoldActivate
 let g:anyfold_fold_comments=1
-set foldlevel=99
-hi Folded term=underline
+set foldlevel=100
+
+hi Folded term=underline ctermbg=none
+nmap <Leader>k1 :set foldlevel=1<CR>
+nmap <Leader>k2 :set foldlevel=2<CR>
+nmap <Leader>k3 :set foldlevel=3<CR>
+nmap <Leader>k4 :set foldlevel=4<CR>
+nmap <Leader>k5 :set foldlevel=5<CR>
+nmap <Leader>k6 :set foldlevel=6<CR>
+nmap <Leader>k7 :set foldlevel=7<CR>
+nmap <Leader>k8 :set foldlevel=8<CR>
+nmap <Leader>k9 :set foldlevel=9<CR>
+nmap <Leader>k0 :set foldlevel=100<CR>
+
+" fold_cycle_config
+let g:fold_cycle_default_mapping = 0 "disable default mappings
+nmap <Tab><Tab> <Plug>(fold-cycle-open)
+nmap <S-Tab><S-Tab> <Plug>(fold-cycle-close)
+
+" omni complete
+imap <Leader><TAB> <C-X><C-O>
+
+" supertab
+let g:SuperTabCrMapping = 1
+let g:SuperTabDefaultCompletionType = "<c-n>"
 
 " =================
 "  custom
