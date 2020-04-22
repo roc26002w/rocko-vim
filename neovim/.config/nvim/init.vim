@@ -114,7 +114,7 @@ set softtabstop=2          " tab indent size
 set shiftwidth=2           " auto indent size
 set tabstop=2              " tab character size
 set noswapfile
-set clipboard+=unnamedplus " enable
+set clipboard+=unnamedplus " enable clipboard
 
 
 " gui setting
@@ -415,6 +415,15 @@ autocmd FileType php nmap <silent><Leader>x :call phpactor#ExtractExpression(v:f
 autocmd FileType php vmap <silent><Leader>x :<C-U>call phpactor#ExtractExpression(v:true)<CR>
 autocmd FileType php vmap <silent><Leader>m :<C-U>call phpactor#ExtractMethod()<CR>
 
+" PHPUnit test map key
+autocmd FileType php nnoremap <leader>ru :call RunPHPUnitTest(0)<cr>
+autocmd FileType php nnoremap <leader>ruu :call RunPHPUnitTest(1)<cr>
+autocmd FileType php nnoremap <leader>uu :call RunAllPHPUnitTest()<cr>
+autocmd FileType php nnoremap <leader>rt :call RunMakeTest()<cr>
+autocmd FileType php nnoremap <leader>rcs :call RunPHPCSCheck()<cr>
+autocmd FileType php nnoremap <leader>rfs :call RunPHPCSFixer()<cr>
+autocmd FileType php nnoremap <leader>jq :call RunJsonFormat()<cr>
+
 " php indent
 autocmd FileType php setlocal iskeyword-=$
 autocmd FileType php setlocal sw=4 sts=4 ts=4
@@ -433,9 +442,21 @@ function! RunAllPHPUnitTest()
   execute "!./vendor/bin/phpunit --stop-on-failure"
 endfunction
 
-nnoremap <leader>ur :call RunPHPUnitTest(0)<cr>
-nnoremap <leader>urr :call RunPHPUnitTest(1)<cr>
-nnoremap <leader>uu :call RunAllPHPUnitTest()<cr>
+function! RunPHPCSCheck()
+  execute "!./vendor/bin/phpcs --standard=PSR12 --exclude=PSR12.Properties.ConstantVisibility app tests"
+endfunction
+
+function! RunMakeTest()
+  execute "!make test"
+endfunction
+
+function! RunPHPCSFixer()
+  execute "!./vendor/bin/php-cs-fixer fix --verbose"
+endfunction
+
+function! RunJsonFormat()
+  execute "!jq '.'"
+endfunction
 
 "==================
 "  anyfold
