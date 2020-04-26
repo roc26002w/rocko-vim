@@ -428,6 +428,9 @@ autocmd FileType php nnoremap <leader>jq :call RunJsonFormat()<cr>
 autocmd FileType php setlocal iskeyword-=$
 autocmd FileType php setlocal sw=4 sts=4 ts=4
 
+" php commentstring
+autocmd FileType php setlocal commentstring=\/\/\ %s
+
 " php unit test
 function! RunPHPUnitTest(filter)
   if a:filter
