@@ -136,6 +136,10 @@ set number
 set rnu
 set numberwidth=4
 
+" python3_host
+
+let g:python3_host_prog = '/home/vagrant/.env/python/bin/python3'
+
 " syntastic
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 0
