@@ -90,6 +90,7 @@ source $ZSH/oh-my-zsh.sh
 # else
 #   export EDITOR='mvim'
 # fi
+export EDITOR='nvim'
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -116,19 +117,14 @@ export FZF_DEFAULT_COMMAND="ag --hidden --skip-vcs-ignores --ignore=.git -g ''"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export NVM_DIR="$HOME/.nvm"
 
-
-
-# eval "$(rbenv init -)"
-# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
 # use lazyload use nvm
 # https://github.com/qoomon/zsh-lazyload
 lazyload nvm -- '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"'
 
 # go
 # Install https://www.opencli.com/linux/ubuntu-install-golang-compile-helloworld
-# export GOROOT=/usr/local/go
-# export GOPATH=$HOME/go
-# export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
 lazyload go -- 'export GOROOT=/usr/local/go && export GOPATH=$HOME/go && export PATH=$GOPATH/bin:$GOROOT/bin:$PATH'
+
+# python
+lazyload pip -- 'source $HOME/.env/python/bin/activate'
+lazyload python -- 'source $HOME/.env/python/bin/activate'
