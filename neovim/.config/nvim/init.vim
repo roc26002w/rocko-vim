@@ -59,13 +59,16 @@ Plug 'roxma/nvim-yarp'
 " PHP
 Plug 'StanAngeloff/php.vim'
 Plug 'arnaud-lb/vim-php-namespace'
-Plug 'phpactor/phpactor', {'for': 'php', 'do': 'composer install'}
+Plug 'phpactor/phpactor', {'for': 'php', 'do': 'composer install --no-dev -o'}
 Plug 'stephpy/vim-php-cs-fixer'
 
 " Require ncm2 and this plugin from phpactor plugin
 Plug 'ncm2/ncm2'
 Plug 'roxma/nvim-yarp'
 Plug 'phpactor/ncm2-phpactor'
+
+" Phpactor integration for deoplete.nvim
+Plug 'kristijanhusak/deoplete-phpactor'
 
 " JS
 " mark
@@ -149,6 +152,7 @@ let g:syntastic_aggregate_errors = 1
 let g:syntastic_php_checkers = ['php', 'phpcs']
 let g:syntastic_php_phpcs_args = '--standard=psr12'
 let g:syntastic_javascript_checkers = ['eslint']
+noremap <leader>n :ll<cr>
 
 " php cs fixer
 let g:php_cs_fixer_rules = '@PSR12,no_unused_imports,ordered_imports'
@@ -281,6 +285,18 @@ noremap gdl :diffget //3<CR>
 " tig
 " nmap <Leader>B :exec '!tig blame % +'.line('.')<CR>
 nnoremap <silent> <leader>b :ToggleBlameLine<CR>
+" Show blame info below the statusline instead of using virtual text
+let g:blameLineUseVirtualText = 1
+
+" Specify the highlight group used for the virtual text ('Comment' by default)
+let g:blameLineVirtualTextHighlight = 'Question'
+
+" Add a prefix to the virtual text (empty by default)
+let g:blameLineVirtualTextPrefix = '// '
+
+" Customize format for git blame (Default format: '%an | %ar | %s')
+" let g:blameLineGitFormat = '%an - %s'
+" Refer to 'git-show --format=' man pages for format options)
 
 " RSpec.vim mappings
 map <Leader>rt :call RunCurrentSpecFile()<CR>
@@ -469,7 +485,7 @@ endfunction
 "  anyfold
 "==================
 autocmd Filetype * AnyFoldActivate
-let g:anyfold_fold_comments=1
+let g:anyfold_fold_comments=0
 set foldlevel=100
 
 hi Folded term=underline ctermbg=none
@@ -482,7 +498,7 @@ nmap <Leader>k6 :set foldlevel=6<CR>
 nmap <Leader>k7 :set foldlevel=7<CR>
 nmap <Leader>k8 :set foldlevel=8<CR>
 nmap <Leader>k9 :set foldlevel=9<CR>
-nmap <Leader>k0 :set foldlevel=100<CR>
+nmap <Leader>k0 :set foldlevel=0<CR>
 
 " fold_cycle_config
 let g:fold_cycle_default_mapping = 0 "disable default mappings

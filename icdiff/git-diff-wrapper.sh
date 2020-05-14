@@ -1,2 +1,2 @@
 #!/bin/bash
-icdiff $2 $5
+icdiff -N $2 $5
