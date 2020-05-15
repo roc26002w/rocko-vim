@@ -129,8 +129,9 @@ endsnippet
 snippet test
 /**
  * @test
+ * @group ${1:groupName}
  */
-public function ${1:testName}()
+public function ${2:testName}(): void
 {
 	${0:${VISUAL:\/\////}}
 }
