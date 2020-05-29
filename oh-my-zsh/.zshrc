@@ -128,3 +128,6 @@ lazyload go -- 'export GOROOT=/usr/local/go && export GOPATH=$HOME/go && export 
 # python
 lazyload pip -- 'source $HOME/.env/python/bin/activate'
 lazyload python -- 'source $HOME/.env/python/bin/activate'
+
+# composer
+lazyload composer -- 'export PATH="$HOME/.config/composer/vendor/bin:$PATH"'
