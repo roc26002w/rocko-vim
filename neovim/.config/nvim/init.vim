@@ -363,6 +363,9 @@ command! Ctags call system('ctags --recurse --exclude=vendor --exclude=node_modu
 autocmd BufEnter * call ncm2#enable_for_buffer()
 set completeopt=noinsert,menuone,noselect
 
+" coc setting
+" autocmd FileType * :call coc#config("suggest.autoTrigger", "none")
+
 " php.vim setting
 function! PhpSyntaxOverride()
   " Put snippet overrides in this function.
