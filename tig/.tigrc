@@ -1,0 +1,19 @@
+set main-view-id = yes
+set refs-view-id = yes
+
+set split-view-width = 80%
+set split-view-height = 80%
+
+bind main ! ?git revert %(commit)
+bind main 4 ?git rebase -i %(commit)^
+bind main S ?git stash
+bind main P ?git cherry-pick %(commit)
+bind main C ?git checkout %(commit)
+
+bind refs 4 ?git rebase %(branch)
+bind refs S ?git stash
+bind refs P ?git push origin %(branch) --tags
+bind refs 0 ?git pull
+
+bind status S ?git stash --patch
+
