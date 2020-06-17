@@ -40,7 +40,7 @@ Plug 'ervandew/supertab'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'matze/vim-move'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-" Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Themes
 Plug 'arcticicestudio/nord-vim'
 
@@ -86,7 +86,7 @@ Plug 'alvan/vim-closetag'
 Plug 'ap/vim-css-color'
 
 " Add deoplete
-Plug 'shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugs' }
+" Plug 'shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugs' }
 
 " Add Icon
 Plug 'ryanoasis/vim-devicons'
@@ -364,7 +364,7 @@ autocmd BufEnter * call ncm2#enable_for_buffer()
 set completeopt=noinsert,menuone,noselect
 
 " coc setting
-" autocmd FileType * :call coc#config("suggest.autoTrigger", "none")
+autocmd FileType * :call coc#config("suggest.autoTrigger", "aways")
 
 " php.vim setting
 function! PhpSyntaxOverride()

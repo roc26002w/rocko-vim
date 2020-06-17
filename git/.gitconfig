@@ -6,7 +6,7 @@
   name = Rocko
 [diff]
   # 使用 icdiff 來取代 git 內建的 diff
-  external = /home/vagrant/code/rocko-vim/icdiff/git-diff-wrapper.sh
+  external = /home/vagrant/.config/rocko-vim/icdiff/git-diff-wrapper.sh
 [mergetool "nvim"]
   cmd = nvim -f -c \"Gdiffsplit!\" \"$MERGED\"
 [core]
