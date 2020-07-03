@@ -52,6 +52,7 @@ Plug 'michaeljsmith/vim-indent-object'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 Plug 'tveskag/nvim-blame-line'
+" Plug 'zivyangll/git-blame.vim'
 
 " Python
 Plug 'roxma/nvim-yarp'
@@ -142,6 +143,7 @@ set numberwidth=4
 " python3_host
 
 let g:python3_host_prog = '/home/ubuntu/.env/python/bin/python3'
+" let g:ruby_host_prog = '/home/ubuntu/.rbenv/versions/2.7.1'
 
 " syntastic
 let g:syntastic_always_populate_loc_list = 1
@@ -284,6 +286,8 @@ noremap gdl :diffget //3<CR>
 
 " tig
 " nmap <Leader>B :exec '!tig blame % +'.line('.')<CR>
+
+" BlameLine config
 nnoremap <silent> <leader>b :ToggleBlameLine<CR>
 " Show blame info below the statusline instead of using virtual text
 let g:blameLineUseVirtualText = 1
@@ -295,7 +299,7 @@ let g:blameLineVirtualTextHighlight = 'Question'
 let g:blameLineVirtualTextPrefix = '// '
 
 " Customize format for git blame (Default format: '%an | %ar | %s')
-" let g:blameLineGitFormat = '%an - %s'
+let g:blameLineGitFormat = '%an - %s'
 " Refer to 'git-show --format=' man pages for format options)
 
 " RSpec.vim mappings
