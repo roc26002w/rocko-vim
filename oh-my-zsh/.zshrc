@@ -131,3 +131,6 @@ lazyload python -- 'source $HOME/.env/python/bin/activate'
 
 # composer
 lazyload composer -- 'export PATH="$HOME/.config/composer/vendor/bin:$PATH"'
+
+# rbenv
+lazyload composer -- 'export PATH="$HOME/.rbenv/bin:$PATH" && eval "$(rbenv init -)"'
