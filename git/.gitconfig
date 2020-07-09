@@ -20,4 +20,4 @@
 	editor = nvim
 
 [commit]
-	template = /home/vagrant/.config/git/.gitmessage.txt
+	template = /home/ubuntu/.config/git/.gitmessage.txt

@@ -130,7 +130,7 @@ lazyload pip -- 'source $HOME/.env/python/bin/activate'
 lazyload python -- 'source $HOME/.env/python/bin/activate'
 
 # composer
-lazyload composer -- 'export PATH="$HOME/.config/composer/vendor/bin:$PATH"'
+lazyload composer -- 'export COMPOSER_MEMORY_LIMIT=-1 && export PATH="$HOME/.config/composer/vendor/bin:$PATH"'
 
 # rbenv
 lazyload composer -- 'export PATH="$HOME/.rbenv/bin:$PATH" && eval "$(rbenv init -)"'
