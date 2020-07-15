@@ -114,6 +114,10 @@ export PATH="/usr/local/opt/ncurses/bin:$PATH"
 export PATH="/usr/local/opt/gettext/bin:$PATH"
 export FZF_DEFAULT_COMMAND="ag --hidden --skip-vcs-ignores --ignore=.git -g ''"
 
+# composer
+export COMPOSER_MEMORY_LIMIT=-1
+export PATH="$HOME/.config/composer/vendor/bin:$PATH"
+
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export NVM_DIR="$HOME/.nvm"
 
@@ -128,9 +132,6 @@ lazyload go -- 'export GOROOT=/usr/local/go && export GOPATH=$HOME/go && export 
 # python
 lazyload pip -- 'source $HOME/.env/python/bin/activate'
 lazyload python -- 'source $HOME/.env/python/bin/activate'
-
-# composer
-lazyload composer -- 'export COMPOSER_MEMORY_LIMIT=-1 && export PATH="$HOME/.config/composer/vendor/bin:$PATH"'
 
 # rbenv
 lazyload composer -- 'export PATH="$HOME/.rbenv/bin:$PATH" && eval "$(rbenv init -)"'
