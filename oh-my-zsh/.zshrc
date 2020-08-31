@@ -121,17 +121,19 @@ export PATH="$HOME/.config/composer/vendor/bin:$PATH"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export NVM_DIR="$HOME/.nvm"
 
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
 # use lazyload use nvm
 # https://github.com/qoomon/zsh-lazyload
-lazyload nvm -- '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"'
+# lazyload nvm -- '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"'
 
 # go
 # Install https://www.opencli.com/linux/ubuntu-install-golang-compile-helloworld
 lazyload go -- 'export GOROOT=/usr/local/go && export GOPATH=$HOME/go && export PATH=$GOPATH/bin:$GOROOT/bin:$PATH'
 
 # python
-lazyload pip -- 'source $HOME/.env/python/bin/activate'
-lazyload python -- 'source $HOME/.env/python/bin/activate'
+source $HOME/.env/python/bin/activate
 
 # rbenv
-lazyload composer -- 'export PATH="$HOME/.rbenv/bin:$PATH" && eval "$(rbenv init -)"'
+lazyload rbenv -- 'export PATH="$HOME/.rbenv/bin:$PATH" && eval "$(rbenv init -)"'
