@@ -4,98 +4,105 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
+
 " set the runtime path to include Vundle and initialize
 " https://github.com/junegunn/vim-plug
 call plug#begin()
 " The following are examples of different formats supported.
+set rtp+=~/.fzf
 
-Plug 'wincent/command-t'
-" Pass the path to set the runtimepath properly.
-Plug 'rstacruz/sparkup', {'rtp': 'vim/'}
-" colors style
-Plug 'rainglow/vim'
-Plug 'chriskempson/base16-vim'
-" tab
-Plug 'ervandew/supertab'
-" snips
-Plug 'sirver/ultisnips'
-Plug 'honza/vim-snippets'
-" folder tree
-Plug 'scrooloose/nerdtree'
-Plug 'scrooloose/nerdcommenter'
-Plug 'scrooloose/syntastic'
-Plug 'Xuyuanp/nerdtree-git-plugin'
-" ruby-vim
-Plug 'vim-ruby/vim-ruby'
-Plug 'thoughtbot/vim-rspec'
-" Add the fzf.vim plugin to wrap fzf:
-Plug 'junegunn/fzf'
-Plug 'junegunn/fzf.vim'
-Plug 'majutsushi/tagbar'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'jiangmiao/auto-pairs'
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'ervandew/supertab'
-Plug 'terryma/vim-multiple-cursors'
-Plug 'matze/vim-move'
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-" Themes
-Plug 'arcticicestudio/nord-vim'
+ Plug 'wincent/command-t'
+ " Pass the path to set the runtimepath properly.
+ Plug 'rstacruz/sparkup', {'rtp': 'vim/'}
+ " colors style
+ Plug 'rainglow/vim'
+ Plug 'chriskempson/base16-vim'
+ " tab
+ Plug 'ervandew/supertab'
+ " snips
+ Plug 'sirver/ultisnips'
+ Plug 'honza/vim-snippets'
+ " folder tree
+ Plug 'scrooloose/nerdtree'
+ Plug 'scrooloose/nerdcommenter'
+ Plug 'scrooloose/syntastic'
+ Plug 'Xuyuanp/nerdtree-git-plugin'
+ " ruby-vim
+ Plug 'vim-ruby/vim-ruby'
+ Plug 'thoughtbot/vim-rspec'
+ " Add the fzf.vim plugin to wrap fzf:
+ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+ Plug 'junegunn/fzf.vim'
 
-" Flod
-Plug 'pseewald/vim-anyfold'
-Plug 'michaeljsmith/vim-indent-object'
+ Plug 'majutsushi/tagbar'
+ Plug 'vim-airline/vim-airline'
+ Plug 'vim-airline/vim-airline-themes'
+ Plug 'jiangmiao/auto-pairs'
+ Plug 'ctrlpvim/ctrlp.vim'
+ Plug 'ervandew/supertab'
+ Plug 'terryma/vim-multiple-cursors'
+ Plug 'matze/vim-move'
+ Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+ Plug 'neoclide/coc.nvim', {'branch': 'release'}
+ " Themes
+ Plug 'arcticicestudio/nord-vim'
 
-" Git
-Plug 'airblade/vim-gitgutter'
-Plug 'tpope/vim-fugitive'
-Plug 'tveskag/nvim-blame-line'
-" Plug 'zivyangll/git-blame.vim'
+ " Flod
+ Plug 'pseewald/vim-anyfold'
+ Plug 'michaeljsmith/vim-indent-object'
 
-" Python
-Plug 'roxma/nvim-yarp'
+ " Git
+ Plug 'airblade/vim-gitgutter'
+ Plug 'tpope/vim-fugitive'
+ Plug 'tveskag/nvim-blame-line'
+ " Plug 'zivyangll/git-blame.vim'
 
-" PHP
-Plug 'StanAngeloff/php.vim'
-Plug 'arnaud-lb/vim-php-namespace'
-Plug 'phpactor/phpactor', {'for': 'php', 'do': 'composer install --no-dev -o'}
-Plug 'stephpy/vim-php-cs-fixer'
+ " Python
+ Plug 'roxma/nvim-yarp'
 
-" Require ncm2 and this plugin from phpactor plugin
-Plug 'ncm2/ncm2'
-Plug 'roxma/nvim-yarp'
-Plug 'phpactor/ncm2-phpactor'
+ " PHP
+ Plug 'StanAngeloff/php.vim'
+ Plug 'arnaud-lb/vim-php-namespace'
+ Plug 'phpactor/phpactor', {'for': 'php', 'do': 'composer install --no-dev -o'}
+ Plug 'stephpy/vim-php-cs-fixer'
 
-" Phpactor integration for deoplete.nvim
-Plug 'kristijanhusak/deoplete-phpactor'
+ " Require ncm2 and this plugin from phpactor plugin
+ Plug 'ncm2/ncm2'
+ Plug 'roxma/nvim-yarp'
+ Plug 'phpactor/ncm2-phpactor'
 
-" JS
-" mark
-Plug 'tpope/vim-commentary'
+ " Phpactor integration for deoplete.nvim
+ Plug 'kristijanhusak/deoplete-phpactor'
 
-" join '' to word
-Plug 'tpope/vim-surround'
+ " JS
+ " mark
+ Plug 'tpope/vim-commentary'
 
-" HTML
-Plug 'mattn/emmet-vim'
-Plug 'othree/html5.vim'
-Plug 'alvan/vim-closetag'
+ " join '' to word
+ Plug 'tpope/vim-surround'
 
-" CSS
-Plug 'ap/vim-css-color'
+ " HTML
+ Plug 'mattn/emmet-vim'
+ Plug 'othree/html5.vim'
+ Plug 'alvan/vim-closetag'
 
-" Add deoplete
-" Plug 'shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugs' }
+ " CSS
+ Plug 'ap/vim-css-color'
 
-" Add Icon
-Plug 'ryanoasis/vim-devicons'
+ " Add deoplete
+ " Plug 'shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugs' }
 
-" Add neocomplete
-Plug 'shougo/neocomplete.vim'
+ " Add Icon
+ Plug 'ryanoasis/vim-devicons'
 
-" All of your Plugs must be added before the following line
+ " Add neocomplete
+ Plug 'shougo/neocomplete.vim'
+
+ " Error Word highlight
+ Plug 'kamykn/spelunker.vim'
+ Plug 'kamykn/popup-menu.nvim'
+
+ " All of your Plugs must be added before the following line
 call plug#end()
 
 "  settings
@@ -609,3 +616,83 @@ else
   let &t_SI = "\<Esc>]50;CursorShape=1\x7"
   let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 endif
+
+
+" Spelunker.vim Config
+" Enable spelunker.vim. (default: 1)
+" 1: enable
+" 0: disable
+let g:enable_spelunker_vim = 1
+
+" Enable spelunker.vim on readonly files or buffer. (default: 0)
+" 1: enable
+" 0: disable
+let g:enable_spelunker_vim_on_readonly = 0
+
+" Check spelling for words longer than set characters. (default: 4)
+let g:spelunker_target_min_char_len = 4
+
+" Max amount of word suggestions. (default: 15)
+let g:spelunker_max_suggest_words = 15
+
+" Max amount of highlighted words in buffer. (default: 100)
+let g:spelunker_max_hi_words_each_buf = 100
+
+" Spellcheck type: (default: 1)
+" 1: File is checked for spelling mistakes when opening and saving. This
+" may take a bit of time on large files.
+" 2: Spellcheck displayed words in buffer. Fast and dynamic. The waiting time
+" depends on the setting of CursorHold `set updatetime=1000`.
+let g:spelunker_check_type = 1
+
+" Highlight type: (default: 1)
+" 1: Highlight all types (SpellBad, SpellCap, SpellRare, SpellLocal).
+" 2: Highlight only SpellBad.
+" FYI: https://vim-jp.org/vimdoc-en/spell.html#spell-quickstart
+let g:spelunker_highlight_type = 1
+
+" Option to disable word checking.
+" Disable URI checking. (default: 0)
+let g:spelunker_disable_uri_checking = 1
+
+" Disable email-like words checking. (default: 0)
+let g:spelunker_disable_email_checking = 1
+
+" Disable account name checking, e.g. @foobar, foobar@. (default: 0)
+" NOTE: Spell checking is also disabled for JAVA annotations.
+let g:spelunker_disable_account_name_checking = 1
+
+" Disable acronym checking. (default: 0)
+let g:spelunker_disable_acronym_checking = 1
+
+" Disable checking words in backtick/backquote. (default: 0)
+let g:spelunker_disable_backquoted_checking = 1
+
+" Disable default autogroup. (default: 0)
+let g:spelunker_disable_auto_group = 1
+
+" Create own custom autogroup to enable spelunker.vim for specific filetypes.
+augroup spelunker
+  autocmd!
+  " Setting for g:spelunker_check_type = 1:
+  autocmd BufWinEnter,BufWritePost *.vim,*.js,*.jsx,*.json,*.md call spelunker#check()
+
+  " Setting for g:spelunker_check_type = 2:
+  autocmd CursorHold *.vim,*.js,*.jsx,*.json,*.md call spelunker#check_displayed_words()
+augroup END
+
+" Override highlight group name of incorrectly spelled words. (default:
+" 'SpelunkerSpellBad')
+let g:spelunker_spell_bad_group = 'SpelunkerSpellBad'
+
+" Override highlight group name of complex or compound words. (default:
+" 'SpelunkerComplexOrCompoundWord')
+let g:spelunker_complex_or_compound_word_group = 'SpelunkerComplexOrCompoundWord'
+
+" Override highlight setting.
+highlight SpelunkerSpellBad cterm=underline ctermfg=237 gui=underline guifg=#9e9e9e
+highlight SpelunkerComplexOrCompoundWord cterm=underline ctermfg=NONE gui=underline guifg=NONE
+
+" style
+hi Pmenu ctermfg=254 ctermbg=237 cterm=NONE guifg=#e1e1e1 guibg=#383838 gui=NONE
+hi PmenuSel ctermfg=135 ctermbg=239 cterm=NONE guifg=#b26eff guibg=#4e4e4e gui=NONE
