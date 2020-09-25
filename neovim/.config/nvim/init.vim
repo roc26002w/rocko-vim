@@ -100,7 +100,6 @@ set rtp+=~/.fzf
 
  " Error Word highlight
  Plug 'kamykn/spelunker.vim'
- Plug 'kamykn/popup-menu.nvim'
 
  " All of your Plugs must be added before the following line
 call plug#end()
@@ -126,6 +125,7 @@ set shiftwidth=2           " auto indent size
 set tabstop=2              " tab character size
 set noswapfile
 set clipboard+=unnamedplus " enable clipboard
+set mmp=5000
 
 
 " gui setting
@@ -272,6 +272,10 @@ let g:fzf_colors={
   \ 'header':  ['fg', 'Comment']
   \ }
 
+" non-popup floation window
+" https://github.com/junegunn/fzf.vim/issues/942
+let g:fzf_layout = { 'window': { 'width': 1, 'height': 0.4, 'yoffset': 1, 'border': 'horizontal' } }
+
 nmap <C-o> :Files<CR>
 nmap <Leader>t :Tags<CR>
 nmap <Leader>r :BTags<CR>
@@ -375,7 +379,7 @@ autocmd BufEnter * call ncm2#enable_for_buffer()
 set completeopt=noinsert,menuone,noselect
 
 " coc setting
-autocmd FileType * :call coc#config("suggest.autoTrigger", "aways")
+" autocmd FileType * :call coc#config("suggest.autoTrigger", "aways")
 
 " php.vim setting
 function! PhpSyntaxOverride()
@@ -617,8 +621,11 @@ else
   let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 endif
 
+" style
+hi Pmenu ctermfg=254 ctermbg=237 cterm=NONE guifg=#e1e1e1 guibg=#383838 gui=NONE
+hi PmenuSel ctermfg=135 ctermbg=239 cterm=NONE guifg=#b26eff guibg=#4e4e4e gui=NONE
 
-" Spelunker.vim Config
+" spelunker vim config
 " Enable spelunker.vim. (default: 1)
 " 1: enable
 " 0: disable
@@ -675,10 +682,10 @@ let g:spelunker_disable_auto_group = 1
 augroup spelunker
   autocmd!
   " Setting for g:spelunker_check_type = 1:
-  autocmd BufWinEnter,BufWritePost *.vim,*.js,*.jsx,*.json,*.md call spelunker#check()
+  autocmd BufWinEnter,BufWritePost *.vim,*.js,*.json,*.jsx,*.md,*.php,*.yml,*.yaml call spelunker#check()
 
   " Setting for g:spelunker_check_type = 2:
-  autocmd CursorHold *.vim,*.js,*.jsx,*.json,*.md call spelunker#check_displayed_words()
+  autocmd CursorHold *.vim,*.js,*.jsx,*.json,*.md,*.php,*.yml,*.yaml call spelunker#check_displayed_words()
 augroup END
 
 " Override highlight group name of incorrectly spelled words. (default:
@@ -690,9 +697,5 @@ let g:spelunker_spell_bad_group = 'SpelunkerSpellBad'
 let g:spelunker_complex_or_compound_word_group = 'SpelunkerComplexOrCompoundWord'
 
 " Override highlight setting.
-highlight SpelunkerSpellBad cterm=underline ctermfg=237 gui=underline guifg=#9e9e9e
+highlight SpelunkerSpellBad cterm=underline ctermfg=247 gui=underline guifg=#9e9e9e
 highlight SpelunkerComplexOrCompoundWord cterm=underline ctermfg=NONE gui=underline guifg=NONE
-
-" style
-hi Pmenu ctermfg=254 ctermbg=237 cterm=NONE guifg=#e1e1e1 guibg=#383838 gui=NONE
-hi PmenuSel ctermfg=135 ctermbg=239 cterm=NONE guifg=#b26eff guibg=#4e4e4e gui=NONE
