@@ -7,11 +7,11 @@
   name = Rocko
 
 [includeIf "gitdir:~/code/netask/"]
-  path = /home/vagrant/.config/rocko-vim/git/.novax_user
+  path = /home/ubuntu/.config/rocko-vim/git/.novax_user
 
 [diff]
   # 使用 icdiff 來取代 git 內建的 diff
-  external = /home/vagrant/.config/rocko-vim/icdiff/git-diff-wrapper.sh
+  external = /home/ubuntu/.config/rocko-vim/icdiff/git-diff-wrapper.sh
 
 [mergetool "nvim"]
   cmd = nvim -f -c \"Gdiffsplit!\" \"$MERGED\"
@@ -20,4 +20,4 @@
 	editor = nvim
 
 [commit]
-	template = /home/vagrant/.config/git/.gitmessage.txt
+	template = /home/ubuntu/.config/git/.gitmessage.txt

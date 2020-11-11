@@ -1,0 +1,22 @@
+{
+  "phpactor.enable": true,
+  "phpactor.path":"/home/ubuntu/.config/nvim/plugged/phpactor/bin/phpactor",
+  "languageserver": {
+      "golang": {
+        "command": "gopls",
+        "rootPatterns": ["go.mod"],
+        "filetypes": ["go"]
+      },
+      "phpactor": {
+        "command": "phpactor",
+        "args": ["language-server"],
+        "trace.server": "verbose",
+        "filetypes": ["php"]
+    }
+  },
+
+  "yaml.schemas": {
+      "kubernetes": "/home/ubuntu/code/novax/novax-kumay-kubernetes/*.yaml"
+  }
+
+}

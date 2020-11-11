@@ -1,3 +1,4 @@
+export TERM="xterm-256color"
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -73,7 +74,7 @@ source ~/.oh-my-zsh/custom/themes/.theme
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 # https://github.com/qoomon/zsh-lazyload
-plugins=(git docker docker-compose zsh-lazyload fzf)
+plugins=(git docker docker-compose zsh-lazyload fzf helm)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -94,7 +95,6 @@ export EDITOR='nvim'
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
-export TERM="xterm-256color"
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
@@ -114,20 +114,26 @@ export PATH="/usr/local/opt/ncurses/bin:$PATH"
 export PATH="/usr/local/opt/gettext/bin:$PATH"
 export FZF_DEFAULT_COMMAND="ag --hidden --skip-vcs-ignores --ignore=.git -g ''"
 
+# composer
+export COMPOSER_MEMORY_LIMIT=-1
+export PATH="$HOME/.config/composer/vendor/bin:$PATH"
+
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export NVM_DIR="$HOME/.nvm"
 
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
 # use lazyload use nvm
 # https://github.com/qoomon/zsh-lazyload
-lazyload nvm -- '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"'
+# lazyload nvm -- '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"'
 
 # go
 # Install https://www.opencli.com/linux/ubuntu-install-golang-compile-helloworld
 lazyload go -- 'export GOROOT=/usr/local/go && export GOPATH=$HOME/go && export PATH=$GOPATH/bin:$GOROOT/bin:$PATH'
 
 # python
-lazyload pip -- 'source $HOME/.env/python/bin/activate'
-lazyload python -- 'source $HOME/.env/python/bin/activate'
+source $HOME/.env/python/bin/activate
 
-# composer
-lazyload composer -- 'export PATH="$HOME/.config/composer/vendor/bin:$PATH"'
+# rbenv
+lazyload rbenv -- 'export PATH="$HOME/.rbenv/bin:$PATH" && eval "$(rbenv init -)"'

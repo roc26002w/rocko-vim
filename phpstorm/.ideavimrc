@@ -89,3 +89,4 @@ imap <A-D> <Esc>:action EditorDeleteLine<CR>
 nmap <A-u> :redo<CR>
 vmap S :action SurroundWith<CR>
 
+nmap <F1> mb?}<CR>V%{y`bP/function<CR>f_lzz
