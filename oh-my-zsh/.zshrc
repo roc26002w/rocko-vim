@@ -74,7 +74,7 @@ source ~/.oh-my-zsh/custom/themes/.theme
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 # https://github.com/qoomon/zsh-lazyload
-plugins=(git docker docker-compose zsh-lazyload fzf)
+plugins=(git docker docker-compose zsh-lazyload fzf helm)
 
 source $ZSH/oh-my-zsh.sh
 

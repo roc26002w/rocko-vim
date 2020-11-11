@@ -55,7 +55,6 @@ set rtp+=~/.fzf
  Plug 'airblade/vim-gitgutter'
  Plug 'tpope/vim-fugitive'
  Plug 'tveskag/nvim-blame-line'
- " Plug 'zivyangll/git-blame.vim'
 
  " Python
  Plug 'roxma/nvim-yarp'
@@ -299,6 +298,8 @@ noremap gdl :diffget //3<CR>
 " nmap <Leader>B :exec '!tig blame % +'.line('.')<CR>
 
 " BlameLine config
+
+" ===============
 nnoremap <silent> <leader>b :ToggleBlameLine<CR>
 " Show blame info below the statusline instead of using virtual text
 let g:blameLineUseVirtualText = 1
@@ -312,6 +313,8 @@ let g:blameLineVirtualTextPrefix = '// '
 " Customize format for git blame (Default format: '%an | %ar | %s')
 let g:blameLineGitFormat = '%an - %s'
 " Refer to 'git-show --format=' man pages for format options)
+
+" ===================
 
 " RSpec.vim mappings
 map <Leader>rt :call RunCurrentSpecFile()<CR>
