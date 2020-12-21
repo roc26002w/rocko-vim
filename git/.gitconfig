@@ -6,7 +6,7 @@
 	email = roc26002w@gmail.com
   name = Rocko
 
-[includeIf "gitdir:~/code/netask/"]
+[includeIf "gitdir:~/code/novax/"]
   path = /home/ubuntu/.config/rocko-vim/git/.novax_user
 
 [diff]
