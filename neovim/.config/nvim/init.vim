@@ -11,39 +11,54 @@ call plug#begin()
 " The following are examples of different formats supported.
 set rtp+=~/.fzf
 
+" 檔案搜尋
  Plug 'wincent/command-t'
- " Pass the path to set the runtimepath properly.
- Plug 'rstacruz/sparkup', {'rtp': 'vim/'}
+
  " colors style
- Plug 'rainglow/vim'
  Plug 'chriskempson/base16-vim'
+
  " tab
  Plug 'ervandew/supertab'
+
  " snips
  Plug 'sirver/ultisnips'
  Plug 'honza/vim-snippets'
- " folder tree
- Plug 'scrooloose/nerdtree'
- Plug 'scrooloose/nerdcommenter'
+
+
+ " syntastic
  Plug 'scrooloose/syntastic'
- Plug 'Xuyuanp/nerdtree-git-plugin'
+
+ " folder tree
+ Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+ Plug 'scrooloose/nerdcommenter', { 'on':  'NERDTreeToggle' }
+ Plug 'Xuyuanp/nerdtree-git-plugin', { 'on':  'NERDTreeToggle' }
+ Plug 'tiagofumo/vim-nerdtree-syntax-highlight', { 'on':  'NERDTreeToggle' }
+
  " ruby-vim
- Plug 'vim-ruby/vim-ruby'
- Plug 'thoughtbot/vim-rspec'
+ Plug 'vim-ruby/vim-ruby', { 'for' : 'ru' }
+ Plug 'thoughtbot/vim-rspec', { 'for' : 'ru' }
+
  " Add the fzf.vim plugin to wrap fzf:
  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
  Plug 'junegunn/fzf.vim'
+ Plug 'ctrlpvim/ctrlp.vim'
 
- Plug 'majutsushi/tagbar'
+ " Tagbar
+ Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle', 'for' : ['php', 'rb', 'java'] }
+
  Plug 'vim-airline/vim-airline'
  Plug 'vim-airline/vim-airline-themes'
+
+ " auto gen
  Plug 'jiangmiao/auto-pairs'
- Plug 'ctrlpvim/ctrlp.vim'
- Plug 'ervandew/supertab'
+
+ " quick block edit
  Plug 'terryma/vim-multiple-cursors'
  Plug 'matze/vim-move'
- Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+
+ " language server
  Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
  " Themes
  Plug 'arcticicestudio/nord-vim'
 
@@ -57,17 +72,16 @@ set rtp+=~/.fzf
  Plug 'tveskag/nvim-blame-line'
 
  " Python
- Plug 'roxma/nvim-yarp'
+ Plug 'roxma/nvim-yarp', { 'for': 'py'}
 
  " PHP
  Plug 'StanAngeloff/php.vim'
  Plug 'arnaud-lb/vim-php-namespace'
- Plug 'phpactor/phpactor', {'for': 'php', 'do': 'composer install --no-dev -o'}
  Plug 'stephpy/vim-php-cs-fixer'
+ Plug 'phpactor/phpactor', {'for': 'php', 'do': 'composer install --no-dev -o'}
 
  " Require ncm2 and this plugin from phpactor plugin
  Plug 'ncm2/ncm2'
- Plug 'roxma/nvim-yarp'
  Plug 'phpactor/ncm2-phpactor'
 
  " Phpactor integration for deoplete.nvim
@@ -80,24 +94,25 @@ set rtp+=~/.fzf
  " join '' to word
  Plug 'tpope/vim-surround'
 
- " HTML
+ " html
+ Plug 'rstacruz/sparkup', {'rtp': 'vim/'}
  Plug 'mattn/emmet-vim'
  Plug 'othree/html5.vim'
  Plug 'alvan/vim-closetag'
 
- " CSS
+ " css
  Plug 'ap/vim-css-color'
 
- " Add deoplete
+ " deoplete
  " Plug 'shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugs' }
 
- " Add Icon
+ " icon
  Plug 'ryanoasis/vim-devicons'
 
- " Add neocomplete
+ " neocomplete
  Plug 'shougo/neocomplete.vim'
 
- " Error Word highlight
+ " error word highlight
  Plug 'kamykn/spelunker.vim'
 
  " All of your Plugs must be added before the following line
@@ -111,8 +126,10 @@ set tags=tags,tags.vendor
 " theme
 set autoread               " auto read when file is changed from outside
 syntax on                  " Enable syntax highlighting.
-filetype plugin indent on  " Enable file type based indentation.
 colorscheme base16-onedark " Change a colorscheme.
+
+" 256 colorspace
+let base16colorspace=256  " Access colors present in 256 colorspace
 
 " indent
 set autoindent
@@ -148,7 +165,7 @@ set numberwidth=4
 
 " python3_host
 
-let g:python3_host_prog = '/home/ubuntu/.env/python/bin/python3'
+let g:python3_host_prog = $HOME.'/.env/python/bin/python3'
 " let g:ruby_host_prog = '/home/ubuntu/.rbenv/versions/2.7.1'
 
 " syntastic
@@ -162,7 +179,7 @@ let g:syntastic_php_phpcs_args = '--standard=psr12'
 let g:syntastic_javascript_checkers = ['eslint']
 noremap <leader>n :ll<cr>
 
-" php cs fixer
+" php cs fixe
 let g:php_cs_fixer_rules = '@PSR12,no_unused_imports,ordered_imports'
 let g:php_cs_fixer_enable_default_mapping = 0
 
@@ -170,71 +187,23 @@ let g:php_cs_fixer_enable_default_mapping = 0
 "  plugin settings
 " =================
 
-" 256 colorspace
-let base16colorspace=256  " Access colors present in 256 colorspace
-
 " NERDTree
-let NERDTreeQuitOnOpen = 1
-let NERDTreeChDirMode = 2
-let NERDTreeMouseMode = 2
-let NERDTreeMinimalUI = 1
-let NERDTreeDirArrows = 1
-let NERDTreeShowHidden = 3
-let NERDTreeShowBookmarks = 0
-let NERDTreeHighlightCursorline = 0
-let NERDTreeIgnore = ['\.git$', '\.DS_Store$']
-let g:NERDTreeWinSize = 30
-let g:nerdtree_tabs_focus_on_files = 1
-let g:nerdtree_tabs_open_on_gui_startup = 0
+source $HOME/.config/nvim/vendor/nerdtree_setting.vim
 
-" NERDTrees File highlighting
-function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
- exec 'autocmd FileType nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
- exec 'autocmd FileType nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
-endfunction
+" UltiSnips
+source $HOME/.config/nvim/vendor/ulti_snips_setting.vim
 
-call NERDTreeHighlightFile('jade', 'green', 'none', 'green', '#151515')
-call NERDTreeHighlightFile('ini', 'yellow', 'none', 'yellow', '#151515')
-call NERDTreeHighlightFile('md', 'blue', 'none', '#3366FF', '#151515')
-call NERDTreeHighlightFile('yml', 'yellow', 'none', 'yellow', '#151515')
-call NERDTreeHighlightFile('config', 'yellow', 'none', 'yellow', '#151515')
-call NERDTreeHighlightFile('conf', 'yellow', 'none', 'yellow', '#151515')
-call NERDTreeHighlightFile('json', 'yellow', 'none', 'yellow', '#151515')
-call NERDTreeHighlightFile('html', 'yellow', 'none', 'yellow', '#151515')
-call NERDTreeHighlightFile('styl', 'cyan', 'none', 'cyan', '#151515')
-call NERDTreeHighlightFile('css', 'cyan', 'none', 'cyan', '#151515')
-call NERDTreeHighlightFile('coffee', 'Red', 'none', 'red', '#151515')
-call NERDTreeHighlightFile('js', 'Red', 'none', '#ffa500', '#151515')
-call NERDTreeHighlightFile('php', 'Magenta', 'none', '#ff00ff', '#151515')
-call NERDTreeHighlightFile('ds_store', 'Gray', 'none', '#686868', '#151515')
-call NERDTreeHighlightFile('gitconfig', 'Gray', 'none', '#686868', '#151515')
-call NERDTreeHighlightFile('gitignore', 'Gray', 'none', '#686868', '#151515')
-call NERDTreeHighlightFile('bashrc', 'Gray', 'none', '#686868', '#151515')
-call NERDTreeHighlightFile('bashprofile', 'Gray', 'none', '#686868', '#151515')
+" fzf
+source $HOME/.config/nvim/vendor/fzf_setting.vim
 
-" NERDTrees File highlighting only the glyph/icon
-" test highlight just the glyph (icons) in nerdtree:
-autocmd filetype nerdtree highlight haskell_icon ctermbg=none ctermfg=Red guifg=#ffa500
-autocmd filetype nerdtree highlight html_icon ctermbg=none ctermfg=Red guifg=#ffa500
-autocmd filetype nerdtree highlight go_icon ctermbg=none ctermfg=Red guifg=#ffa500
+" ctag
+source $HOME/.config/nvim/vendor/ctag_setting.vim
 
-autocmd filetype nerdtree syn match haskell_icon ## containedin=NERDTreeFile
-" if you are using another syn highlight for a given line (e.g.
-" NERDTreeHighlightFile) need to give that name in the 'containedin' for this
-" other highlight to work with it
-autocmd filetype nerdtree syn match html_icon ## containedin=NERDTreeFile,html
-autocmd filetype nerdtree syn match go_icon ## containedin=NERDTreeFile
+" spelunker
+source $HOME/.config/nvim/vendor/spelunker_setting.vim
 
-" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-let g:UltiSnipsExpandTrigger = "<tab>"
-let g:UltiSnipsJumpForwardTrigger = "<tab>"
-let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
-let g:UltiSnipsSnippetsDir = $HOME."/.config/nvim/UltiSnips"
-let g:UltiSnipsSnippetDirectories = ['UltiSnips', $HOME.'/.config/nvim/UltiSnips']
-let g:UltiSnipsEnableSnipMate = 0
-
-" If you want :UltiSnipsEdit to split your window.
-let g:UltiSnipsEditSplit="vertical"
+" string case
+source $HOME/.config/nvim/vendor/string_case_setting.vim
 
 " Auto save
 " let g:auto_save = 1  " enable AutoSave on Vim startup
@@ -243,47 +212,13 @@ let g:UltiSnipsEditSplit="vertical"
 " deoplete
 let g:deoplete#enable_at_startup = 1
 
-"normal mode map
-"NERDTree
-map <Leader>1 <ESC>:NERDTreeToggle<CR>
 
-" fzf
-command! -bang -nargs=* Commits call fzf#vim#commits({'options': '--no-reverse'})
-command! -bang -nargs=* BTags call fzf#vim#buffer_tags('', {'options': '--no-reverse'})
-command! -bang -nargs=* BCommits call fzf#vim#buffer_commits({'options': '--no-reverse'})
-" Ag need install the_silver_searcher https://github.com/ggreer/the_silver_searcher
-" command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, '--ignore=*.lock --ignore=.git --hidden', {'options': '--bind ctrl-a:select-all,ctrl-d:deselect-all'})
-command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, {'options': '--bind ctrl-a:select-all,ctrl-d:deselect-all'})
-command! -bang -nargs=* Ah call fzf#vim#history({'options': '--no-sort'})
-let g:fzf_colors={
-  \ 'fg':      ['fg', 'Normal'],
-  \ 'bg':      ['bg', 'Normal'],
-  \ 'hl':      ['fg', 'Comment'],
-  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-  \ 'hl+':     ['fg', 'Statement'],
-  \ 'info':    ['fg', 'PreProc'],
-  \ 'border':  ['fg', 'Ignore'],
-  \ 'prompt':  ['fg', 'Conditional'],
-  \ 'pointer': ['fg', 'Exception'],
-  \ 'marker':  ['fg', 'Keyword'],
-  \ 'spinner': ['fg', 'Label'],
-  \ 'header':  ['fg', 'Comment']
-  \ }
+" Tagbar
+map <Leader>2 <ESC>:TagbarToggle<CR>
 
-" non-popup floation window
-" https://github.com/junegunn/fzf.vim/issues/942
-let g:fzf_layout = { 'window': { 'width': 1, 'height': 0.4, 'yoffset': 1, 'border': 'horizontal' } }
-
-nmap <C-o> :Files<CR>
 nmap <Leader>t :Tags<CR>
 nmap <Leader>r :BTags<CR>
-nmap <C-e> :Buffers<CR>
-imap <C-X><C-K> <Plug>(fzf-complete-word)
-imap <C-X><C-F> <Plug>(fzf-complete-path)
-imap <C-X><C-J> <Plug>(fzf-complete-file-ag)
-imap <C-X><C-L> <Plug>(fzf-complete-line)
-imap <Tab> <C-n>
+" map <Tab> <C-n>
 
 " git
 set diffopt+=vertical
@@ -294,12 +229,7 @@ noremap <leader>gd :Gdiffsplit!<cr>
 noremap gdh :diffget //2<CR>
 noremap gdl :diffget //3<CR>
 
-" tig
-" nmap <Leader>B :exec '!tig blame % +'.line('.')<CR>
-
 " BlameLine config
-
-" ===============
 nnoremap <silent> <leader>b :ToggleBlameLine<CR>
 " Show blame info below the statusline instead of using virtual text
 let g:blameLineUseVirtualText = 1
@@ -316,12 +246,16 @@ let g:blameLineGitFormat = '%an - %s'
 
 " ===================
 
-" RSpec.vim mappings
-map <Leader>rt :call RunCurrentSpecFile()<CR>
-map <Leader>rs :call RunNearestSpec()<CR>
-map <Leader>rl :call RunLastSpec()<CR>
-map <Leader>ra :call RunAllSpecs()<CR>
-nmap <Leader>rr :call RunRspecTest()<cr>
+" vim-rspec mappings
+autocmd FileType rb map <Leader>rt :call RunCurrentSpecFile()<CR>
+autocmd FileType rb map <Leader>rs :call RunNearestSpec()<CR>
+autocmd FileType rb map <Leader>rl :call RunLastSpec()<CR>
+autocmd FileType rb map <Leader>ra :call RunAllSpecs()<CR>
+autocmd FileType rb nmap <Leader>rr :call RunRspecTest()<cr>
+
+function! RunRspecTest()
+  execute '!bin/bundle exec spring rspec ' . expand('%:p') . ':' . line('.')
+endfunction
 
 " Move line
 nmap <C-j> :m .+1<CR>==
@@ -337,11 +271,6 @@ vmap <C-k> :m '<-2<CR>gv=gv
 " cancel search
 nmap <Leader><space> :nohlsearch<cr>
 
-" Search
- imap <C-f> <Esc> :Ag<space>
- nmap <C-f> :Ag<space>
- vmap <C-f> <Esc> :Ag<space>
-
 " code style mapping
 inoremap <A-k> <esc>YpAa<esc>0v$F.hr f.lC
 
@@ -350,32 +279,6 @@ if (has("termguicolors"))
  set termguicolors
 endif
 
-" remove tailing whitespace
-autocmd BufWritePre * :%s/\s\+$//e
-
-" ctags
-function! UpdateTags()
-  let tags = 'tags'
-
-  if filereadable(tags)
-    let file = substitute(expand('%:p'), getcwd() . '/', '', '')
-
-    " remove tags of file
-    call system('sed -ri "/\s+' . escape(file, './') . '/d"' . tags)
-
-    " append tags of file
-    call system('ctags -a "' . file . '"')
-  endif
-endfunction
-
-function! RunRspecTest()
-  execute '!bin/bundle exec spring rspec ' . expand('%:p') . ':' . line('.')
-endfunction
-
-autocmd BufWritePost *.rb call UpdateTags()
-autocmd BufWritePost *.php call UpdateTags()
-" autocmd BufEnter * lcd %:p:h
-command! Ctags call system('ctags --recurse --exclude=vendor --exclude=node_modules --exclude=public --exclude="*.json" --exclude="*.min.*" && ctags --recurse -f tags.vendor vendor node_modules &')
 
 " phpactor ncm2
 autocmd BufEnter * call ncm2#enable_for_buffer()
@@ -533,88 +436,6 @@ imap <Leader><TAB> <C-X><C-O>
 let g:SuperTabCrMapping = 1
 let g:SuperTabDefaultCompletionType = "<c-n>"
 
-" =================
-"  custom
-" =================
-
-" coercion
-function! CheckCaseType(string)
-  " abc abc
-  if a:string =~ ' '
-    return 0
-  endif
-
-  " abc-abc
-  if a:string =~ '-'
-    return 1
-  endif
-
-  " abc.abc
-  if a:string =~ '\.'
-    return 2
-  endif
-
-  " abc_abc
-  if a:string =~# '_' && a:string !~# '[A-Z]'
-    return 3
-  endif
-
-  " ABC_ABC
-  if a:string =~# '_' && a:string !~# '[a-z]'
-    return 4
-  endif
-
-  " abcAbc
-  if a:string =~# '^[a-z0-9]\+\([A-Z0-9][a-z0-9]*\)*$'
-    return 5
-  endif
-
-  " AbcAbc
-  if a:string =~# '^\([A-Z0-9][a-z0-9]*\)\+$'
-    return 6
-  endif
-
-  return -1
-endfunction
-
-function! CoerceString()
-  normal! gv"zy
-
-  let l:string = @z
-  let l:origin_type = CheckCaseType(l:string)
-  let l:target_type = (l:origin_type + 1) % 7
-
-  if l:origin_type >= 5
-    let l:string = substitute(l:string, '\([a-z0-9]\)\([A-Z0-9]\)\C', '\1 \2', 'g')
-  endif
-
-  let l:mapping = [' ', '-', '.', '_', '_', '_', '_']
-  let l:words = split(l:string, '[ -._]')
-  let l:string = join(l:words, l:mapping[l:target_type])
-
-  if l:target_type == 4
-    let l:string = toupper(l:string)
-  else
-    let l:string = tolower(l:string)
-  endif
-
-  if l:target_type >= 5
-    let l:string = substitute(l:string, '_\([A-Za-z0-9]\)', '\U\1', 'g')
-  endif
-
-  if l:target_type == 6
-    let l:string = substitute(l:string, '^[A-Za-z]', '\U\0', '')
-  end
-
-  let @z = l:string
-
-  normal! gv"zpgv
-endfunction
-
-" Change String Case
-nnoremap <C-u> viw:call CoerceString()<CR>
-vnoremap <C-u> :call CoerceString()<CR>
-
 " Fix Cursor in TMUX
 if exists('$TMUX')
   let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
@@ -628,77 +449,3 @@ endif
 hi Pmenu ctermfg=254 ctermbg=237 cterm=NONE guifg=#e1e1e1 guibg=#383838 gui=NONE
 hi PmenuSel ctermfg=135 ctermbg=239 cterm=NONE guifg=#b26eff guibg=#4e4e4e gui=NONE
 
-" spelunker vim config
-" Enable spelunker.vim. (default: 1)
-" 1: enable
-" 0: disable
-let g:enable_spelunker_vim = 1
-
-" Enable spelunker.vim on readonly files or buffer. (default: 0)
-" 1: enable
-" 0: disable
-let g:enable_spelunker_vim_on_readonly = 0
-
-" Check spelling for words longer than set characters. (default: 4)
-let g:spelunker_target_min_char_len = 4
-
-" Max amount of word suggestions. (default: 15)
-let g:spelunker_max_suggest_words = 15
-
-" Max amount of highlighted words in buffer. (default: 100)
-let g:spelunker_max_hi_words_each_buf = 100
-
-" Spellcheck type: (default: 1)
-" 1: File is checked for spelling mistakes when opening and saving. This
-" may take a bit of time on large files.
-" 2: Spellcheck displayed words in buffer. Fast and dynamic. The waiting time
-" depends on the setting of CursorHold `set updatetime=1000`.
-let g:spelunker_check_type = 1
-
-" Highlight type: (default: 1)
-" 1: Highlight all types (SpellBad, SpellCap, SpellRare, SpellLocal).
-" 2: Highlight only SpellBad.
-" FYI: https://vim-jp.org/vimdoc-en/spell.html#spell-quickstart
-let g:spelunker_highlight_type = 1
-
-" Option to disable word checking.
-" Disable URI checking. (default: 0)
-let g:spelunker_disable_uri_checking = 1
-
-" Disable email-like words checking. (default: 0)
-let g:spelunker_disable_email_checking = 1
-
-" Disable account name checking, e.g. @foobar, foobar@. (default: 0)
-" NOTE: Spell checking is also disabled for JAVA annotations.
-let g:spelunker_disable_account_name_checking = 1
-
-" Disable acronym checking. (default: 0)
-let g:spelunker_disable_acronym_checking = 1
-
-" Disable checking words in backtick/backquote. (default: 0)
-let g:spelunker_disable_backquoted_checking = 1
-
-" Disable default autogroup. (default: 0)
-let g:spelunker_disable_auto_group = 1
-
-" Create own custom autogroup to enable spelunker.vim for specific filetypes.
-augroup spelunker
-  autocmd!
-  " Setting for g:spelunker_check_type = 1:
-  autocmd BufWinEnter,BufWritePost *.vim,*.js,*.json,*.jsx,*.md,*.php,*.yml,*.yaml call spelunker#check()
-
-  " Setting for g:spelunker_check_type = 2:
-  autocmd CursorHold *.vim,*.js,*.jsx,*.json,*.md,*.php,*.yml,*.yaml call spelunker#check_displayed_words()
-augroup END
-
-" Override highlight group name of incorrectly spelled words. (default:
-" 'SpelunkerSpellBad')
-let g:spelunker_spell_bad_group = 'SpelunkerSpellBad'
-
-" Override highlight group name of complex or compound words. (default:
-" 'SpelunkerComplexOrCompoundWord')
-let g:spelunker_complex_or_compound_word_group = 'SpelunkerComplexOrCompoundWord'
-
-" Override highlight setting.
-highlight SpelunkerSpellBad cterm=underline ctermfg=247 gui=underline guifg=#9e9e9e
-highlight SpelunkerComplexOrCompoundWord cterm=underline ctermfg=NONE gui=underline guifg=NONE
