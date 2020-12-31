@@ -58,12 +58,6 @@ function! PhpactorTraceBack()
 endfunction
 
 
-" php indent
-autocmd FileType php setlocal iskeyword-=$
-autocmd FileType php setlocal sw=4 sts=4 ts=4
-
-" php commentstring
-autocmd FileType php setlocal commentstring=\/\/\ %s
 
 " php unit test
 function! RunPHPUnitTest(filter)
@@ -94,6 +88,17 @@ endfunction
 function! RunJsonFormat()
   execute "!jq '.'"
 endfunction
+
+" php indent
+autocmd FileType php setlocal iskeyword-=$
+autocmd FileType php setlocal sw=4 sts=4 ts=4
+
+" php commentstring
+autocmd FileType php setlocal commentstring=\/\/\ %s
+
+" phpactor ncm2
+autocmd BufEnter * call ncm2#enable_for_buffer()
+set completeopt=noinsert,menuone,noselect
 
 " ================== key binding =============================
 autocmd FileType php command! ClassNew call phpactor#ClassNew()

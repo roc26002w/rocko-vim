@@ -271,11 +271,6 @@ if (has("termguicolors"))
  set termguicolors
 endif
 
-
-" phpactor ncm2
-autocmd BufEnter * call ncm2#enable_for_buffer()
-set completeopt=noinsert,menuone,noselect
-
 " coc setting
 " autocmd FileType * :call coc#config("suggest.autoTrigger", "aways")
 
