@@ -176,7 +176,6 @@ let g:syntastic_php_phpcs_args = '--standard=psr12'
 let g:syntastic_javascript_checkers = ['eslint']
 noremap <leader>n :ll<cr>
 
-
 " =================
 "  plugin settings
 " =================
@@ -189,11 +188,13 @@ source $HOME/.config/nvim/vendor/ulti_snips_setting.vim
 source $HOME/.config/nvim/vendor/fzf_setting.vim
 " ctag
 source $HOME/.config/nvim/vendor/ctag_setting.vim
+" git
+source $HOME/.config/nvim/vendor/string_case_setting.vim
 " spelunker
 source $HOME/.config/nvim/vendor/spelunker_setting.vim
 " anyfold
 source $HOME/.config/nvim/vendor/anyfold_setting.vim
-" string case
+" php
 source $HOME/.config/nvim/vendor/php_setting.vim
 " string case
 source $HOME/.config/nvim/vendor/string_case_setting.vim
@@ -212,31 +213,6 @@ nmap <Leader>t :Tags<CR>
 nmap <Leader>r :BTags<CR>
 " map <Tab> <C-n>
 
-" git
-set diffopt+=vertical
-noremap <leader>gl :Git log<cr>
-noremap <leader>gb :Gblame<cr>
-noremap <leader>gs :Gstatus<cr>
-noremap <leader>gd :Gdiffsplit!<cr>
-noremap gdh :diffget //2<CR>
-noremap gdl :diffget //3<CR>
-
-" BlameLine config
-nnoremap <silent> <leader>b :ToggleBlameLine<CR>
-" Show blame info below the statusline instead of using virtual text
-let g:blameLineUseVirtualText = 1
-
-" Specify the highlight group used for the virtual text ('Comment' by default)
-let g:blameLineVirtualTextHighlight = 'Question'
-
-" Add a prefix to the virtual text (empty by default)
-let g:blameLineVirtualTextPrefix = '// '
-
-" Customize format for git blame (Default format: '%an | %ar | %s')
-let g:blameLineGitFormat = '%an - %s'
-" Refer to 'git-show --format=' man pages for format options)
-
-" ===================
 
 " vim-rspec mappings
 autocmd FileType rb map <Leader>rt :call RunCurrentSpecFile()<CR>
