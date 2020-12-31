@@ -4,7 +4,6 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
-
 " set the runtime path to include Vundle and initialize
 " https://github.com/junegunn/vim-plug
 call plug#begin()
@@ -23,7 +22,6 @@ set rtp+=~/.fzf
  " snips
  Plug 'sirver/ultisnips'
  Plug 'honza/vim-snippets'
-
 
  " syntastic
  Plug 'scrooloose/syntastic'
@@ -75,17 +73,19 @@ set rtp+=~/.fzf
  Plug 'roxma/nvim-yarp', { 'for': 'py'}
 
  " PHP
- Plug 'StanAngeloff/php.vim'
- Plug 'arnaud-lb/vim-php-namespace'
- Plug 'stephpy/vim-php-cs-fixer'
+ Plug 'StanAngeloff/php.vim', {'for': 'php'}
+ Plug 'arnaud-lb/vim-php-namespace', {'for': 'php'}
+ Plug 'stephpy/vim-php-cs-fixer', {'for': 'php'}
  Plug 'phpactor/phpactor', {'for': 'php', 'do': 'composer install --no-dev -o'}
 
  " Require ncm2 and this plugin from phpactor plugin
- Plug 'ncm2/ncm2'
- Plug 'phpactor/ncm2-phpactor'
+ Plug 'ncm2/ncm2', {'for': 'php'}
+ Plug 'phpactor/ncm2-phpactor', {'for': 'php'}
 
+ " deoplete
+ " Plug 'shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugs' }
  " Phpactor integration for deoplete.nvim
- Plug 'kristijanhusak/deoplete-phpactor'
+ " Plug 'kristijanhusak/deoplete-phpactor', {'for': 'php'}
 
  " JS
  " mark
@@ -102,9 +102,6 @@ set rtp+=~/.fzf
 
  " css
  Plug 'ap/vim-css-color'
-
- " deoplete
- " Plug 'shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugs' }
 
  " icon
  Plug 'ryanoasis/vim-devicons'
@@ -189,19 +186,18 @@ let g:php_cs_fixer_enable_default_mapping = 0
 
 " NERDTree
 source $HOME/.config/nvim/vendor/nerdtree_setting.vim
-
 " UltiSnips
 source $HOME/.config/nvim/vendor/ulti_snips_setting.vim
-
 " fzf
 source $HOME/.config/nvim/vendor/fzf_setting.vim
-
 " ctag
 source $HOME/.config/nvim/vendor/ctag_setting.vim
-
 " spelunker
 source $HOME/.config/nvim/vendor/spelunker_setting.vim
-
+" anyfold
+source $HOME/.config/nvim/vendor/anyfold_setting.vim
+" string case
+source $HOME/.config/nvim/vendor/php_setting.vim
 " string case
 source $HOME/.config/nvim/vendor/string_case_setting.vim
 
@@ -211,7 +207,6 @@ source $HOME/.config/nvim/vendor/string_case_setting.vim
 
 " deoplete
 let g:deoplete#enable_at_startup = 1
-
 
 " Tagbar
 map <Leader>2 <ESC>:TagbarToggle<CR>
@@ -287,148 +282,6 @@ set completeopt=noinsert,menuone,noselect
 " coc setting
 " autocmd FileType * :call coc#config("suggest.autoTrigger", "aways")
 
-" php.vim setting
-function! PhpSyntaxOverride()
-  " Put snippet overrides in this function.
-  hi! link phpDocTags phpDefine
-  hi! link phpDocParam phpType
-  hi phpUseNamespaceSeparator guifg=#808080 guibg=NONE gui=NONE
-  hi phpClassNamespaceSeparator guifg=#808080 guibg=NONE gui=NONE
-  syn match phpParentOnly "[()]" contained containedin=phpParent
-  hi phpParentOnly guifg=#f08080 guibg=NONE gui=NONE
-endfunction
-
-augroup phpSyntaxOverride
-  autocmd!
-  autocmd FileType php call PhpSyntaxOverride()
-augroup END
-
-" php-vim-namespace setting
-function! NPhpactorInsertUse()
-  call phpactor#UseAdd()
-endfunction
-
-function! IPhpactorInsertUse()
-  call NPhpactorInsertUse()
-  call feedkeys('a', 'n')
-endfunction
-
-function! NPhpactorExpandClass()
-  call phpactor#ClassExpand()
-endfunction
-
-function! IPhpactorExpandClass()
-  call NPhpactorExpandClass()
-  call feedkeys('a', 'n')
-endfunction
-
-function! PhpactorGotoDefinition()
-  if !exists('s:phpactor_trace_stack')
-    let s:phpactor_trace_stack = []
-  endif
-
-  call add(s:phpactor_trace_stack, [expand('%:p'), line('.'), col('.')])
-  call phpactor#GotoDefinition()
-endfunction
-
-function! PhpactorTraceBack()
-  if !exists('s:phpactor_trace_stack') || empty(s:phpactor_trace_stack)
-    return
-  endif
-
-  let l:position = remove(s:phpactor_trace_stack, -1)
-
-  silent execute 'e ' . l:position[0]
-  call cursor(l:position[1], l:position[2])
-endfunction
-
-autocmd FileType php command! ClassNew call phpactor#ClassNew()
-autocmd FileType php command! Transform call phpactor#Transform()
-autocmd FileType php command! References call phpactor#FindReferences()
-autocmd FileType php nmap <C-]> :call PhpactorGotoDefinition()<CR>
-autocmd FileType php nmap <C-t> :call PhpactorTraceBack()<CR>
-autocmd FileType php nmap <Leader>l :call phpactor#ClassNew()<CR>
-autocmd FileType php nmap <Leader>m :call phpactor#ContextMenu()<CR>
-autocmd FileType php nmap <Leader>a :call phpactor#Navigate()<CR>
-autocmd FileType php nmap <Leader>i :call NPhpactorInsertUse()<CR>
-autocmd FileType php imap <Leader>i <ESC>:call IPhpactorInsertUse()<CR>
-autocmd FileType php nmap <Leader>e :call NPhpactorExpandClass()<CR>
-autocmd FileType php imap <Leader>e <ESC>:call IPhpactorExpandClass()<CR>
-autocmd FileType php nmap <silent><Leader>v :call phpactor#ChangeVisibility()<CR>
-autocmd FileType php nmap <silent><Leader>x :call phpactor#ExtractExpression(v:false)<CR>
-autocmd FileType php vmap <silent><Leader>x :<C-U>call phpactor#ExtractExpression(v:true)<CR>
-autocmd FileType php vmap <silent><Leader>m :<C-U>call phpactor#ExtractMethod()<CR>
-
-" PHPUnit test map key
-autocmd FileType php nnoremap <leader>ru :call RunPHPUnitTest(0)<cr>
-autocmd FileType php nnoremap <leader>ruu :call RunPHPUnitTest(1)<cr>
-autocmd FileType php nnoremap <leader>uu :call RunAllPHPUnitTest()<cr>
-autocmd FileType php nnoremap <leader>rt :call RunMakeTest()<cr>
-autocmd FileType php nnoremap <leader>rcs :call RunPHPCSCheck()<cr>
-autocmd FileType php nnoremap <leader>rfs :call RunPHPCSFixer()<cr>
-autocmd FileType php nnoremap <leader>jq :call RunJsonFormat()<cr>
-
-" php indent
-autocmd FileType php setlocal iskeyword-=$
-autocmd FileType php setlocal sw=4 sts=4 ts=4
-
-" php commentstring
-autocmd FileType php setlocal commentstring=\/\/\ %s
-
-" php unit test
-function! RunPHPUnitTest(filter)
-  if a:filter
-    normal! T yw
-    execute "!./vendor/bin/phpunit --filter " . @" . " " . bufname("%")
-  else
-    execute "!./vendor/bin/phpunit " . bufname("%")
-  endif
-endfunction
-
-function! RunAllPHPUnitTest()
-  execute "!./vendor/bin/phpunit --stop-on-failure"
-endfunction
-
-function! RunPHPCSCheck()
-  execute "!./vendor/bin/phpcs --standard=PSR12 --exclude=PSR12.Properties.ConstantVisibility app tests"
-endfunction
-
-function! RunMakeTest()
-  execute "!make test"
-endfunction
-
-function! RunPHPCSFixer()
-  execute "!./vendor/bin/php-cs-fixer fix --verbose"
-endfunction
-
-function! RunJsonFormat()
-  execute "!jq '.'"
-endfunction
-
-"==================
-"  anyfold
-"==================
-autocmd Filetype * AnyFoldActivate
-let g:anyfold_fold_comments=0
-set foldlevel=100
-
-hi Folded term=underline ctermbg=none
-nmap <Leader>k1 :set foldlevel=1<CR>
-nmap <Leader>k2 :set foldlevel=2<CR>
-nmap <Leader>k3 :set foldlevel=3<CR>
-nmap <Leader>k4 :set foldlevel=4<CR>
-nmap <Leader>k5 :set foldlevel=5<CR>
-nmap <Leader>k6 :set foldlevel=6<CR>
-nmap <Leader>k7 :set foldlevel=7<CR>
-nmap <Leader>k8 :set foldlevel=8<CR>
-nmap <Leader>k9 :set foldlevel=9<CR>
-nmap <Leader>k0 :set foldlevel=0<CR>
-
-" fold_cycle_config
-let g:fold_cycle_default_mapping = 0 "disable default mappings
-nmap <Tab><Tab> <Plug>(fold-cycle-open)
-nmap <S-Tab><S-Tab> <Plug>(fold-cycle-close)
-
 " omni complete
 imap <Leader><TAB> <C-X><C-O>
 
@@ -448,4 +301,3 @@ endif
 " style
 hi Pmenu ctermfg=254 ctermbg=237 cterm=NONE guifg=#e1e1e1 guibg=#383838 gui=NONE
 hi PmenuSel ctermfg=135 ctermbg=239 cterm=NONE guifg=#b26eff guibg=#4e4e4e gui=NONE
-
