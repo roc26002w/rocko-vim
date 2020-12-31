@@ -33,8 +33,8 @@ set rtp+=~/.fzf
  Plug 'tiagofumo/vim-nerdtree-syntax-highlight', { 'on':  'NERDTreeToggle' }
 
  " ruby-vim
- Plug 'vim-ruby/vim-ruby', { 'for' : 'ru' }
- Plug 'thoughtbot/vim-rspec', { 'for' : 'ru' }
+ Plug 'vim-ruby/vim-ruby', { 'for' : 'rb' }
+ Plug 'thoughtbot/vim-rspec', { 'for' : 'rb' }
 
  " Add the fzf.vim plugin to wrap fzf:
  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -212,7 +212,6 @@ map <Leader>2 <ESC>:TagbarToggle<CR>
 nmap <Leader>t :Tags<CR>
 nmap <Leader>r :BTags<CR>
 " map <Tab> <C-n>
-
 
 " vim-rspec mappings
 autocmd FileType rb map <Leader>rt :call RunCurrentSpecFile()<CR>
