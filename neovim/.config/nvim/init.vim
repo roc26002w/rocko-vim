@@ -176,9 +176,6 @@ let g:syntastic_php_phpcs_args = '--standard=psr12'
 let g:syntastic_javascript_checkers = ['eslint']
 noremap <leader>n :ll<cr>
 
-" php cs fixe
-let g:php_cs_fixer_rules = '@PSR12,no_unused_imports,ordered_imports'
-let g:php_cs_fixer_enable_default_mapping = 0
 
 " =================
 "  plugin settings

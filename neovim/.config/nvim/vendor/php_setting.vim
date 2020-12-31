@@ -1,3 +1,7 @@
+" php cs fixe
+let g:php_cs_fixer_rules = '@PSR12,no_unused_imports,ordered_imports'
+let g:php_cs_fixer_enable_default_mapping = 0
+
 " php.vim setting
 function! PhpSyntaxOverride()
   " Put snippet overrides in this function.
