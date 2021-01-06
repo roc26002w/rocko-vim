@@ -4,6 +4,8 @@ set refs-view-id = yes
 set split-view-width = 80%
 set split-view-height = 80%
 
+set diff-view	= line-number:yes,interval=1 text:yes,commit-title-overflow=no
+
 bind main ! ?git revert %(commit)
 bind main 4 ?git rebase -i %(commit)^
 bind main S ?git stash
@@ -17,3 +19,5 @@ bind refs 0 ?git pull
 
 bind status S ?git stash --patch
 
+bind diff D >git diff %(commit)^! -- %(file)
+bind stage D >sh -c "git difftool --tool=vimdiff --trust-exit-code --no-prompt `expr '%(status)' : 'Staged changes' >/dev/null && echo --cached` -- '%(file)'"
