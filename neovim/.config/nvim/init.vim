@@ -10,9 +10,6 @@ call plug#begin()
 " The following are examples of different formats supported.
 set rtp+=~/.fzf
 
-" 檔案搜尋
- Plug 'wincent/command-t'
-
  " colors style
  Plug 'chriskempson/base16-vim'
 
@@ -33,7 +30,7 @@ set rtp+=~/.fzf
  Plug 'tiagofumo/vim-nerdtree-syntax-highlight', { 'on':  'NERDTreeToggle' }
 
  " ruby-vim
- Plug 'vim-ruby/vim-ruby', { 'for' : 'rb' }
+ Plug 'vim-ruby/vim-ruby',
  Plug 'thoughtbot/vim-rspec', { 'for' : 'rb' }
 
  " Add the fzf.vim plugin to wrap fzf:
@@ -81,11 +78,6 @@ set rtp+=~/.fzf
  " Require ncm2 and this plugin from phpactor plugin
  Plug 'ncm2/ncm2', {'for': 'php'}
  Plug 'phpactor/ncm2-phpactor', {'for': 'php'}
-
- " deoplete
- " Plug 'shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugs' }
- " Phpactor integration for deoplete.nvim
- " Plug 'kristijanhusak/deoplete-phpactor', {'for': 'php'}
 
  " JS
  " mark
@@ -163,7 +155,7 @@ set numberwidth=4
 " python3_host
 
 let g:python3_host_prog = $HOME.'/.env/python/bin/python3'
-" let g:ruby_host_prog = '/home/ubuntu/.rbenv/versions/2.7.1'
+" let g:ruby_host_prog = '/home/ubuntu/.rbenv/versions/2.6.3'
 
 " syntastic
 let g:syntastic_always_populate_loc_list = 1
@@ -189,6 +181,8 @@ source $HOME/.config/nvim/vendor/fzf_setting.vim
 " ctag
 source $HOME/.config/nvim/vendor/ctag_setting.vim
 " git
+source $HOME/.config/nvim/vendor/git_setting.vim
+" stringCase
 source $HOME/.config/nvim/vendor/string_case_setting.vim
 " spelunker
 source $HOME/.config/nvim/vendor/spelunker_setting.vim
@@ -196,6 +190,10 @@ source $HOME/.config/nvim/vendor/spelunker_setting.vim
 source $HOME/.config/nvim/vendor/anyfold_setting.vim
 " php
 source $HOME/.config/nvim/vendor/php_setting.vim
+" Add language server - coc config
+" ===== https://phpactor.readthedocs.io/en/develop/lsp/vim.html=======
+" :CocInstall coc-phpactor
+
 " string case
 source $HOME/.config/nvim/vendor/string_case_setting.vim
 

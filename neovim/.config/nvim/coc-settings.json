@@ -8,7 +8,7 @@
         "filetypes": ["go"]
       },
       "phpactor": {
-        "command": "phpactor",
+        "command": "/home/ubuntu/.config/nvim/plugged/phpactor/bin/phpactor",
         "args": ["language-server"],
         "trace.server": "verbose",
         "filetypes": ["php"]

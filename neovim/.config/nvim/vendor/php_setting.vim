@@ -99,6 +99,7 @@ autocmd FileType php setlocal commentstring=\/\/\ %s
 " phpactor ncm2
 autocmd BufEnter * call ncm2#enable_for_buffer()
 set completeopt=noinsert,menuone,noselect
+autocmd FileType php set iskeyword+=$
 
 " ================== key binding =============================
 autocmd FileType php command! ClassNew call phpactor#ClassNew()
