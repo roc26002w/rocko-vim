@@ -139,3 +139,8 @@ source $HOME/.env/python/bin/activate
 
 # rbenv
 lazyload rbenv -- 'export PATH="$HOME/.rbenv/bin:$PATH" && eval "$(rbenv init -)"'
+
+# jenv
+# https://www.jenv.be/
+lazyload jenv -- 'export PATH="$HOME/.jenv/bin:$PATH" && eval "$(jenv init -)"'
+
