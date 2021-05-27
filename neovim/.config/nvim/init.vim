@@ -73,7 +73,7 @@ set rtp+=~/.fzf
  Plug 'StanAngeloff/php.vim', {'for': 'php'}
  Plug 'arnaud-lb/vim-php-namespace', {'for': 'php'}
  Plug 'stephpy/vim-php-cs-fixer', {'for': 'php'}
- Plug 'phpactor/phpactor', {'for': 'php', 'do': 'composer install --no-dev -o'}
+ Plug 'phpactor/phpactor', {'for': 'php', 'tag': '*', 'do': 'composer install --no-dev -o'}
 
  " Require ncm2 and this plugin from phpactor plugin
  Plug 'ncm2/ncm2', {'for': 'php'}
@@ -115,7 +115,7 @@ set tags=tags,tags.vendor
 " theme
 set autoread               " auto read when file is changed from outside
 syntax on                  " Enable syntax highlighting.
-colorscheme base16-onedark " Change a colorscheme.
+colorscheme base16-onedark-rocko " Change a colorscheme.
 
 " 256 colorspace
 let base16colorspace=256  " Access colors present in 256 colorspace
