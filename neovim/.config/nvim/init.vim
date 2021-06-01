@@ -182,14 +182,13 @@ source $HOME/.config/nvim/vendor/fzf_setting.vim
 source $HOME/.config/nvim/vendor/ctag_setting.vim
 " git
 source $HOME/.config/nvim/vendor/git_setting.vim
-" stringCase
-source $HOME/.config/nvim/vendor/string_case_setting.vim
 " spelunker
 source $HOME/.config/nvim/vendor/spelunker_setting.vim
 " anyfold
 source $HOME/.config/nvim/vendor/anyfold_setting.vim
 " php
 source $HOME/.config/nvim/vendor/php_setting.vim
+source $HOME/.config/nvim/vendor/php_cs_fixer_setting.vim
 " Add language server - coc config
 " ===== https://phpactor.readthedocs.io/en/develop/lsp/vim.html=======
 " :CocInstall coc-phpactor
