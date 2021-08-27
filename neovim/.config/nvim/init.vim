@@ -116,6 +116,7 @@ set tags=tags,tags.vendor
 set autoread               " auto read when file is changed from outside
 syntax on                  " Enable syntax highlighting.
 colorscheme base16-onedark-rocko " Change a colorscheme.
+set redrawtime=20000
 
 " 256 colorspace
 let base16colorspace=256  " Access colors present in 256 colorspace

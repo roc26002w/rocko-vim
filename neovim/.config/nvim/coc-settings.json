@@ -8,9 +8,14 @@
         "filetypes": ["go"]
       }
   },
-
   "yaml.schemas": {
       "kubernetes": "/home/ubuntu/code/novax/novax-kumay-kubernetes/*.yaml"
-  }
-
+  },
+  "java.configuration.runtimes": [
+    {
+      "name": "JavaSE-8",
+      "path": "/usr/lib/jvm/java-8-openjdk-amd64/",
+      "default": true
+    }
+  ]
 }
