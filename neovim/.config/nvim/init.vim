@@ -73,7 +73,7 @@ set rtp+=~/.fzf
  Plug 'StanAngeloff/php.vim', {'for': 'php'}
  Plug 'arnaud-lb/vim-php-namespace', {'for': 'php'}
  Plug 'stephpy/vim-php-cs-fixer', {'for': 'php'}
- Plug 'phpactor/phpactor', {'for': 'php', 'do': 'composer install --no-dev -o'}
+ Plug 'phpactor/phpactor', {'for': 'php', 'tag': '*', 'do': 'composer install --no-dev -o'}
 
  " Require ncm2 and this plugin from phpactor plugin
  Plug 'ncm2/ncm2', {'for': 'php'}
@@ -115,7 +115,8 @@ set tags=tags,tags.vendor
 " theme
 set autoread               " auto read when file is changed from outside
 syntax on                  " Enable syntax highlighting.
-colorscheme base16-onedark " Change a colorscheme.
+colorscheme base16-onedark-rocko " Change a colorscheme.
+set redrawtime=20000
 
 " 256 colorspace
 let base16colorspace=256  " Access colors present in 256 colorspace
@@ -182,14 +183,13 @@ source $HOME/.config/nvim/vendor/fzf_setting.vim
 source $HOME/.config/nvim/vendor/ctag_setting.vim
 " git
 source $HOME/.config/nvim/vendor/git_setting.vim
-" stringCase
-source $HOME/.config/nvim/vendor/string_case_setting.vim
 " spelunker
 source $HOME/.config/nvim/vendor/spelunker_setting.vim
 " anyfold
 source $HOME/.config/nvim/vendor/anyfold_setting.vim
 " php
 source $HOME/.config/nvim/vendor/php_setting.vim
+source $HOME/.config/nvim/vendor/php_cs_fixer_setting.vim
 " Add language server - coc config
 " ===== https://phpactor.readthedocs.io/en/develop/lsp/vim.html=======
 " :CocInstall coc-phpactor

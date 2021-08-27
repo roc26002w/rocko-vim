@@ -6,17 +6,16 @@
         "command": "gopls",
         "rootPatterns": ["go.mod"],
         "filetypes": ["go"]
-      },
-      "phpactor": {
-        "command": "/home/ubuntu/.config/nvim/plugged/phpactor/bin/phpactor",
-        "args": ["language-server"],
-        "trace.server": "verbose",
-        "filetypes": ["php"]
-    }
+      }
   },
-
   "yaml.schemas": {
       "kubernetes": "/home/ubuntu/code/novax/novax-kumay-kubernetes/*.yaml"
-  }
-
+  },
+  "java.configuration.runtimes": [
+    {
+      "name": "JavaSE-8",
+      "path": "/usr/lib/jvm/java-8-openjdk-amd64/",
+      "default": true
+    }
+  ]
 }

@@ -224,3 +224,9 @@ $${1:response} = $this->put('/api/v1/${2:users}', $data = [
 	${3:'name' => 'foo',}
 ]);
 endsnippet
+
+snippet printr
+echo "<pre>";
+var_dump(${1:params});
+echo "</pre>";
+endsnippet

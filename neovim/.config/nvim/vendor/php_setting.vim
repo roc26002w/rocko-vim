@@ -85,6 +85,10 @@ function! RunPHPCSFixer()
   execute "!./vendor/bin/php-cs-fixer fix --verbose"
 endfunction
 
+function! RunPHPCSFileFixer()
+  execute "!php-cs-fixer fix --verbose " . bufname("%")
+endfunction
+
 function! RunJsonFormat()
   execute "!jq '.'"
 endfunction
@@ -124,6 +128,9 @@ autocmd FileType php nnoremap <leader>ru :call RunPHPUnitTest(0)<cr>
 autocmd FileType php nnoremap <leader>ruu :call RunPHPUnitTest(1)<cr>
 autocmd FileType php nnoremap <leader>uu :call RunAllPHPUnitTest()<cr>
 autocmd FileType php nnoremap <leader>rt :call RunMakeTest()<cr>
+autocmd FileType php nnoremap <leader>jq :call RunJsonFormat()<cr>
+
+" php-cs-fixer map key
 autocmd FileType php nnoremap <leader>rcs :call RunPHPCSCheck()<cr>
 autocmd FileType php nnoremap <leader>rfs :call RunPHPCSFixer()<cr>
-autocmd FileType php nnoremap <leader>jq :call RunJsonFormat()<cr>
+autocmd FileType php nnoremap <leader>pcf :call RunPHPCSFileFixer()<cr>
