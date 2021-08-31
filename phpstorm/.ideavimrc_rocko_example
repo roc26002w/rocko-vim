@@ -1,6 +1,6 @@
 
 "-------settings--------"
-set surround = 1
+set surround
 set tags=tags,tags.vendor
 set rnu
 " set <leader> to <\>
@@ -18,17 +18,17 @@ nmap <leader>1 :action ActivateProjectToolWindow<CR>
 nmap <leader><ESC> :action HideAllWindows<CR>
 nmap <leader>pcf zz:action ReformatCode<CR>:action Rerun<CR>
 imap <leader>pcf <Esc>zz:action ReformatCode<CR>:action Rerun<CR>
+nmap <leader>n :action GotoNextError<CR>
+map <leader>re :action RenameElement<CR>
+nmap <leader>zgc zz:action CheckinProject<CR>
 
 nmap <C-t> :action Back<CR>
 imap <C-t> <Esc>:action Back<CR>
-nmap zj :action Forward<CR>
-imap zj <Esc>:action Forward<CR>
-nmap zn :action GotoNextError<CR>
-" nmap zf :action GotoDeclaration<CR>
-" imap zf <Esc>:action GotoDeclaration<CR>
-nmap zgc zz:action CheckinProject<CR>
 
-map zrr :action RenameElement<CR>
+map <C-K> :action MoveLineUp<CR>:action VimAutoIndentLines<CR>
+imap <C-K> <Esc>:action MoveLineUp<CR>:action VimAutoIndentLines<CR>
+map <C-J> :action MoveLineDown<CR>:action VimAutoIndentLines<CR>
+imap <C-J> <Esc>:action MoveLineDown<CR>:action VimAutoIndentLines<CR>
 
 map zri :action Inline<CR>
 imap zri <Esc>:action Inline<CR>
@@ -51,10 +51,6 @@ map zro :action Move<CR>
 imap zro <Esc>:action Move<CR>
 map <C-D> :action EditorDuplicateLines<CR>
 imap <C-D> <Esc>:action EditorDuplicateLines<CR>
-map <C-A-K> :action MoveLineUp<CR>:action VimAutoIndentLines<CR>
-imap <C-A-K> <Esc>:action MoveLineUp<CR>:action VimAutoIndentLines<CR>
-map <C-A-J> :action MoveLineDown<CR>:action VimAutoIndentLines<CR>
-imap <C-A-J> <Esc>:action MoveLineDown<CR>:action VimAutoIndentLines<CR>
 map <A-D> :action EditorDeleteLine<CR>
 imap <A-D> <Esc>:action EditorDeleteLine<CR>
 :nmap ,m :action FileStructurePopup<CR>
@@ -62,6 +58,4 @@ imap <A-D> <Esc>:action EditorDeleteLine<CR>
 :nmap zcc ci'
 :nmap zaa ca'
 nmap <A-u> :redo<CR>
-vmap S :action SurroundWith<CR>
-
 nmap <F1> mb?}<CR>V%{y`bP/function<CR>f_lzz
