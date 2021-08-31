@@ -114,6 +114,7 @@ alias nvconfig="nv ~/.config/nvim/init.vim"
 alias phpunit="./vendor/bin/phpunit"
 alias pbcopy='xclip -selection clipboard'
 alias pbpaste='xclip -selection clipboard -o'
+alias ideavimconfig='nv ~/.ideavimrc'
 
 export PATH="/usr/local/opt/ncurses/bin:$PATH"
 export PATH="/usr/local/opt/gettext/bin:$PATH"
