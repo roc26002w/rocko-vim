@@ -1,59 +1,36 @@
+
+"-------settings--------"
+set surround
+set NERDTree
+set tags=tags,tags.vendor
+set rnu
+set nu
+" set <leader> to <\>
+let mapleader="\"
+
+autocmd BufWritePost *.rb silent !ctags -R --languages=ruby --exclude=.git --exclude=log . $(bundle list --paths)
+
 " class name space 整理
 nmap zr gg/use<CR>V/class<CR>?use<CR>
 imap zr <ESC>gg/use<CR>V/class<CR>?use<CR>
 
-set surround = 1
+nmap <leader>s :source ~/.ideavimrc <CR>
+imap <leader>l <End>
+nmap <leader>1 <Esc>:NERDTreeToggle<CR>
+nmap <leader><ESC> :action HideAllWindows<CR>
+nmap <leader>pcf zz:action ReformatCode<CR>:action Rerun<CR>
+imap <leader>pcf <Esc>zz:action ReformatCode<CR>:action Rerun<CR>
+nmap <leader>n :action GotoNextError<CR>
+map <leader>re :action RenameElement<CR>
+nmap <leader>zgc zz:action CheckinProject<CR>
 
-"-------tags setting--------"
-set tags=tags,tags.vendor
+nmap <C-t> :action Back<CR>
+imap <C-t> <Esc>:action Back<CR>
 
-autocmd BufWritePost *.rb silent !ctags -R --languages=ruby --exclude=.git --exclude=log . $(bundle list --paths)
-
-nmap zso :source ~/.ideavimrc <CR>
-:set rnu
-
-nmap ,p "0p
-nmap ,P "0P
-imap z,p <Esc>"0pa
-imap z,P <Esc>"0Pa
-:nmap z, vi)
-:nmap z. vi}
-:nmap z) vi)
-:nmap z} vi}
-:nmap z> vit
-:nmap c> cit
-:nmap z" vi"
-:nmap z' vi'
-:nmap zxx ci]
-
-:imap jj <Esc>
-:nmap <BS> a<BS>
-:nmap hh ^
-:imap zh <Esc>^i
-:nmap ll $
-:imap zl <End>
-:nmap hc ^C
-:nmap zb ciw
-:vmap zb <Esc>ciw
-:imap zd <Esc>dd
-:nmap <BS> a<BS>
-
-imap <A-.> ->
-imap <A-,> =>
-
-nmap zk :action Back<CR>
-imap zk <Esc>:action Back<CR>
-nmap zj :action Forward<CR>
-imap zj <Esc>:action Forward<CR>
-nmap zn :action GotoNextError<CR>
-nmap zf :action GotoDeclaration<CR>
-imap zf <Esc>:action GotoDeclaration<CR>
-nmap zgc zz:action CheckinProject<CR>
-
-map zra zz:action ReformatCode<CR>:action Rerun<CR>
-imap zra <Esc>zz:action ReformatCode<CR>:action Rerun<CR>
-
-map zrr :action RenameElement<CR>
+map <C-K> :action MoveLineUp<CR>:action VimAutoIndentLines<CR>
+imap <C-K> <Esc>:action MoveLineUp<CR>:action VimAutoIndentLines<CR>
+map <C-J> :action MoveLineDown<CR>:action VimAutoIndentLines<CR>
+imap <C-J> <Esc>:action MoveLineDown<CR>:action VimAutoIndentLines<CR>
 
 map zri :action Inline<CR>
 imap zri <Esc>:action Inline<CR>
@@ -76,10 +53,6 @@ map zro :action Move<CR>
 imap zro <Esc>:action Move<CR>
 map <C-D> :action EditorDuplicateLines<CR>
 imap <C-D> <Esc>:action EditorDuplicateLines<CR>
-map <C-A-K> :action MoveLineUp<CR>:action VimAutoIndentLines<CR>
-imap <C-A-K> <Esc>:action MoveLineUp<CR>:action VimAutoIndentLines<CR>
-map <C-A-J> :action MoveLineDown<CR>:action VimAutoIndentLines<CR>
-imap <C-A-J> <Esc>:action MoveLineDown<CR>:action VimAutoIndentLines<CR>
 map <A-D> :action EditorDeleteLine<CR>
 imap <A-D> <Esc>:action EditorDeleteLine<CR>
 :nmap ,m :action FileStructurePopup<CR>
@@ -87,6 +60,4 @@ imap <A-D> <Esc>:action EditorDeleteLine<CR>
 :nmap zcc ci'
 :nmap zaa ca'
 nmap <A-u> :redo<CR>
-vmap S :action SurroundWith<CR>
-
 nmap <F1> mb?}<CR>V%{y`bP/function<CR>f_lzz
