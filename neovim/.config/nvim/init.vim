@@ -197,6 +197,9 @@ source $HOME/.config/nvim/vendor/php_cs_fixer_setting.vim
 " string case
 source $HOME/.config/nvim/vendor/string_case_setting.vim
 
+" multiple cursors
+source $HOME/.config/nvim/vendor/multiple_cursors_setting.vim
+
 " Auto save
 " let g:auto_save = 1  " enable AutoSave on Vim startup
 " let g:auto_save_silent = 1  " do not display the auto-save notification
