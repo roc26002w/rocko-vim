@@ -64,7 +64,8 @@ set rtp+=~/.fzf
  " Git
  Plug 'airblade/vim-gitgutter'
  Plug 'tpope/vim-fugitive'
- Plug 'tveskag/nvim-blame-line'
+ " Plug 'tveskag/nvim-blame-line'
+ Plug 'APZelos/blamer.nvim'
 
  " Python
  Plug 'roxma/nvim-yarp', { 'for': 'py'}
