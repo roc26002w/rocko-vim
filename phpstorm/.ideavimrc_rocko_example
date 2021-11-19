@@ -1,10 +1,8 @@
 
 "-------settings--------"
 set surround
-set NERDTree
 set tags=tags,tags.vendor
 set rnu
-set nu
 " set <leader> to <\>
 let mapleader="\"
 
@@ -16,7 +14,7 @@ imap zr <ESC>gg/use<CR>V/class<CR>?use<CR>
 
 nmap <leader>s :source ~/.ideavimrc <CR>
 imap <leader>l <End>
-nmap <leader>1 <Esc>:NERDTreeToggle<CR>
+nmap <leader>1 :action ActivateProjectToolWindow<CR>
 nmap <leader><ESC> :action HideAllWindows<CR>
 nmap <leader>pcf zz:action ReformatCode<CR>:action Rerun<CR>
 imap <leader>pcf <Esc>zz:action ReformatCode<CR>:action Rerun<CR>
