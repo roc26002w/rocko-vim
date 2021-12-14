@@ -55,3 +55,16 @@ autocmd filetype nerdtree syn match haskell_icon ## containedin=NERDTreeFile
 " other highlight to work with it
 autocmd filetype nerdtree syn match html_icon ## containedin=NERDTreeFile,html
 autocmd filetype nerdtree syn match go_icon ## containedin=NERDTreeFile
+
+" Enabling Autoreload
+autocmd BufEnter NERD_tree_* | execute 'normal R'
+au CursorHold * if exists("t:NerdTreeBufName") | call <SNR>15_refreshRoot() | endif
+
+"Enabling Autorefresh for change in the current directory
+" augroup DIRCHANGE
+"     au!
+"     autocmd DirChanged global :NERDTreeCWD
+" augroup END
+
+" Auto close
+" autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
