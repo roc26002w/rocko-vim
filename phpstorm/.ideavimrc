@@ -16,8 +16,9 @@ imap zr <ESC>gg/use<CR>V/class<CR>?use<CR>
 
 nmap <leader>s :source ~/.ideavimrc <CR>
 imap <leader>l <End>
-nmap <leader>1 <Esc>:NERDTreeToggle<CR>
 nmap <leader><ESC> :action HideAllWindows<CR>
+nmap <leader>1 <Esc>:NERDTreeToggle<CR>
+nmap <leader>2 <Esc>:action ActivateStructureToolWindow<CR>
 nmap <leader>pcf zz:action ReformatCode<CR>:action Rerun<CR>
 imap <leader>pcf <Esc>zz:action ReformatCode<CR>:action Rerun<CR>
 nmap <leader>n :action GotoNextError<CR>
@@ -61,3 +62,7 @@ imap <A-D> <Esc>:action EditorDeleteLine<CR>
 :nmap zaa ca'
 nmap <A-u> :redo<CR>
 nmap <F1> mb?}<CR>V%{y`bP/function<CR>f_lzz
+
+" ===== Git ============
+nmap <leader>b :action GitToolBox.ShowInlineBlame<CR>
+imap <leader>b <ESC>:action GitToolBox.ShowInlineBlame<CR>
