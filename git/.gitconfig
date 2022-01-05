@@ -18,6 +18,7 @@
 
 [core]
 	editor = nvim
+	pager = LESSCHARSET=utf-8 less -R
 
 [commit]
 	template = /home/ubuntu/.config/git/.gitmessage.txt
