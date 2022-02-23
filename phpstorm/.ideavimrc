@@ -1,9 +1,11 @@
 "-------settings--------"
 set surround
 set NERDTree
-set tags=tags,tags.vendor
+" set tags=tags,tags.vendor
 set rnu
 set nu
+set hlsearch
+set ideajoin
 " set <leader> to <\>
 let mapleader="\"
 
@@ -19,11 +21,15 @@ nmap <leader><ESC> :action HideAllWindows<CR>
 nmap <leader>1 <Esc>:NERDTreeToggle<CR>
 nmap <leader>2 <Esc>:action ActivateStructureToolWindow<CR>
 nmap <leader>3 <Esc>:action ActivateVersionControlToolWindow<CR>
-nmap <leader>pcf zz:action ReformatCode<CR>:action Rerun<CR>
-imap <leader>pcf <Esc>zz:action ReformatCode<CR>:action Rerun<CR>
+nmap <leader>pcf zz:action OptimizeImports<CR>:action ReformatCode<CR>
+imap <leader>pcf <Esc>zz:action OptimizeImports<CR>:action ReformatCode<CR>
 nmap <leader>n :action GotoNextError<CR>
 map <leader>re :action RenameElement<CR>
 nmap <leader>zgc zz:action CheckinProject<CR>
+nmap <leader>m :action Refactorings.QuickListPopupAction <CR>
+
+" cancel search
+nmap <Leader><space> :nohlsearch<cr>
 
 nmap <C-t> :action Back<CR>
 imap <C-t> <Esc>:action Back<CR>
@@ -32,43 +38,19 @@ map <C-K> :action MoveLineUp<CR>:action VimAutoIndentLines<CR>
 imap <C-K> <Esc>:action MoveLineUp<CR>:action VimAutoIndentLines<CR>
 map <C-J> :action MoveLineDown<CR>:action VimAutoIndentLines<CR>
 imap <C-J> <Esc>:action MoveLineDown<CR>:action VimAutoIndentLines<CR>
-
-map zri :action Inline<CR>
-imap zri <Esc>:action Inline<CR>
-map zrf :action IntroduceField<CR>
-imap zrf <Esc>:action IntroduceField<CR>
-map zrp :action IntroduceParameter<CR>
-imap zrp <Esc>:action IntroduceParameter<CR>
-
-nmap zsp vi':<bs><bs><bs><bs><bs>action IntroduceParameter<CR>
-
-map zrv :action IntroduceVariable<CR>
-vmap zrv <Esc>:action IntroduceVariable<CR>
-imap zrv <Esc>:action IntroduceVariable<CR>
-nmap zrm :action ExtractMethod<CR>
-vmap zrm :action ExtractMethod<CR>
-vmap M :action ExtractMethod<CR>
-map zrt :action SearchEverywhere<CR>
-imap zrt <Esc>:action SearchEverywhere<CR>
-map zro :action Move<CR>
-imap zro <Esc>:action Move<CR>
 map <C-D> :action EditorDuplicateLines<CR>
 imap <C-D> <Esc>:action EditorDuplicateLines<CR>
-map <A-D> :action EditorDeleteLine<CR>
-imap <A-D> <Esc>:action EditorDeleteLine<CR>
-:nmap ,m :action FileStructurePopup<CR>
+nmap ,m :action FileStructurePopup<CR>
 
-:nmap zcc ci'
-:nmap zaa ca'
-nmap <A-u> :redo<CR>
-nmap <F1> mb?}<CR>V%{y`bP/function<CR>f_lzz
+nmap <leader>tt mb?}<CR>V%{y`bP/function<CR>f_lzz
 
 " ============ Git ============
 nmap <leader>b :action GitToolBox.ShowInlineBlame<CR>
 imap <leader>b <ESC>:action GitToolBox.ShowInlineBlame<CR>
 
 " ============ PHPUnit ============
-nmap <leader>uu :action Run<CR>
-imap <leader>uu <ESC>:action Run<CR>
-nmap <leader>ruu :action RerunFailedTests<CR>
-imap <leader>ruu <ESC>:action RerunFailedTests<CR>
+nmap <leader>uu :action RunMenu<CR>
+imap <leader>uu <ESC> :action RunMenu<CR>
+nmap <leader>ruu :action ReformatCode<CR>:action RunContextPopupGroup<CR>
+imap <leader>ruu :action ReformatCode<CR><ESC>:action RunContextPopupGroup<CR>
+
