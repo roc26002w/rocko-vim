@@ -51,6 +51,6 @@ imap <leader>b <ESC>:action GitToolBox.ShowInlineBlame<CR>
 " ============ PHPUnit ============
 nmap <leader>uu :action RunMenu<CR>
 imap <leader>uu <ESC> :action RunMenu<CR>
-nmap <leader>ruu :action ReformatCode<CR>:action RunContextPopupGroup<CR>
-imap <leader>ruu :action ReformatCode<CR><ESC>:action RunContextPopupGroup<CR>
+nmap <leader>ruu :action ReformatCode<CR>:action RunClass<CR>
+imap <leader>ruu :action ReformatCode<CR><ESC>:action RunClass<CR>
 
