@@ -204,7 +204,7 @@ source $HOME/.config/nvim/vendor/multiple_cursors_setting.vim
 " Auto save
 " let g:auto_save = 1  " enable AutoSave on Vim startup
 " let g:auto_save_silent = 1  " do not display the auto-save notification
-
+"
 " deoplete
 let g:deoplete#enable_at_startup = 1
 

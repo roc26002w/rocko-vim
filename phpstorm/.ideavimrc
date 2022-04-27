@@ -27,9 +27,16 @@ nmap <leader>n :action GotoNextError<CR>
 map <leader>re :action RenameElement<CR>
 nmap <leader>zgc zz:action CheckinProject<CR>
 nmap <leader>m :action Refactorings.QuickListPopupAction <CR>
+nmap <leader>i :action ShowIntentionActions<CR>
+imap <leader>i <ESC> :action ShowIntentionActions<CR>
+
+" string case setting
+nmap <C-u> bve :action StringManipulation.SwitchStyleAction<CR>
+imap <C-u> <ESC> bve :action StringManipulation.SwitchStyleAction<CR>
+vmap <C-u> :action StringManipulation.SwitchStyleAction<CR>
 
 " cancel search
-nmap <Leader><space> :nohlsearch<cr>
+nmap <Leader><space> :nohlsearch<CR>
 
 nmap <C-t> :action Back<CR>
 imap <C-t> <Esc>:action Back<CR>

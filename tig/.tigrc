@@ -8,11 +8,13 @@ set diff-view	= line-number:yes,interval=1 text:yes,commit-title-overflow=no
 
 bind main ! ?git revert %(commit)
 bind main 4 ?git rebase -i %(commit)^
+bind main R ?git rebase -r %(commit)^
 bind main S ?git stash
 bind main P ?git cherry-pick %(commit)
 bind main C ?git checkout %(commit)
 
 bind refs 4 ?git rebase %(branch)
+bind refs R ?git rebase -r %(branch)
 bind refs S ?git stash
 bind refs P ?git push origin %(branch) --tags
 bind refs 0 ?git pull

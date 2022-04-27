@@ -22,3 +22,6 @@
 
 [commit]
 	template = ~/.config/git/.gitmessage.txt
+
+[icdiff]
+	options = --highlight --line-numbers
