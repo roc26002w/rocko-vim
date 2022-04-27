@@ -12,6 +12,7 @@ bind main R ?git rebase -r %(commit)^
 bind main S ?git stash
 bind main P ?git cherry-pick %(commit)
 bind main C ?git checkout %(commit)
+bind main G move-first-line
 
 bind refs 4 ?git rebase %(branch)
 bind refs R ?git rebase -r %(branch)
@@ -21,5 +22,8 @@ bind refs 0 ?git pull
 
 bind status S ?git stash --patch
 
+# bind diff D >git diff %(commit)^! -- %(file)
+# bind stage D >sh -c "git difftool --tool=vimdiff --trust-exit-code --no-prompt `expr '%(status)' : 'Staged changes' >/dev/null && echo --cached` -- '%(file)'"
+
 bind diff D >git diff %(commit)^! -- %(file)
-bind stage D >sh -c "git difftool --tool=vimdiff --trust-exit-code --no-prompt `expr '%(status)' : 'Staged changes' >/dev/null && echo --cached` -- '%(file)'"
+bind stage D >git diff '%(file)'
