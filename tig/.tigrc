@@ -12,13 +12,17 @@ bind main R ?git rebase -r %(commit)^
 bind main S ?git stash
 bind main P ?git cherry-pick %(commit)
 bind main C ?git checkout %(commit)
-bind main G move-first-line
+bind main K move-first-line
+bind main J move-last-line
 
 bind refs 4 ?git rebase %(branch)
 bind refs R ?git rebase -r %(branch)
 bind refs S ?git stash
 bind refs P ?git push origin %(branch) --tags
 bind refs 0 ?git pull
+bind refs D ?git branch -D %(branch)
+bind refs K move-first-line
+bind refs J move-last-line
 
 bind status S ?git stash --patch
 
