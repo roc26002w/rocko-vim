@@ -11,14 +11,15 @@
 
 [diff]
   # 使用 icdiff 來取代 git 內建的 diff
-  external = ~/.config/rocko-vim/icdiff/git-diff-wrapper.sh
+  # icdiff v2.0.5
+  # 已加入 git-diff script 可直接用 alias gd='git icdiff'
 
 [mergetool "nvim"]
   cmd = nvim -f -c \"Gdiffsplit!\" \"$MERGED\"
 
 [core]
 	editor = nvim
-	pager = LESSCHARSET=utf-8 less -R
+	pager = less
 
 [commit]
 	template = ~/.config/git/.gitmessage.txt
