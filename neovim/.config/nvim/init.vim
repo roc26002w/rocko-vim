@@ -236,6 +236,7 @@ vmap <C-k> :m '<-2<CR>gv=gv
 
 " Copy
 " xnoremap <c-c> "*y
+nmap <Leader>y :let @*=expand("%")<CR>
 
 " cancel search
 nmap <Leader><space> :nohlsearch<cr>

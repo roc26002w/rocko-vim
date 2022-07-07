@@ -29,6 +29,7 @@ nmap <leader>zgc zz:action CheckinProject<CR>
 nmap <leader>m :action Refactorings.QuickListPopupAction <CR>
 nmap <leader>i :action ShowIntentionActions<CR>
 imap <leader>i <ESC> :action ShowIntentionActions<CR>
+nmap <leader>y :action CopyContentRootPath<CR>
 
 " string case setting
 nmap <C-u> bve :action StringManipulation.SwitchStyleAction<CR>
