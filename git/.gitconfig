@@ -25,4 +25,4 @@
 	template = ~/.config/git/.gitmessage.txt
 
 [icdiff]
-	options = --highlight --line-numbers
+	options = --line-numbers
