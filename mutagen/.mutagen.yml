@@ -1,0 +1,14 @@
+sync:
+  defaults:
+    permissions:
+      defaultFileMode: 0644
+      defaultDirectoryMode: 0775
+    mode: two-way-resolved
+    ignore:
+      paths:
+        - "tags"
+        - ".idea"
+        - ".DS_Store"
+        - "mysql/databases"
+        - "mysql/mysql-files"
+      vcs: true
