@@ -13,3 +13,4 @@
 git/.frontech_user
 **/.DS_Store
 /.idea
+/neovim/.config/gcloud
