@@ -1,5 +1,7 @@
 sync:
   defaults:
+    symlink:
+      mode: "ignore"
     permissions:
       defaultFileMode: 0644
       defaultDirectoryMode: 0775
@@ -9,6 +11,5 @@ sync:
         - "tags"
         - ".idea"
         - ".DS_Store"
-        - "mysql/databases"
-        - "mysql/mysql-files"
+        - "*/mysql/databases"
       vcs: true

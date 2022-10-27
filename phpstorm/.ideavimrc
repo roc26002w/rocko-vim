@@ -65,3 +65,10 @@ imap <leader>uu <ESC> :action RunMenu<CR>
 nmap <leader>ruu :action ReformatCode<CR>:action RunClass<CR>
 imap <leader>ruu :action ReformatCode<CR><ESC>:action RunClass<CR>
 
+" ============= ACE Jump =============
+" Press `f` to activate AceJump
+" nmap <leader>w <Action>(AceAction)
+" Press `F` to activate Target Mode
+" nmap F <Action>(AceTargetAction)
+" Press `g` to activate Line Mode
+" nmap g <Action>(AceLineAction)
