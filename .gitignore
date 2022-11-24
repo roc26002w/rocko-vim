@@ -14,3 +14,5 @@ git/.frontech_user
 **/.DS_Store
 /.idea
 /neovim/.config/gcloud
+/neovim/.config/argocd/
+/neovim/.config/psysh/
