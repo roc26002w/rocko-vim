@@ -58,12 +58,20 @@ nmap <leader>b :action GitToolBox.ShowInlineBlame<CR>
 imap <leader>b <ESC>:action GitToolBox.ShowInlineBlame<CR>
 nmap <leader>gy :action Vcs.ShowTabbedFileHistory<CR>
 imap <leader>gy <ESC>:action Vcs.ShowTabbedFileHistory<CR>
+nmap <leader>gh :action Vcs.ShowHistoryForBlock<CR>
+imap <leader>gh <ESC>:action Vcs.ShowHistoryForBlock<CR>
 
 " ============ PHPUnit ============
 nmap <leader>uu :action RunMenu<CR>
 imap <leader>uu <ESC> :action RunMenu<CR>
 nmap <leader>ruu :action ReformatCode<CR>:action RunClass<CR>
 imap <leader>ruu :action ReformatCode<CR><ESC>:action RunClass<CR>
+
+" ============ Folding ============
+"nmap <leader>zk :action CollapseRegions<CR>
+"nmap <leader>zo :action ExpandRegions<CR>
+nmap <leader>zo :action CollapseAllRegions<CR>
+nmap <leader>zk :action ExpandAllRegions<CR>
 
 " ============= ACE Jump =============
 " Press `f` to activate AceJump
