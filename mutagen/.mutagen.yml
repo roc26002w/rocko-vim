@@ -12,4 +12,5 @@ sync:
         - ".idea"
         - ".DS_Store"
         - "*/mysql/databases"
+        - "*/node_modules"
       vcs: true
