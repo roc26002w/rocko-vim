@@ -129,6 +129,8 @@ export FZF_DEFAULT_COMMAND="ag --hidden --skip-vcs-ignores --ignore=.git -g ''"
 export COMPOSER_MEMORY_LIMIT=-1
 export PATH="$HOME/.config/composer/vendor/bin:$PATH"
 
+export USE_GKE_GCLOUD_AUTH_PLUGIN=True
+
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export NVM_DIR="$HOME/.nvm"
 
