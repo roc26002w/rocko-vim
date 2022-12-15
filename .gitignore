@@ -10,6 +10,7 @@
 /neovim/.config/iterm2/
 /neovim/.config/karabiner/
 /neovim/.config/yarn/
+/neovim/.config/jgit/
 git/.frontech_user
 **/.DS_Store
 /.idea
