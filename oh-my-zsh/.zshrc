@@ -121,6 +121,7 @@ alias pbpaste='xclip -selection clipboard -o'
 alias ideavimconfig='nv ~/.ideavimrc'
 alias git='LC_ALL=en_US git'
 alias gd='git icdiff'
+alias kubectl='microk8s kubectl'
 
 export PATH="/usr/local/opt/ncurses/bin:$PATH"
 export PATH="/usr/local/opt/gettext/bin:$PATH"
