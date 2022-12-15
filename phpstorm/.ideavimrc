@@ -21,6 +21,7 @@ nmap <leader><ESC> :action HideAllWindows<CR>
 nmap <leader>1 <Esc>:NERDTreeToggle<CR> :action SelectInProjectView<CR>
 nmap <leader>2 <Esc>:action ActivateStructureToolWindow<CR>
 nmap <leader>3 <Esc>:action ActivateVersionControlToolWindow<CR>
+nmap <leader>4 <Esc>:action ActivateTerminalToolWindow<CR>
 nmap <leader>pcf zz:action OptimizeImports<CR>:action ReformatCode<CR>
 imap <leader>pcf <Esc>zz:action OptimizeImports<CR>:action ReformatCode<CR>
 nmap <leader>n :action GotoNextError<CR>
