@@ -84,7 +84,8 @@ source $ZSH/oh-my-zsh.sh
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
-typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
+# typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
+typeset -g POWERLEVEL9K_INSTANT_PROMPT=off
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
@@ -121,7 +122,7 @@ alias pbpaste='xclip -selection clipboard -o'
 alias ideavimconfig='nv ~/.ideavimrc'
 alias git='LC_ALL=en_US git'
 alias gd='git icdiff'
-alias kubectl='microk8s kubectl'
+#alias kubectl='microk8s kubectl'
 
 export PATH="/usr/local/opt/ncurses/bin:$PATH"
 export PATH="/usr/local/opt/gettext/bin:$PATH"
@@ -129,7 +130,7 @@ export FZF_DEFAULT_COMMAND="ag --hidden --skip-vcs-ignores --ignore=.git -g ''"
 
 # composer
 export COMPOSER_MEMORY_LIMIT=-1
-export PATH="$HOME/.config/composer/vendor/bin:$PATH"
+export PATH="$HOME/.composer/vendor/bin:$PATH"
 
 export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 
