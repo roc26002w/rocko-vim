@@ -17,3 +17,5 @@ git/.frontech_user
 /neovim/.config/gcloud
 /neovim/.config/argocd/
 /neovim/.config/psysh/
+/neovim/.config/github-copilot/hosts.json
+
