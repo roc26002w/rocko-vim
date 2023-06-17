@@ -31,7 +31,7 @@ vmap <leader>m :action Refactorings.QuickListPopupAction <CR>
 nmap <leader>m :action Refactorings.QuickListPopupAction <CR>
 nmap <leader>i :action ShowIntentionActions<CR>
 imap <leader>i <ESC> :action ShowIntentionActions<CR>
-nmap <leader>y :action CopyContentRootPath<CR>
+nmap <leader>y :action CopyPathFromRepositoryRootProvider<CR>
 
 " string case setting
 nmap <C-u> bve :action StringManipulation.SwitchStyleAction<CR>
