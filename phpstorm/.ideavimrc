@@ -52,8 +52,8 @@ map <C-D> :action EditorDuplicateLines<CR>
 imap <C-D> <Esc>:action EditorDuplicateLines<CR>
 nmap ,m :action FileStructurePopup<CR>
 
-nmap <leader>tt G?}<CR>nmbV%{y`bp/function<CR>fSlzz
-imap <leader>tt <Esc>G?}<CR>nmbV%{y`bp/function<CR>fSlzz
+nmap <leader>tt G?public<CR>j%mbV%{y`bp/function<CR>fSlzz:nohlsearch<CR>
+imap <leader>tt <Esc>G?public<CR>j%mbV%{y`bp/function<CR>fSlzz:nohlsearch<CR>
 
 " ============ Git ============
 nmap <leader>b :action GitToolBox.ShowInlineBlame<CR>

@@ -129,6 +129,8 @@ autocmd FileType php nnoremap <leader>ruu :call RunPHPUnitTest(1)<cr>
 autocmd FileType php nnoremap <leader>uu :call RunAllPHPUnitTest()<cr>
 autocmd FileType php nnoremap <leader>rt :call RunMakeTest()<cr>
 autocmd FileType php nnoremap <leader>jq :call RunJsonFormat()<cr>
+autocmd FileType php nmap <Leader>tt G?public<CR>j%mbV%{y`bp/function<CR>fSlzz:nohlsearch<CR>
+autocmd FileType php imap <Leader>tt <Esc>G?public<CR>j%mbV%{y`bp/function<CR>fSlzz:nohlsearch<CR>
 
 " php-cs-fixer map key
 autocmd FileType php nnoremap <leader>rcs :call RunPHPCSCheck()<cr>
