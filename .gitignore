@@ -11,6 +11,7 @@
 /neovim/.config/karabiner/
 /neovim/.config/yarn/
 /neovim/.config/jgit/
+/neovim/.config/raycast/
 git/.frontech_user
 **/.DS_Store
 /.idea

@@ -38,6 +38,10 @@ nmap <C-u> bve :action StringManipulation.SwitchStyleAction<CR>
 imap <C-u> <ESC> bve :action StringManipulation.SwitchStyleAction<CR>
 vmap <C-u> :action StringManipulation.SwitchStyleAction<CR>
 
+" edit black
+" map <leader>I :action EditorToggleColumnMode<CR>
+vmap <leader>I :action EditorAddCaretPerSelectedLine<CR>
+
 " cancel search
 nmap <Leader><space> :nohlsearch<CR>
 
@@ -52,8 +56,9 @@ map <C-D> :action EditorDuplicateLines<CR>
 imap <C-D> <Esc>:action EditorDuplicateLines<CR>
 nmap ,m :action FileStructurePopup<CR>
 
-nmap <leader>tt G?public<CR>j%mbV%{y`bp/function<CR>fSlzz:nohlsearch<CR>
-imap <leader>tt <Esc>G?public<CR>j%mbV%{y`bp/function<CR>fSlzz:nohlsearch<CR>
+" imap <leader>tt <Esc>G?public<CR>j%mbV%{y`bp/function<CR>fSlzz:nohlsearch<CR>
+nmap <leader>tt G?public<CR>mcj%mbV`cy`bo<ESC>p`ckf/v%y`bNO<ESC>p/function<CR>fSlzz:nohlsearch<CR>
+imap <leader>tt <Esc>G?public<CR>mcj%mbV`cy`bo<ESC>p`ckf/v%y`bNO<ESC>p/function<CR>fSlzz:nohlsearch<CR>
 
 " ============ Git ============
 nmap <leader>b :action GitToolBox.ShowInlineBlame<CR>
@@ -64,8 +69,8 @@ nmap <leader>gh :action Vcs.ShowHistoryForBlock<CR>
 imap <leader>gh <ESC>:action Vcs.ShowHistoryForBlock<CR>
 
 " ============ PHPUnit ============
-nmap <leader>uu :action RunMenu<CR>
-imap <leader>uu <ESC> :action RunMenu<CR>
+nmap <leader>uu :action ReformatCode<CR>:action RunMenu<CR>
+imap <leader>uu <ESC> :action ReformatCode<CR>:action RunMenu<CR>
 nmap <leader>ruu :action ReformatCode<CR>:action RunClass<CR>
 imap <leader>ruu :action ReformatCode<CR><ESC>:action RunClass<CR>
 

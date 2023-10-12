@@ -130,7 +130,7 @@ export FZF_DEFAULT_COMMAND="ag --hidden --skip-vcs-ignores --ignore=.git -g ''"
 
 # composer
 export COMPOSER_MEMORY_LIMIT=-1
-export PATH="$HOME/.config/composer/vendor/bin:$PATH"
+export PATH="$HOME/.composer/vendor/bin:$PATH"
 
 export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 
