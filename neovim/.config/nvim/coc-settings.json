@@ -1,6 +1,6 @@
 {
   "phpactor.enable": true,
-  "phpactor.path":"/home/ubuntu/.config/nvim/plugged/phpactor/bin/phpactor",
+  "phpactor.path":"~/.config/nvim/plugged/phpactor/bin/phpactor",
   "languageserver": {
       "golang": {
         "command": "gopls",
@@ -9,7 +9,7 @@
       }
   },
   "yaml.schemas": {
-      "kubernetes": "/home/ubuntu/code/novax/novax-kumay-kubernetes/*.yaml"
+      "kubernetes": "~/code/novax/novax-kumay-kubernetes/*.yaml"
   },
   "java.configuration.runtimes": [
     {
