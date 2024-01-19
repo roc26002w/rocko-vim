@@ -34,9 +34,9 @@ imap <leader>i <ESC> :action ShowIntentionActions<CR>
 nmap <leader>y :action CopyPathFromRepositoryRootProvider<CR>
 
 " string case setting
-nmap <C-u> bve :action StringManipulation.SwitchStyleAction<CR>
-imap <C-u> <ESC> bve :action StringManipulation.SwitchStyleAction<CR>
-vmap <C-u> :action StringManipulation.SwitchStyleAction<CR>
+nmap <C-u> bve :action StringManipulation.SwitchStyleAction<CR> gv
+imap <C-u> <ESC> bve :action StringManipulation.SwitchStyleAction<CR> gv
+vmap <C-u> :action StringManipulation.SwitchStyleAction<CR> gv
 
 " edit black
 " map <leader>I :action EditorToggleColumnMode<CR>
@@ -82,8 +82,8 @@ nmap <leader>zk :action ExpandAllRegions<CR>
 
 " ============= ACE Jump =============
 " Press `f` to activate AceJump
-" nmap <leader>w <Action>(AceAction)
+nmap <leader>f :action AceAction<CR>
 " Press `F` to activate Target Mode
-" nmap F <Action>(AceTargetAction)
+nmap <leader>F :action AceTargetAction<CR>
 " Press `g` to activate Line Mode
-" nmap g <Action>(AceLineAction)
+nmap <leader>g  :action AceLineAction<CR>
