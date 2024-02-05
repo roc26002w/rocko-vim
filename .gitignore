@@ -12,6 +12,7 @@
 /neovim/.config/yarn/
 /neovim/.config/jgit/
 /neovim/.config/raycast/
+/neovim/.config/zed/
 git/.frontech_user
 **/.DS_Store
 /.idea
