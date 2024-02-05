@@ -87,3 +87,8 @@ nmap <leader>f :action AceAction<CR>
 nmap <leader>F :action AceTargetAction<CR>
 " Press `g` to activate Line Mode
 nmap <leader>g  :action AceLineAction<CR>
+
+" ============ Split Window ============
+nmap <C-a>- :action SplitVertically<CR>
+nmap <C-a>_ :action SplitHorizontally<CR>
+nmap <C-w> :action NextSplitter <CR>
