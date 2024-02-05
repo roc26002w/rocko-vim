@@ -16,9 +16,15 @@
 cd ~/code/novax
 for dir in $(ls -al | grep netask-cloud | awk '{print $9}'); do
   echo "patch ${dir}"
-  cd ${dir} && git checkout -- ./ && git checkout develop
+  cd ${dir} 
+  DIFF_EXISTS=$(git status --porcelain | wc -l)
+  if [[ $DIFF_EXISTS -eq 0 ]]
+  then
+    git checkout develop
+  else
+    git add . && git stash save "draft commit" && git checkout develop
+  fi
   git pull 
   cd ..
 done
 exit
-
