@@ -12,8 +12,8 @@ let mapleader="\"
 autocmd BufWritePost *.rb silent !ctags -R --languages=ruby --exclude=.git --exclude=log . $(bundle list --paths)
 
 " class name space 整理
-nmap zr gg/use<CR>V/class<CR>?use<CR>
-imap zr <ESC>gg/use<CR>V/class<CR>?use<CR>
+nmap <leader>zr gg/use<CR>V/class<CR>?use<CR>
+imap <leader>zr <ESC>gg/use<CR>V/class<CR>?use<CR>
 
 nmap <leader>s :source ~/.ideavimrc <CR>
 imap <leader>l <End>
@@ -87,6 +87,7 @@ nmap <leader>f :action AceAction<CR>
 nmap <leader>F :action AceTargetAction<CR>
 " Press `g` to activate Line Mode
 nmap <leader>g  :action AceLineAction<CR>
+nmap <C-f> :action SearchEverywhere<CR>
 
 " ============ Split Window ============
 nmap <C-a>- :action SplitVertically<CR>

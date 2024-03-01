@@ -7,7 +7,7 @@
   name = Rocko
 
 [includeIf "gitdir:~/code/novax/"]
-  path = ~/.config/rocko-vim/git/.novax_user
+  path = ~/code/rocko-vim/git/.novax_user
 
 [diff]
   # 使用 icdiff 來取代 git 內建的 diff

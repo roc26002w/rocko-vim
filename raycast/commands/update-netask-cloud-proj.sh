@@ -20,11 +20,24 @@ for dir in $(ls -al | grep netask-cloud | awk '{print $9}'); do
   DIFF_EXISTS=$(git status --porcelain | wc -l)
   if [[ $DIFF_EXISTS -eq 0 ]]
   then
-    git checkout develop
+    # git checkout develop
+    echo "no file changes"
   else
-    git add . && git stash save "draft commit" && git checkout develop
+    git add . && git stash save "draft commit"
   fi
-  git pull 
+  
+  # update first default branch
+  BRANCH=$(git branch | cut -c3- | grep 'master\|develop' | head -n 1)
+  git checkout ${BRANCH}
+  git pull
   cd ..
 done
 exit
+
+# update locale all branch
+# for branch in $(git branch | awk -F ' +' '! /\(no branch\)/ {print $2}'); do
+#   echo "fetch branch is : ${branch}"
+#   git checkout ${branch}
+#   git pull
+# done
+
