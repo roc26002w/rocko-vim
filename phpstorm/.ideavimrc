@@ -6,6 +6,9 @@ set rnu
 set nu
 set hlsearch
 set ideajoin
+
+" ------- ideavim extension ---
+set keep-english-in-normal
 " set <leader> to <\>
 let mapleader="\"
 
