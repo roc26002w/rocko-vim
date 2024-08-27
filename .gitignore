@@ -1,23 +1,5 @@
-/neovim/.config/coc/
-/neovim/.config/configstore/
-/neovim/.config/.DS_Store
 /neovim/.config/nvim/plugged/
-/neovim/.config/.config
-/neovim/.config/nvim/plugged/
-/neovim/.config/nvim/spell/
-/neovim/.config/nvim/.netrwhist
-/neovim/.config/htop/
-/neovim/.config/iterm2/
-/neovim/.config/karabiner/
-/neovim/.config/yarn/
-/neovim/.config/jgit/
-/neovim/.config/raycast/
-/neovim/.config/zed/
 git/.frontech_user
 **/.DS_Store
 /.idea
-/neovim/.config/gcloud
-/neovim/.config/argocd/
-/neovim/.config/psysh/
-/neovim/.config/github-copilot/
 

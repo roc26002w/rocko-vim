@@ -4,6 +4,7 @@ set NERDTree
 " set tags=tags,tags.vendor
 set rnu
 set nu
+" need disable sticky line
 set hlsearch
 set ideajoin
 
@@ -72,10 +73,10 @@ nmap <leader>gh :action Vcs.ShowHistoryForBlock<CR>
 imap <leader>gh <ESC>:action Vcs.ShowHistoryForBlock<CR>
 
 " ============ PHPUnit ============
-nmap <leader>uu :action ReformatCode<CR>:action RunMenu<CR>
-imap <leader>uu <ESC> :action ReformatCode<CR>:action RunMenu<CR>
-nmap <leader>ruu :action ReformatCode<CR>:action RunClass<CR>
-imap <leader>ruu :action ReformatCode<CR><ESC>:action RunClass<CR>
+nmap <leader>uu <ESC>:action ReformatCode<CR>:action RunMenu<CR><ESC>
+imap <leader>uu <ESC>:action ReformatCode<CR>:action RunMenu<CR><ESC>
+nmap <leader>ruu <ESC>:action ReformatCode<CR>:action RunClass<CR><ESC>
+imap <leader>ruu <ESC>:action ReformatCode<CR><ESC>:action RunClass<CR><ESC>
 
 " ============ Folding ============
 "nmap <leader>zk :action CollapseRegions<CR>
