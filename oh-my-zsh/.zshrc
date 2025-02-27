@@ -129,6 +129,10 @@ export PATH="/usr/local/opt/ncurses/bin:$PATH"
 export PATH="/usr/local/opt/gettext/bin:$PATH"
 export FZF_DEFAULT_COMMAND="ag --hidden --skip-vcs-ignores --ignore=.git -g ''"
 
+# homebrew
+export PATH="/opt/homebrew/bin:$PATH"
+
+
 # composer
 export COMPOSER_MEMORY_LIMIT=-1
 export PATH="$HOME/.composer/vendor/bin:$PATH"
@@ -150,7 +154,7 @@ export NVM_DIR="$HOME/.nvm"
 lazyload go -- 'export GOROOT=/usr/local/go && export GOPATH=$HOME/go && export PATH=$GOPATH/bin:$GOROOT/bin:$PATH'
 
 # python
-source $HOME/.env/python/bin/activate
+# source $HOME/.env/python/bin/activate
 
 # rbenv
 lazyload rbenv -- 'export PATH="$HOME/.rbenv/bin:$PATH" && eval "$(rbenv init -)"'
@@ -161,6 +165,14 @@ lazyload jenv -- 'export PATH="$HOME/.jenv/bin:$PATH" && eval "$(jenv init -)"'
 
 # kubectl
 # lazyload kubectl -- 'export PATH=/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/bin:$PATH'
+
+# pyenv
+if [ -d $HOME/.pyenv ]
+then
+  export PYENV_ROOT="$HOME/.pyenv"
+  [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+  eval "$(pyenv init -)"
+fi
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
@@ -174,3 +186,4 @@ then
 fi
 
 export PATH="/usr/local/sbin:$PATH"
+export PATH="/opt/homebrew/sbin:$PATH"
