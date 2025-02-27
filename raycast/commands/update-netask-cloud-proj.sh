@@ -14,7 +14,7 @@
 # @raycast.authorURL https://raycast.com/roc26002w
 
 cd ~/code/novax
-for dir in $(ls -al | grep netask-cloud | awk '{print $9}'); do
+for dir in $(ls -al | grep -E "netask-cloud|novax|laravel|hrms" | grep -v "v96" | awk '{print $9}'); do
   echo "patch ${dir}"
   cd ${dir} 
   DIFF_EXISTS=$(git status --porcelain | wc -l)
@@ -27,7 +27,7 @@ for dir in $(ls -al | grep netask-cloud | awk '{print $9}'); do
   fi
   
   # update first default branch
-  BRANCH=$(git branch | cut -c3- | grep 'master\|develop' | head -n 1)
+  BRANCH=$(git branch | cut -c3- | grep 'main\|master\|develop' | head -n 1)
   git checkout ${BRANCH}
   git pull
   cd ..
