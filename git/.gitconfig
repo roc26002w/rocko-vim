@@ -18,7 +18,7 @@
   cmd = nvim -f -c \"Gdiffsplit!\" \"$MERGED\"
 
 [core]
-	editor = nvim
+	editor = nvim -f
 	pager = less
 
 [commit]
