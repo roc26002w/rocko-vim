@@ -110,7 +110,7 @@ call plug#end()
 
 "  settings
 " =================
-" language en_US
+language en_US.UTF-8
 set tags=tags,tags.vendor
 
 " theme
@@ -154,9 +154,15 @@ set number
 set rnu
 set numberwidth=4
 
-" python3_host
-
-let g:python3_host_prog = $HOME.'/.env/python/bin/python3'
+" python3
+let g:python3_host_prog = '/usr/bin/python3'
+if exists('g:loaded_python3_provider')
+  unlet g:loaded_python3_provider
+  try
+    runtime autoload/provider/python3.vim
+  catch
+  endtry
+endif
 " let g:ruby_host_prog = '/home/ubuntu/.rbenv/versions/2.6.3'
 
 " syntastic
