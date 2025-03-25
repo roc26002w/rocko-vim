@@ -34,6 +34,7 @@ nmap <leader>zgc zz:action CheckinProject<CR>
 vmap <leader>m :action Refactorings.QuickListPopupAction <CR>
 nmap <leader>m :action Refactorings.QuickListPopupAction <CR>
 nmap <leader>i :action ShowIntentionActions<CR>
+vmap <leader>i :action ShowIntentionActions<CR>
 imap <leader>i <ESC> :action ShowIntentionActions<CR>
 nmap <leader>y :action CopyPathFromRepositoryRootProvider<CR>
 
