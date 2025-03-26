@@ -12,7 +12,7 @@ function fsck_view() {
        git fsck --no-reflog 2>/dev/null | grep "dangling commit" | cut -d" " -f 3  | \
        fzf --ansi --no-sort --reverse --tiebreak=index --preview \
        'f() { set -- $(echo -- "$@" | grep -o "[a-f0-9]\{7\}"); [ $# -eq 0 ] || git show --color=always $1 ; }; f {}' \
-       --bind "ctrl-y:execute:echo {} | grep -o '[a-f0-9]\{7\}' | head -1 | pbcopy"\
+       --bind "ctrl-y:execute:echo {} | grep -o '[a-f0-9]\{7\}' | head -1 | tr -d '\n' | pbcopy"\
        --bind "j:preview-down,k:preview-up,J:preview-page-down,K:preview-page-up,ctrl-j:down,ctrl-k:up,q:abort"\
        --bind "ctrl-o:execute:
                     (grep -o '[a-f0-9]\{7\}' | head -1 |
