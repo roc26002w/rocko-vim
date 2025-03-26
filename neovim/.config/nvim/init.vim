@@ -154,15 +154,9 @@ set number
 set rnu
 set numberwidth=4
 
-" python3
-let g:python3_host_prog = '/usr/bin/python3'
-if exists('g:loaded_python3_provider')
-  unlet g:loaded_python3_provider
-  try
-    runtime autoload/provider/python3.vim
-  catch
-  endtry
-endif
+" python3_host
+
+let g:python3_host_prog = $HOME.'/.pyenv/shims/python3'
 " let g:ruby_host_prog = '/home/ubuntu/.rbenv/versions/2.6.3'
 
 " syntastic
