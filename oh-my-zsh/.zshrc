@@ -14,6 +14,8 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git docker docker-compose zsh-lazyload fzf helm zsh-syntax-highlighting)
 
+source $ZSH/oh-my-zsh.sh
+
 # User configuration
 #
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
@@ -39,8 +41,6 @@ export PATH="/opt/homebrew/bin:$PATH"
 export COMPOSER_MEMORY_LIMIT=-1
 export PATH="$HOME/.composer/vendor/bin:$PATH"
 
-export USE_GKE_GCLOUD_AUTH_PLUGIN=True
-
 # FZF
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export NVM_DIR="$HOME/.nvm"
@@ -50,7 +50,7 @@ export FZF_DEFAULT_COMMAND="ag --hidden --skip-vcs-ignores --ignore=.git -g ''"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
-# use lazyload use nvm
+# lazyload block start #
 # https://github.com/qoomon/zsh-lazyload
 # lazyload nvm -- '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"'
 
@@ -67,6 +67,8 @@ lazyload rbenv -- 'export PATH="$HOME/.rbenv/bin:$PATH" && eval "$(rbenv init -)
 # jenv
 # https://www.jenv.be/
 lazyload jenv -- 'export PATH="$HOME/.jenv/bin:$PATH" && eval "$(jenv init -)"'
+
+# lazyload block end #
 
 # Google Cloud SDK
 export USE_GKE_GCLOUD_AUTH_PLUGIN=True
