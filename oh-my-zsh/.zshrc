@@ -27,6 +27,7 @@ fi
 
 # Preferred editor for local and remote sessions
 export EDITOR='nvim'
+export LESSCHARSET=utf-8
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
