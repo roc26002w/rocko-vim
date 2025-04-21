@@ -13,10 +13,7 @@ set rtp+=~/.fzf
  " colors style
  Plug 'chriskempson/base16-vim'
 
- " tab
- Plug 'ervandew/supertab'
-
- " snips
+" snips
  Plug 'sirver/ultisnips'
  Plug 'honza/vim-snippets'
 
@@ -250,14 +247,10 @@ if (has("termguicolors"))
 endif
 
 " coc setting
-" autocmd FileType * :call coc#config("suggest.autoTrigger", "aways")
+ autocmd FileType * :call coc#config("suggest.autoTrigger", "aways")
 
 " omni complete
 imap <Leader><TAB> <C-X><C-O>
-
-" supertab
-let g:SuperTabCrMapping = 1
-let g:SuperTabDefaultCompletionType = "<c-n>"
 
 " Fix Cursor in TMUX
 if exists('$TMUX')
@@ -271,3 +264,5 @@ endif
 " style
 hi Pmenu ctermfg=254 ctermbg=237 cterm=NONE guifg=#e1e1e1 guibg=#383838 gui=NONE
 hi PmenuSel ctermfg=135 ctermbg=239 cterm=NONE guifg=#b26eff guibg=#4e4e4e gui=NONE
+
+lua require('init')
