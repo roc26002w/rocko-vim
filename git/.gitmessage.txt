@@ -1,17 +1,15 @@
 # commit log 請遵造以下格式，並注意冒號後面有一個空格
 #
-# <type>: <subject> {必要}
+# <subject> {必要}
 #
 # <body> {非必要}
 #
 # <footer> {非必要}
 #
 # 範例
-# feat: implementation login api function
+# implementation login api function
 #
-# finished login module and integration with server login api
-#
-# Closes OR-xxxx
+# * finished login module and integration with server login api
 #
 # <Type>
 # 請遵守下列標籤
