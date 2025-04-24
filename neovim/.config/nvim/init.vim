@@ -98,6 +98,12 @@ set rtp+=~/.fzf
 
  " neocomplete
  Plug 'shougo/neocomplete.vim'
+ Plug 'neovim/nvim-lspconfig'
+ Plug 'hrsh7th/cmp-nvim-lsp'
+ Plug 'hrsh7th/cmp-buffer'
+ Plug 'hrsh7th/cmp-path'
+ Plug 'hrsh7th/cmp-cmdline'
+ Plug 'hrsh7th/nvim-cmp'
 
  " error word highlight
  Plug 'kamykn/spelunker.vim'
@@ -270,3 +276,4 @@ hi Pmenu ctermfg=254 ctermbg=237 cterm=NONE guifg=#e1e1e1 guibg=#383838 gui=NONE
 hi PmenuSel ctermfg=135 ctermbg=239 cterm=NONE guifg=#b26eff guibg=#4e4e4e gui=NONE
 
 lua require('init')
+lua require('cmp')
