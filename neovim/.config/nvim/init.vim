@@ -212,6 +212,10 @@ nmap <Leader>t :Tags<CR>
 nmap <Leader>r :BTags<CR>
 " map <Tab> <C-n>
 
+" Copilot Mapping
+nmap <Leader>gc :CopilotChatCommit<CR>
+imap <Leader>gc <ESC>:CopilotChatCommit<CR>
+
 " vim-rspec mappings
 autocmd FileType rb map <Leader>rt :call RunCurrentSpecFile()<CR>
 autocmd FileType rb map <Leader>rs :call RunNearestSpec()<CR>
