@@ -113,7 +113,7 @@ require("CopilotChat").setup {
       prompt = 'Please generate tests for my code.',
     },
     Commit = {
-      prompt = '用繁體中文撰寫符合 commitizen 規範的提交訊息。 標題加入前綴 `Issue #` + <截取 branch 名稱最後一個 `-` 後面的數字> 保持在 50 個字符以內，並將內容換行到 72 個字符。 格式化為 gitcommit 代碼區塊。',
+      prompt = '用繁體中文撰寫符合 commitizen 規範的提交訊息。 標題如果能符合就加入前綴 `Issue #` + <截取 branch 取第二個 `-` 後的數字> 保持在 50 個字符以內,並將內容換行使用 markdown 格式化為 gitcommit 代碼區塊。',
       context = 'git:staged',
     },
   },
