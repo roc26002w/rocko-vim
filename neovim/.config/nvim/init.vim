@@ -221,6 +221,7 @@ nmap <Leader>r :BTags<CR>
 " Copilot Mapping
 nmap <Leader>gc :CopilotChatCommit<CR>
 imap <Leader>gc <ESC>:CopilotChatCommit<CR>
+nmap <Leader>3 :CopilotChatToggle<CR>
 
 " vim-rspec mappings
 autocmd FileType rb map <Leader>rt :call RunCurrentSpecFile()<CR>
