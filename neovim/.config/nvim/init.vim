@@ -104,6 +104,7 @@ set rtp+=~/.fzf
  Plug 'hrsh7th/cmp-path'
  Plug 'hrsh7th/cmp-cmdline'
  Plug 'hrsh7th/nvim-cmp'
+ Plug 'nvim-lua/plenary.nvim'
 
  " error word highlight
  Plug 'kamykn/spelunker.vim'

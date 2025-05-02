@@ -122,6 +122,7 @@ require("CopilotChat").setup {
   -- see config/mappings.lua for implementation
   mappings = {
     complete = {
+      normal = '<Tab>',
       insert = '<Tab>',
     },
     close = {
@@ -173,5 +174,25 @@ require("CopilotChat").setup {
       normal = 'gh',
     },
   },
+
+  vim.api.nvim_create_user_command('GenerateCommitMessage', function()
+      require('CopilotChat').ask('/Commit', {
+        callback = function(response)
+           require('plenary.async').run(function()
+            require('CopilotChat').close()
+           end)
+
+          local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+
+          vim.api.nvim_buf_set_text(
+            0,
+            row - 1, col, row - 1, col,
+            require('plugins.utils').split(response, '\n')
+          )
+
+          return response
+        end,
+      })
+    end, {})
 }
 
