@@ -222,6 +222,8 @@ nmap <Leader>r :BTags<CR>
 " Copilot Mapping
 nmap <Leader>gc :CopilotChatCommit<CR>
 imap <Leader>gc <ESC>:CopilotChatCommit<CR>
+nmap <Leader>ggc :GenerateCommitMessage<CR>
+imap <Leader>ggc <ESC>:GenerateCommitMessage<CR>
 nmap <Leader>3 :CopilotChatToggle<CR>
 
 " vim-rspec mappings
