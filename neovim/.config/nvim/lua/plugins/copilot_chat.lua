@@ -183,11 +183,21 @@ require("CopilotChat").setup {
            end)
 
           local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+          -- 只抓取 gitcommit 代碼區塊
+          local pattern = "```gitcommit(.-)```"
+          local body = response:match(pattern)
+
+          -- 將內容轉換為行
+          local lines = require('plugins.utils').split(body, '\n')
+
+          -- 加入空白行
+          table.insert(lines, 2, '')
+          table.insert(lines, '')
 
           vim.api.nvim_buf_set_text(
             0,
-            row - 1, col, row - 1, col,
-            require('plugins.utils').split(response, '\n')
+            row - 1, col, row, col,
+            lines
           )
 
           return response
