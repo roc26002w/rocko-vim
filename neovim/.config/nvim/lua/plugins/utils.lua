@@ -179,6 +179,11 @@ end
 utils.split = function(str, sep)
   local result = {}
 
+  if str == nil or str == '' then
+    table.insert(result, '')
+    return result
+  end
+
   for value in string.gmatch(str, '([^'..sep..']+)') do
     table.insert(result, value)
   end
