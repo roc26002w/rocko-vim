@@ -177,6 +177,9 @@ require("CopilotChat").setup {
 
   vim.api.nvim_create_user_command('GenerateCommitMessage', function()
       require('CopilotChat').ask('/Commit', {
+        prompt = '- 用繁體中文撰寫符合 commitizen 規範的提交訊息\n- 標題盡可能符合就加入前綴 `Issue #` + <截取 branch 取第二個 `-` 後的數字> \n    - 當有加入前綴就移除<Type>標籤\n    - 保持在 50 個字符以內\n- 內容使用 markdown 語法且格式化為 gitcommit 代碼區塊\n- 內容每換行一次都在前面多 2 個空白符號',
+        model = 'claude-3.7-sonnet',
+        context = {'git:staged', 'buffer', 'file:.git/COPILOT_COMMIT'},
         callback = function(response)
            require('plenary.async').run(function()
             require('CopilotChat').close()
