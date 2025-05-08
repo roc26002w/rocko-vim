@@ -4,15 +4,14 @@
 #
 # <body> {非必要}
 #
-# <footer> {非必要}
-#
 # 範例
-# Issue # implementation login api function
+# Issue #<track_id> implementation login api function
 #
-# * finished login module and integration with server login api
+#   * finished login module and integration with server login api
 #
 # <Type>
-# 請遵守下列標籤
+# 有 track_id 則忽略此標籤
+# 當有標籤時遵守下列格式
 # feat: 新功能
 # fix: Bug修復
 # docs: 文檔改變
@@ -31,6 +30,6 @@
 # <Body>
 # 具體的修改訊息，越詳細越好
 #
-# <Footer>
-# 如果是要關閉特定 Issue 或 Bug. 可以使用 Closes PROJECT-1 or Resolves PROJECT-1 or Fixes PROJECT-1
-#
+# <Track_id>
+# 由 branch 名稱使用 `\d+(-\w*)?$` patten Regex 抓取出 match 的數字
+# 這是用來追蹤票號的 ID、如果有的話盡可能的加上去
