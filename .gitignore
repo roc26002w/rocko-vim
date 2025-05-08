@@ -1,5 +1,10 @@
-/neovim/.config/nvim/plugged/
-/neovim/.config/nvim/pack/
+neovim/.config/nvim/plugged/
+neovim/.config/nvim/pack/
+neovim/.config/github-copilot/
+neovim/.config/iterm2/
+neovim/.config/karabiner/
+neovim/.config/coc/
+neovim/.config/nvim/pack/
 git/.frontech_user
 **/.DS_Store
 /.idea
