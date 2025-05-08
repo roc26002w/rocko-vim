@@ -7,7 +7,7 @@
 # <footer> {非必要}
 #
 # 範例
-# implementation login api function
+# Issue # implementation login api function
 #
 # * finished login module and integration with server login api
 #
