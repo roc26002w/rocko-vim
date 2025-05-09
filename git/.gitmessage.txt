@@ -31,5 +31,5 @@
 # 具體的修改訊息，越詳細越好
 #
 # <Track_id>
-# 由 branch 名稱使用 `\d+(-\w*)?$` patten Regex 抓取出 match 的數字
+# 由 branch 名稱使用 regex `\d{4}-\d{2}-(\d+)(?:-\w*)?` 抓取出 match 的數字
 # 這是用來追蹤票號的 ID、如果有的話盡可能的加上去
