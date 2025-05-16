@@ -97,8 +97,9 @@ require("CopilotChat").setup {
       system_prompt = 'COPILOT_EXPLAIN',
     },
     Review = {
-      prompt = 'Review the selected code.',
+      prompt = 'Review the selected code. Identify any issues and suggest improvements. Provide a summary of your review messages in Traditional Chinese.',
       system_prompt = 'COPILOT_REVIEW',
+      context = {'buffer', 'git:staged'},
     },
     Fix = {
       prompt = 'There is a problem in this code. Identify the issues and rewrite the code with fixes. Explain what was wrong and how your changes address the problems.',
