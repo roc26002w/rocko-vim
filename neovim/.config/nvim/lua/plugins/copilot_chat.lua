@@ -133,7 +133,7 @@ require("CopilotChat").setup {
       prompt = 'Please generate tests for my code.',
     },
     Commit = {
-      prompt = '- 用繁體中文撰寫符合 commitizen 規範的提交訊息\n- 標題盡可能符合就加入前綴`<type>:`\n    - 當有 track_id 時，則用 `Issue #<track_id>` 取代 `<type>` 前綴\n    - 保持在 50 個字符以內\n- 內容使用 markdown 語法且格式化為 gitcommit 代碼區塊\n- 內容每行一次都在前面多 2 個空白符號\n- 僅提供提交訊息',
+      prompt = '' .. read_copilot_prompt('commit.md'),
       context = {'git:staged', 'buffer'}
     },
   },
@@ -197,7 +197,7 @@ require("CopilotChat").setup {
 
   vim.api.nvim_create_user_command('GenerateCommitMessage', function()
       require('CopilotChat').ask('/Commit', {
-        prompt = '- 用繁體中文撰寫符合 commitizen 規範的提交訊息\n- 標題盡可能符合就加入前綴`<type>:`\n    - 當有 track_id 時，則用 `Issue #<track_id>` 取代 `<type>` 前綴\n    - 保持在 50 個字符以內\n- 內容使用 markdown 語法且格式化為 gitcommit 代碼區塊\n- 內容每行一次都在前面多 2 個空白符號\n- 僅提供提交訊息',
+        prompt = '' .. read_copilot_prompt('commit.md'),
         model = 'gpt-4.1',
         context = {'git:staged', 'buffer', 'file:.git/COMMIT_EDITMSG'},
         callback = function(response)
