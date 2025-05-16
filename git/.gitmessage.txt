@@ -1,17 +1,11 @@
-# commit log 請遵造以下格式，並注意冒號後面有一個空格
+# commit log 請遵照以下格式，並注意冒號後面有一個空格
 #
 # <subject> {必要}
 #
 # <body> {非必要}
 #
-# 範例
-# Issue #<track_id> implementation login api function
-#
-#   * finished login module and integration with server login api
-#
 # <Type>
 # 有 track_id 則忽略此標籤
-# 當有標籤時遵守下列格式
 # feat: 新功能
 # fix: Bug修復
 # docs: 文檔改變
@@ -30,6 +24,26 @@
 # <Body>
 # 具體的修改訊息，越詳細越好
 #
-# <Track_id>
+# <Track_id> {非必要}
 # 由 branch 名稱使用 regex `\d{4}-\d{2}-(\d+)(?:-\w*)?` 或 `-(\d{1,9})(?:-[^\d].*)?` 抓取出 match 的數字
-# 這是用來追蹤票號的 ID、如果有的話盡可能的加上去
+# for example:
+#   - 2023-10-01-1234-feature => 1234
+#   - 2023-10-01-1234 => 1234
+#   - feature/2023-10-01-1234-fix12 => 1234
+#   - custom/hotfix/2023-10-01-1234-i => 1234
+# 這個數字會被當作 track_id
+
+---
+
+# 無 track_id 範例:
+# <type>: implementation login api function
+#
+#   * finished login module and integration with server login api
+#
+
+# 有 track_id 範例:
+# Issue #<track_id> implementation login api function
+#
+#   * finished login module and integration with server login api
+#
+
