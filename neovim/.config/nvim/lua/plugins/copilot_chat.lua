@@ -1,9 +1,28 @@
+local function read_copilot_prompt(file)
+  -- Get the current Neovim configuration directory
+  local config_dir = vim.fn.stdpath('config')
+
+  -- Directory containing the .md files
+  local prompt_directory = config_dir .. '/prompts'
+  local prompt_file = prompt_directory .. '/' .. file
+  local f = io.open(prompt_file, 'r')
+  local prompts = ""
+  if f then
+    local content = f:read('*all')
+    prompts = content
+    f:close()
+  else
+    prompts = ""
+  end
+  return prompts
+end
+
 require("CopilotChat").setup {
   -- Shared config starts here (can be passed to functions at runtime and configured via setup function)
 
   system_prompt = 'COPILOT_INSTRUCTIONS', -- System prompt to use (can be specified manually in prompt via /).
 
-  model = 'claude-3.7-sonnet', -- Default model to use, see ':CopilotChatModels' for available models (can be specified manually in prompt via $).
+  model = 'gpt-4.1', -- Default model to use, see ':CopilotChatModels' for available models (can be specified manually in prompt via $).
   agent = 'copilot', -- Default agent to use, see ':CopilotChatAgents' for available agents (can be specified manually in prompt via @).
   context = nil, -- Default context or array of contexts to use (can be specified manually in prompt via #).
   sticky = nil, -- Default sticky prompt or array of sticky prompts to use at start of every new chat.
@@ -97,7 +116,7 @@ require("CopilotChat").setup {
       system_prompt = 'COPILOT_EXPLAIN',
     },
     Review = {
-      prompt = 'Review the selected code. Identify any issues and suggest improvements. Provide a summary of your review messages in Traditional Chinese.',
+      prompt = '> /COPILOT_REVIEW\n\n' .. read_copilot_prompt('review.md'),
       system_prompt = 'COPILOT_REVIEW',
       context = {'buffer', 'git:staged'},
     },
@@ -114,8 +133,8 @@ require("CopilotChat").setup {
       prompt = 'Please generate tests for my code.',
     },
     Commit = {
-      prompt = '- Write commit messages in Traditional Chinese that comply with the commitizen specifications.\n- Add the prefix `Issue #` to the title whenever applicable.\n    - Remove the <Type> tag if a prefix is added.\n    - Keep it within 50 characters.\n- Use markdown syntax for the content and format it as a gitcommit code block.\n- Add 2 spaces before each new line in the content. \n- Title need include gitcommit code block too.\n- Just give me the commit message without any other text.',
-      context = {'git:staged', 'buffer', 'file:.git/COPILOT_COMMIT'}
+      prompt = '- Write commit messages in Traditional Chinese that comply with the commitizen specifications.\n- As possible add the prefix `Issue #` to the title whenever applicable.\n    - Remove the <Type> tag if a prefix is added.\n    - Keep it within 50 characters.\n- Use markdown syntax for the content and format it as a gitcommit code block.\n- Add 2 spaces before each new line in the content. \n- Title need include gitcommit code block too.\n- Just give me the commit message without any other text.',
+      context = {'git:staged', 'buffer'}
     },
   },
 
@@ -178,9 +197,9 @@ require("CopilotChat").setup {
 
   vim.api.nvim_create_user_command('GenerateCommitMessage', function()
       require('CopilotChat').ask('/Commit', {
-        prompt = '- Write commit messages in Traditional Chinese that comply with the commitizen specifications.\n- Add the prefix `Issue #` to the title whenever applicable.\n    - Remove the <Type> tag if a prefix is added.\n    - Keep it within 50 characters.\n- Use markdown syntax for the content and format it as a gitcommit code block.\n- Add 2 spaces before each new line in the content. \n- Title need include gitcommit code block too.\n- Just give me the commit message without any other text.',
-        model = 'claude-3.7-sonnet',
-        context = {'git:staged', 'buffer', 'file:.git/COPILOT_COMMIT'},
+        prompt = '- Write commit messages in Traditional Chinese that comply with the commitizen specifications.\n- As possible add prefix `Issue #` to the title whenever applicable.\n    - Remove the <Type> tag if a prefix is added.\n    - Keep it within 50 characters.\n- Use markdown syntax for the content and format it as a gitcommit code block.\n- Add 2 spaces before each new line in the content. \n- Title need include gitcommit code block too.\n- Just give me the commit message without any other text.',
+        model = 'gpt-4.1',
+        context = {'git:staged', 'buffer', 'file:.git/COMMIT_EDITMSG'},
         callback = function(response)
            require('plenary.async').run(function()
             require('CopilotChat').close()
