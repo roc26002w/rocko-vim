@@ -14,6 +14,7 @@ bind main P ?git cherry-pick %(commit)
 bind main C ?git checkout %(commit)
 bind main K move-first-line
 bind main J move-last-line
+bind main <Ctrl-l> >sh -c "bash ~/.config/git/shell/find-file.sh %(prompt Enter search file name: )"
 
 bind refs 4 ?git rebase %(branch)
 bind refs <Ctrl-r> ?git rebase -r %(branch)
@@ -34,6 +35,7 @@ bind diff D >git icdiff %(commit)^! -- %(file)
 bind stage D >git icdiff '%(file)'
 
 bind generic + !git commit --amend
+
 
 ## Resource
 # bind diff D >git diff %(commit)^! -- %(file)
