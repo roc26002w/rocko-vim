@@ -14,7 +14,7 @@ bind main P ?git cherry-pick %(commit)
 bind main C ?git checkout %(commit)
 bind main K move-first-line
 bind main J move-last-line
-bind main <Ctrl-l> >sh -c "bash ~/.config/git/shell/find-file.sh %(prompt Enter search file name: )"
+bind main <Ctrl-f> !>sh -c "bash ~/.config/git/shell/find-file.sh %(prompt Enter search file name: )"
 
 bind refs 4 ?git rebase %(branch)
 bind refs <Ctrl-r> ?git rebase -r %(branch)
@@ -26,7 +26,7 @@ bind refs D ?git branch -D %(branch)
 bind refs K move-first-line
 bind refs J move-last-line
 bind refs <Ctrl-n> !@git branch "%(prompt Enter branch name: )"
-bind refs <Ctrl-l> >sh -c 'bash ~/.config/git/shell/fsck-view.sh'
+bind refs <Ctrl-f> >sh -c 'bash ~/.config/git/shell/fsck-view.sh'
 
 bind status S ?git stash --patch
 

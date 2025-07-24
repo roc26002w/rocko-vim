@@ -17,3 +17,8 @@ function find_file_view() {
 }
 
 find_file_view "$@"
+
+# Uncomment the following line to use icdiff instead of less for diff viewing, but this command has input error
+# --bind "ctrl-o:become:(grep -o '[a-f0-9]\{7\}' | head -1 | xargs -I % git icdiff %) << 'FZF-EOF'
+#              {}
+#  FZF-EOF" \
