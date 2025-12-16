@@ -198,7 +198,7 @@ require("CopilotChat").setup {
   vim.api.nvim_create_user_command('GenerateCommitMessage', function()
       require('CopilotChat').ask('/Commit', {
         prompt = '' .. read_copilot_prompt('commit.md'),
-        model = 'gpt-4.1',
+        model = 'gpt-5.1',
         context = {'git:staged', 'buffer', 'file:.git/COMMIT_EDITMSG'},
         callback = function(response)
            require('plenary.async').run(function()
