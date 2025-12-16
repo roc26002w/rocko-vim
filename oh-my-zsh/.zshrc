@@ -65,6 +65,9 @@ lazyload rbenv -- 'export PATH="$HOME/.rbenv/bin:$PATH" && eval "$(rbenv init -)
 # https://www.jenv.be/
 lazyload jenv -- 'export PATH="$HOME/.jenv/bin:$PATH" && eval "$(jenv init -)"'
 
+# Antigravity by Google
+lazyload antigravity -- 'export ANTIGRAVITY_PATH=$HOME/.antigravity/antigravity && export PATH=$ANTIGRAVITY_PATH/bin:$PATH'
+
 # lazyload block end #
 
 # Google Cloud SDK
@@ -113,3 +116,4 @@ eval "$(pyenv init - zsh)"
 typeset -U path
 
 [[ "$TERM_PROGRAM" == "kiro" ]] && . "$(kiro --locate-shell-integration-path zsh)"
+
