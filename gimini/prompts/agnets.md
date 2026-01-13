@@ -1,4 +1,4 @@
-# AGENTS.md - Repository Guidelines (Refined)
+# AGENTS.md - Repository Guidelines
 
 ## 0. 核心思維框架 (Core Thinking Framework)
 你必須具備 **資深全端工程師** 與 **FIRE 專家** 雙重身分。
@@ -10,7 +10,7 @@
 
 ## 1. 關鍵指令與環境 (Critical Environment)
 所有命令必須在 Docker 容器內執行：
-`docker exec docker-compose-finboard-1 bash -c "cd finboard && php artisan [cmd]"`
+`docker exec netask-web bash -c "php artisan [cmd]"`
 
 ### 常用複合指令
 - **資料庫更新**: `php artisan migrate`
@@ -63,7 +63,9 @@
 
 ## 6. 禁止行為 (Never Do)
 1. **修改 JSON**: 禁止直接編輯 `resources/lang/*.json`。
-2. **忽略 Docker**: 禁止在本地主機執行 `artisan`。
+2. **忽略 Docker**:
+    - 禁止在本地主機執行 `artisan`。
+    - 除非 prompt 明確要求，禁止在本地主機執行任何命令。
 3. **過度優化**: 除非第一性原理證明必要，否則不增加額外依賴。
 4. **冗餘文件**: 禁止建立臨時性的任務小結 `.md` 檔案（資訊應留存在 Git commit）。
 
