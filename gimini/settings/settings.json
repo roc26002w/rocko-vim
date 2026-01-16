@@ -1,0 +1,14 @@
+{
+  "ide": {
+    "hasSeenNudge": true
+  },
+  "security": {
+    "auth": {
+      "selectedType": "oauth-personal"
+    }
+  },
+  "general": {
+    "previewFeatures": true,
+    "vimMode": true
+  }
+}
