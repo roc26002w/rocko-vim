@@ -9,6 +9,6 @@
   },
   "general": {
     "previewFeatures": true,
-    "vimMode": true
+    "vimMode": false
   }
 }
