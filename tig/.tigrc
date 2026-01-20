@@ -29,6 +29,7 @@ bind refs <Ctrl-n> !@git branch "%(prompt Enter branch name: )"
 bind refs <Ctrl-f> >sh -c 'bash ~/.config/git/shell/fsck-view.sh'
 
 bind status S ?git stash --patch
+bind status <Ctrl-l> >sh -c 'bash ~/.config/git/shell/pint.sh'
 
 bind diff D >git icdiff %(commit)^! -- %(file)
 
