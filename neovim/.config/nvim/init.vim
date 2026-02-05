@@ -109,6 +109,9 @@ set rtp+=~/.fzf
  " error word highlight
  Plug 'kamykn/spelunker.vim'
 
+ " Gemini
+ Plug 'kiddos/gemini.nvim'
+
  " All of your Plugs must be added before the following line
 call plug#end()
 
