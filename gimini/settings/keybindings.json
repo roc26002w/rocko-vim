@@ -1,0 +1,68 @@
+[
+    {
+        "key": "ctrl+e",
+        "command": "workbench.action.quickOpenNavigateNextInEditorPicker",
+        "when": "inEditorsPicker"
+    },
+    {
+        "key": "ctrl+e",
+        "command": "workbench.action.showAllEditors",
+        "when": "!inEditorsPicker"
+    },
+    {
+        "key": "ctrl+shift+e",
+        "command": "workbench.action.quickOpenNavigatePreviousInEditorPicker",
+        "when": "inEditorsPicker"
+    },
+    {
+        "key": "ctrl+o",
+        "command": "workbench.action.quickOpen"
+    },
+    {
+        "key": "ctrl+j",
+        "command": "workbench.action.quickOpenNavigateNextInEditorPicker",
+        "when": "inEditorsPicker"
+    },
+    {
+        "key": "ctrl+j",
+        "command": "workbench.action.quickOpenSelectNext",
+        "when": "inQuickOpen"
+    },
+    {
+        "key": "ctrl+k",
+        "command": "workbench.action.quickOpenNavigatePreviousInEditorPicker",
+        "when": "inEditorsPicker"
+    },
+    {
+        "key": "ctrl+k",
+        "command": "workbench.action.quickOpenSelectPrevious",
+        "when": "inQuickOpen"
+    },
+    {
+        "key": "ctrl+j",
+        "command": "runCommands",
+        "args": {
+            "commands": [
+                "list.focusDown",
+                "list.select"
+            ]
+        },
+        "when": "sideBarFocus && listFocus && !inputFocus"
+    },
+    {
+        "key": "ctrl+k",
+        "command": "runCommands",
+        "args": {
+            "commands": [
+                "list.focusUp",
+                "list.select"
+            ]
+        },
+        "when": "sideBarFocus && listFocus && !inputFocus"
+    },
+    {
+        "key": "escape",
+        "command": "workbench.action.focusActiveEditorGroup",
+        "when": "!editorTextFocus && !terminalFocus"
+    }
+]

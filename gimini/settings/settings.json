@@ -1,14 +1,231 @@
 {
-  "ide": {
-    "hasSeenNudge": true
-  },
-  "security": {
-    "auth": {
-      "selectedType": "oauth-personal"
+    // font size
+    "editor.fontSize": 18,
+    "editor.accessibilityPageSize": 1000,
+    "editor.fontFamily": "'FiraCode Nerd Font', Menlo, Monaco, 'Courier New', monospace",
+    "editor.minimap.enabled": false,
+    "editor.bracketPairColorization.enabled": true,
+    "editor.wordWrapColumn": 120,
+    "editor.rulers": [
+        120
+    ],
+    // workbench
+    "workbench.editor.enablePreview": false,
+    "workbench.editor.showTabs": "none",
+    "workbench.colorTheme": "Laravel (rainglow)",
+    "workbench.editor.excludeFromRecentlyOpened": [
+        "**/gitlens/**",
+        "**/.git/**",
+        "gitlens://**",
+        "**/*.git",
+        "**/diff/**",
+        "**/.gitlens/**",
+    ],
+    // window zoom - 影響整個介面包括 Quick Input
+    "window.zoomLevel": 0.0,
+    // redhat
+    "redhat.telemetry.enabled": true,
+    // claudeCode
+    "claudeCode.preferredLocation": "panel",
+    // scm
+    "scm.inputFontSize": 14,
+    // debug
+    "debug.console.fontSize": 14,
+    // terminal
+    "terminal.integrated.fontSize": 14,
+    // markdown
+    "markdown.preview.fontSize": 14,
+    // chat
+    "chat.editor.fontSize": 14,
+    // auto file
+    "files.autoSave": "afterDelay",
+    "files.autoSaveDelay": 1000,
+    "files.autoSaveWorkspaceFilesOnly": false,
+    "files.saveConflictResolution": "overwriteFileOnDisk",
+    // search settings - 讓 Quick Open 可以搜尋 .env 等檔案
+    "search.exclude": {
+        "**/node_modules": true,
+        "**/bower_components": true,
+        "**/.git": true
+    },
+    "search.useIgnoreFiles": false,
+    "files.exclude": {},
+    // color customizations - 自訂顏色
+    "workbench.colorCustomizations": {
+        "quickInputList.focusBackground": "#2A2D2E",
+        "quickInputList.focusForeground": "#FFFFFF",
+        "editor.findMatchBackground": "#FFE792",
+        "editor.findMatchHighlightBackground": "#FFE79280",
+        "statusBar.background": "#000000",
+        "statusBar.foreground": "#FFFFFF",
+        "statusBar.noFolderBackground": "#000000",
+        "statusBar.debuggingBackground": "#000000",
+        "statusBarItem.remoteBackground": "#000000",
+        "statusBarItem.remoteForeground": "#FFFFFF"
+    },
+    // syntax highlighting - type hint color
+    "editor.tokenColorCustomizations": {
+        "textMateRules": [
+            {
+                "scope": [
+                    "support.class.php",
+                    "meta.other.type.php",
+                    "keyword.other.type.php"
+                ],
+                "settings": {
+                    "foreground": "#FFC48C"
+                }
+            },
+            {
+                "scope": [
+                    "keyword.control.return.php"
+                ],
+                "settings": {
+                    "foreground": "#FFC48C"
+                }
+            }
+        ]
+    },
+    //vim mode
+    "vim.useSystemClipboard": true,
+    "vim.normalModeKeyBindingsNonRecursive": [
+        {
+            "before": [
+                "<leader>",
+                "1"
+            ],
+            "commands": [
+                "workbench.action.toggleSidebarVisibility"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "c",
+                "f"
+            ],
+            "commands": [
+                "editor.action.formatDocument"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "<esc>"
+            ],
+            "commands": [
+                "workbench.action.closeSidebar",
+                "workbench.action.closePanel",
+                "workbench.action.closeAuxiliaryBar",
+                "gitlens.closeInspectView"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "<space>"
+            ],
+            "commands": [
+                ":nohlsearch"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "b"
+            ],
+            "commands": [
+                "gitlens.toggleLineBlame"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "c",
+                "e"
+            ],
+            "commands": [
+                "file.clearRecentlyOpened"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "u",
+                "u"
+            ],
+            "commands": [
+                "testing.runAtCursor"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "u",
+                "l"
+            ],
+            "commands": [
+                "testing.reRunLastRun"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "y"
+            ],
+            "commands": [
+                "copyFilePath"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "g",
+                "y"
+            ],
+            "commands": [
+                "gitlens.showInDetailsView",
+                "workbench.action.focusSideBar",
+                "list.focusFirst",
+                "list.select"
+            ]
+        }
+    ],
+    "vim.leader": "\\",
+    "vim.hlsearch": true,
+    "vim.incsearch": true,
+    // gitlens file blame width - 左側較窄，右側較寬
+    "gitlens.blame.avatars": false,
+    "gitlens.blame.compact": true,
+    "gitlens.blame.format": "${id|6} | ${author}",
+    "gitlens.currentLine.enabled": false,
+    "gitlens.advanced.useUriCaching": false,
+    "gitlens.advanced.fileHistoryFollowsRenames": false,
+    "gitlens.views.searchAndCompare.files.layout": "list",
+    "gitlens.views.scm.grouped.views": {
+        "commits": true,
+        "branches": true,
+        "remotes": true,
+        "stashes": true,
+        "tags": true,
+        "worktrees": true,
+        "contributors": true,
+        "fileHistory": false,
+        "repositories": true,
+        "searchAndCompare": true,
+        "launchpad": false
+    },
+    "gitlens.views.scm.grouped.hiddenViews": {
+        "commits": true,
+        "worktrees": true,
+        "branches": true,
+        "remotes": true,
+        "stashes": false,
+        "tags": false,
+        "contributors": false,
+        "repositories": true,
+        "fileHistory": false,
+        "launchpad": false,
+        "searchAndCompare": false
     }
-  },
-  "general": {
-    "previewFeatures": true,
-    "vimMode": false
-  }
 }
