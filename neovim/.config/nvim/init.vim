@@ -8,7 +8,8 @@ filetype off                  " required
 " https://github.com/junegunn/vim-plug
 call plug#begin()
 " The following are examples of different formats supported.
-set rtp+=~/.fzf
+" set rtp+=~/.fzf
+set rtp+=/opt/homebrew/opt/fzf
 
  " colors style
  Plug 'chriskempson/base16-vim'
