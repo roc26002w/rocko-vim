@@ -1,14 +1,3 @@
-local function read_commit_editmsg()
-  local git_dir = vim.fn.trim(vim.fn.system('git rev-parse --absolute-git-dir 2>/dev/null'))
-  if git_dir == '' then return '' end
-  local f = io.open(git_dir .. '/COMMIT_EDITMSG', 'r')
-  if not f then return '' end
-  local content = f:read('*all')
-  f:close()
-  if content == '' then return '' end
-  return '\n\nCurrent commit message:\n```\n' .. content .. '\n```'
-end
-
 local function read_copilot_prompt(file)
   -- Get the current Neovim configuration directory
   local config_dir = vim.fn.stdpath('config')
@@ -96,27 +85,30 @@ require("CopilotChat").setup {
     },
   },
 
-  -- default contexts
-  -- see config/contexts.lua for implementation
-  contexts = {
-    buffer = {
+  -- default functions
+  -- see config/functions.lua for implementation
+  functions = {
+    commit_editmsg = {
+      description = 'Content of .git/COMMIT_EDITMSG',
+      resolve = function()
+        local git_dir = vim.fn.trim(vim.fn.system('git rev-parse --absolute-git-dir 2>/dev/null'))
+        if git_dir == '' then return {} end
+        local path = git_dir .. '/COMMIT_EDITMSG'
+        local f = io.open(path, 'r')
+        if not f then return {} end
+        local content = f:read('*all')
+        f:close()
+        if content == '' then return {} end
+        return {
+          {
+            uri = 'file://' .. path,
+            name = 'COMMIT_EDITMSG',
+            mimetype = 'text/plain',
+            data = content,
+          }
+        }
+      end,
     },
-    buffers = {
-    },
-    file = {
-    },
-    files = {
-    },
-    git = {
-    },
-    url = {
-    },
-    register = {
-    },
-    quickfix = {
-    },
-    system = {
-    }
   },
 
   -- default prompts
@@ -145,7 +137,7 @@ require("CopilotChat").setup {
     },
     Commit = {
       prompt = read_copilot_prompt('commit.md'),
-      context = {'gitdiff:staged', 'buffer'},
+      resources = {'gitdiff:staged', 'buffer', 'commit_editmsg'},
     },
   },
 
@@ -209,9 +201,9 @@ require("CopilotChat").setup {
 
 vim.api.nvim_create_user_command('GenerateCommitMessage', function()
     require('CopilotChat').ask('/Commit', {
-      prompt = read_copilot_prompt('commit.md') .. read_commit_editmsg(),
+      prompt = read_copilot_prompt('commit.md'),
       model = 'gpt-5.2',
-      context = {'gitdiff:staged', 'buffer'},
+      resources = {'gitdiff:staged', 'buffer', 'commit_editmsg'},
       callback = function(response)
          require('plenary.async').run(function()
           require('CopilotChat').close()
@@ -240,11 +232,4 @@ vim.api.nvim_create_user_command('GenerateCommitMessage', function()
     })
   end, {})
 
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = 'gitcommit',
-  callback = function()
-    require('CopilotChat').config.prompts.Commit.prompt =
-      read_copilot_prompt('commit.md') .. read_commit_editmsg()
-  end,
-})
 
