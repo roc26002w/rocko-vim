@@ -1,3 +1,14 @@
+local function read_commit_editmsg()
+  local git_dir = vim.fn.trim(vim.fn.system('git rev-parse --absolute-git-dir 2>/dev/null'))
+  if git_dir == '' then return '' end
+  local f = io.open(git_dir .. '/COMMIT_EDITMSG', 'r')
+  if not f then return '' end
+  local content = f:read('*all')
+  f:close()
+  if content == '' then return '' end
+  return '\n\nCurrent commit message:\n```\n' .. content .. '\n```'
+end
+
 local function read_copilot_prompt(file)
   -- Get the current Neovim configuration directory
   local config_dir = vim.fn.stdpath('config')
@@ -118,7 +129,7 @@ require("CopilotChat").setup {
     Review = {
       prompt = '> /COPILOT_REVIEW\n\n' .. read_copilot_prompt('review.md'),
       system_prompt = 'COPILOT_REVIEW',
-      context = {'buffer', 'git:staged'},
+      context = {'buffer', 'gitdiff:staged'},
     },
     Fix = {
       prompt = 'There is a problem in this code. Identify the issues and rewrite the code with fixes. Explain what was wrong and how your changes address the problems.',
@@ -133,8 +144,8 @@ require("CopilotChat").setup {
       prompt = 'Please generate tests for my code.',
     },
     Commit = {
-      prompt = '' .. read_copilot_prompt('commit.md'),
-      context = {'git:staged', 'buffer'}
+      prompt = read_copilot_prompt('commit.md'),
+      context = {'gitdiff:staged', 'buffer'},
     },
   },
 
@@ -194,38 +205,46 @@ require("CopilotChat").setup {
       normal = 'gh',
     },
   },
-
-  vim.api.nvim_create_user_command('GenerateCommitMessage', function()
-      require('CopilotChat').ask('/Commit', {
-        prompt = '' .. read_copilot_prompt('commit.md'),
-        model = 'gpt-5.2',
-        context = {'git:staged', 'buffer', 'file:.git/COMMIT_EDITMSG'},
-        callback = function(response)
-           require('plenary.async').run(function()
-            require('CopilotChat').close()
-           end)
-
-          local row, col = unpack(vim.api.nvim_win_get_cursor(0))
-          -- 只抓取 gitcommit 代碼區塊
-          local pattern = "```gitcommit(.-)```"
-          local body = response:match(pattern)
-
-          -- 將內容轉換為行
-          local lines = require('plugins.utils').split(body, '\n')
-
-          -- 加入空白行
-          table.insert(lines, 2, '')
-          table.insert(lines, '')
-
-          vim.api.nvim_buf_set_text(
-            0,
-            row - 1, col, row, col,
-            lines
-          )
-
-          return response
-        end,
-      })
-    end, {})
 }
+
+vim.api.nvim_create_user_command('GenerateCommitMessage', function()
+    require('CopilotChat').ask('/Commit', {
+      prompt = read_copilot_prompt('commit.md') .. read_commit_editmsg(),
+      model = 'gpt-5.2',
+      context = {'gitdiff:staged', 'buffer'},
+      callback = function(response)
+         require('plenary.async').run(function()
+          require('CopilotChat').close()
+         end)
+
+        local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+        -- 只抓取 gitcommit 代碼區塊
+        local pattern = "```gitcommit(.-)```"
+        local body = response:match(pattern)
+
+        -- 將內容轉換為行
+        local lines = require('plugins.utils').split(body, '\n')
+
+        -- 加入空白行
+        table.insert(lines, 2, '')
+        table.insert(lines, '')
+
+        vim.api.nvim_buf_set_text(
+          0,
+          row - 1, col, row, col,
+          lines
+        )
+
+        return response
+      end,
+    })
+  end, {})
+
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'gitcommit',
+  callback = function()
+    require('CopilotChat').config.prompts.Commit.prompt =
+      read_copilot_prompt('commit.md') .. read_commit_editmsg()
+  end,
+})
 
