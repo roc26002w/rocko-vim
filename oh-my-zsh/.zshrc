@@ -104,6 +104,7 @@ alias ideavimconfig='nv ~/.ideavimrc'
 alias git='LC_ALL=en_US git'
 alias gd='git icdiff'
 alias docker-compose='docker compose'
+alias cc="claude"
 #alias kubectl='microk8s kubectl'
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.

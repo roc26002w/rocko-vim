@@ -62,7 +62,6 @@ set rtp+=/opt/homebrew/opt/fzf
  " Git
  Plug 'airblade/vim-gitgutter'
  Plug 'tpope/vim-fugitive'
- " Plug 'tveskag/nvim-blame-line'
  Plug 'APZelos/blamer.nvim'
 
  " Python
@@ -110,8 +109,12 @@ set rtp+=/opt/homebrew/opt/fzf
  " error word highlight
  Plug 'kamykn/spelunker.vim'
 
- " Gemini
+ " AI plugin
+ Plug 'github/copilot.vim'
+ Plug 'CopilotC-Nvim/CopilotChat.nvim'
  Plug 'kiddos/gemini.nvim'
+ Plug 'greggh/claude-code.nvim'
+
 
  " All of your Plugs must be added before the following line
 call plug#end()

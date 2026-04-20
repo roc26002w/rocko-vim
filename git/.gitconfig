@@ -20,6 +20,7 @@
 [core]
 	editor = nvim -f
 	pager = less
+	excludesFile = /Users/rocko/.config/git/.gitignore_global
 
 [commit]
 	template = ~/.config/git/.gitmessage.txt
