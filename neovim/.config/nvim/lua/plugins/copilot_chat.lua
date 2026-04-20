@@ -199,7 +199,31 @@ require("CopilotChat").setup {
   },
 }
 
+-- 全局：所有 copilot-chat buffer 開啟時自動掛上 scroll
+local _chat_scroll_attached = {}
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'copilot-chat',
+  callback = function(ev)
+    local buf = ev.buf
+    if _chat_scroll_attached[buf] then return end
+    _chat_scroll_attached[buf] = true
+    vim.api.nvim_buf_attach(buf, false, {
+      on_lines = function()
+        vim.schedule(function()
+          for _, win in ipairs(vim.fn.win_findbuf(buf)) do
+            if vim.api.nvim_win_is_valid(win) then
+              vim.api.nvim_win_set_cursor(win, {vim.api.nvim_buf_line_count(buf), 0})
+            end
+          end
+        end)
+      end,
+    })
+  end,
+})
+
 vim.api.nvim_create_user_command('GenerateCommitMessage', function()
+    local origin_win = vim.api.nvim_get_current_win()
+
     require('CopilotChat').ask('/Commit', {
       prompt = read_copilot_prompt('commit.md'),
       model = 'gpt-5.2',
@@ -209,7 +233,7 @@ vim.api.nvim_create_user_command('GenerateCommitMessage', function()
           require('CopilotChat').close()
          end)
 
-        local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+        local row, col = unpack(vim.api.nvim_win_get_cursor(origin_win))
         -- 只抓取 gitcommit 代碼區塊
         local pattern = "```gitcommit(.-)```"
         local body = response:match(pattern)
@@ -222,7 +246,7 @@ vim.api.nvim_create_user_command('GenerateCommitMessage', function()
         table.insert(lines, '')
 
         vim.api.nvim_buf_set_text(
-          0,
+          vim.api.nvim_win_get_buf(origin_win),
           row - 1, col, row, col,
           lines
         )
