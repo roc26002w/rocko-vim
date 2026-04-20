@@ -219,5 +219,12 @@
     "auth": {
       "selectedType": "oauth-personal"
     }
+  },
+  "general": {
+    "sessionRetention": {
+      "warningAcknowledged": true,
+      "enabled": true,
+      "maxAge": "30d"
+    }
   }
 }
