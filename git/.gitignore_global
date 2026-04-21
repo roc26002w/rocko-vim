@@ -1,5 +1,8 @@
 .gemini/
 .github/
 .claude/
+.spectra/
+.spectra.yaml
 openspec/
+CLAUDE.md
 
