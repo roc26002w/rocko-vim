@@ -22,7 +22,7 @@ require("CopilotChat").setup {
 
   system_prompt = 'COPILOT_INSTRUCTIONS', -- System prompt to use (can be specified manually in prompt via /).
 
-  model = 'gpt-5-mini', -- Default model to use, see ':CopilotChatModels' for available models (can be specified manually in prompt via $).
+  model = 'gpt-5.4-mini', -- Default model to use, see ':CopilotChatModels' for available models (can be specified manually in prompt via $).
   agent = 'copilot', -- Default agent to use, see ':CopilotChatAgents' for available agents (can be specified manually in prompt via @).
   context = nil, -- Default context or array of contexts to use (can be specified manually in prompt via #).
   sticky = nil, -- Default sticky prompt or array of sticky prompts to use at start of every new chat.
@@ -226,7 +226,7 @@ vim.api.nvim_create_user_command('GenerateCommitMessage', function()
 
     require('CopilotChat').ask('/Commit', {
       prompt = read_copilot_prompt('commit.md'),
-      model = 'gpt-5.2',
+      model = 'gpt-5.4-mini',
       resources = {'gitdiff:staged', 'buffer', 'commit_editmsg'},
       callback = function(response)
          require('plenary.async').run(function()
