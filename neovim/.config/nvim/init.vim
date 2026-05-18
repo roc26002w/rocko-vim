@@ -113,8 +113,8 @@ set rtp+=/opt/homebrew/opt/fzf
  Plug 'github/copilot.vim'
  Plug 'CopilotC-Nvim/CopilotChat.nvim'
  Plug 'kiddos/gemini.nvim'
- Plug 'greggh/claude-code.nvim'
-
+ "Plug 'greggh/claude-code.nvim'
+ Plug 'wtfox/claude-chat.nvim'
 
  " All of your Plugs must be added before the following line
 call plug#end()
