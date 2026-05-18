@@ -118,6 +118,45 @@ local function build_commit_prompt()
   return table.concat(parts)
 end
 
+-- Spinner float displayed over the terminal window while Claude is processing.
+-- Closes automatically once terminal buffer has real content.
+local function show_loading(term_buf, term_win)
+  local spinner = { '⣾', '⣽', '⣻', '⢿', '⡿', '⣟', '⣯', '⣷' }
+  local frame   = 1
+  local label   = '  Thinking...  '
+  local w       = #label + 2
+
+  local fbuf = vim.api.nvim_create_buf(false, true)
+  local fwin = vim.api.nvim_open_win(fbuf, false, {
+    relative = 'win',
+    win      = term_win,
+    row      = math.floor(vim.api.nvim_win_get_height(term_win) / 2),
+    col      = math.floor((vim.api.nvim_win_get_width(term_win) - w) / 2),
+    width    = w,
+    height   = 1,
+    style    = 'minimal',
+    border   = 'rounded',
+    zindex   = 200,
+  })
+  vim.api.nvim_buf_set_lines(fbuf, 0, -1, false, { spinner[1] .. label })
+
+  local timer = vim.loop.new_timer()
+  local function stop()
+    timer:stop()
+    pcall(timer.close, timer)
+    pcall(vim.api.nvim_win_close, fwin, true)
+  end
+
+  timer:start(0, 120, vim.schedule_wrap(function()
+    if not vim.api.nvim_buf_is_valid(term_buf) then stop() return end
+    for _, line in ipairs(vim.api.nvim_buf_get_lines(term_buf, 0, 5, false)) do
+      if line ~= '' then stop() return end
+    end
+    frame = (frame % #spinner) + 1
+    pcall(vim.api.nvim_buf_set_lines, fbuf, 0, -1, false, { spinner[frame] .. label })
+  end))
+end
+
 vim.api.nvim_create_user_command('ClaudeChatCommit', function()
   if state_mod.is_session_active() then
     vim.notify('ClaudeChat: session already active', vim.log.levels.WARN)
@@ -148,6 +187,8 @@ vim.api.nvim_create_user_command('ClaudeChatCommit', function()
   vim.cmd 'stopinsert'
   keymaps_mod.setup_terminal_keymaps()
   window_mod.setup_file_watcher()
+
+  show_loading(buf, win)
 end, { desc = 'ClaudeChat: Commit' })
 
 -- ── <C-y>: extract commit message → write to COMMIT_EDITMSG ───────────────────
