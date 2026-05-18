@@ -83,7 +83,6 @@ local prompts = {
   Optimize = 'Optimize the selected code to improve performance and readability. Explain your optimization strategy and the benefits of your changes.',
   Docs     = 'Please add documentation comments to the selected code.',
   Tests    = 'Please generate tests for my code.',
-  Commit   = read_prompt('commit.md'),
 }
 
 for name, prompt in pairs(prompts) do
@@ -91,6 +90,65 @@ for name, prompt in pairs(prompts) do
     claude.ask_claude(prompt, opts.range, opts.line1, opts.line2)
   end, { range = true, desc = 'ClaudeChat: ' .. name })
 end
+
+-- Commit: cost-down via -p (non-interactive) + haiku (cheaper model).
+-- Since -p has no agent/tool access, inject git context directly into the prompt.
+local commit_prompt = read_prompt('commit.md')
+
+local function build_commit_prompt()
+  local parts = { commit_prompt }
+
+  local diff = vim.fn.system('git diff --staged 2>/dev/null')
+  if vim.v.shell_error == 0 and vim.trim(diff) ~= '' then
+    parts[#parts + 1] = '\n\nStaged diff:\n```diff\n' .. vim.trim(diff) .. '\n```'
+  end
+
+  local git_dir = vim.trim(vim.fn.system('git rev-parse --git-dir 2>/dev/null'))
+  if git_dir ~= '' then
+    local f = io.open(git_dir .. '/COMMIT_EDITMSG', 'r')
+    if f then
+      local msg = vim.trim(f:read('*all'))
+      f:close()
+      if msg ~= '' then
+        parts[#parts + 1] = '\n\nCurrent COMMIT_EDITMSG:\n```\n' .. msg .. '\n```'
+      end
+    end
+  end
+
+  return table.concat(parts)
+end
+
+vim.api.nvim_create_user_command('ClaudeChatCommit', function()
+  if state_mod.is_session_active() then
+    vim.notify('ClaudeChat: session already active', vim.log.levels.WARN)
+    return
+  end
+  state_mod.set_original_context(
+    vim.api.nvim_get_current_win(),
+    vim.api.nvim_get_current_buf()
+  )
+  window_mod.create_chat_window()
+
+  local win     = state_mod.get().win
+  local new_buf = vim.api.nvim_create_buf(false, false)
+  vim.api.nvim_set_current_win(win)
+  vim.api.nvim_win_set_buf(win, new_buf)
+
+  local job_id = vim.fn.termopen({
+    config_mod.get().claude_cmd,
+    '--model', 'claude-haiku-4-5-20251001',
+    '-p', build_commit_prompt(),
+  })
+  local buf = vim.api.nvim_win_get_buf(win)
+
+  state_mod.set_terminal_info(buf, win, job_id)
+  vim.bo[buf].bufhidden = 'hide'
+  vim.bo[buf].buflisted = false
+  vim.wo[win].statusline = ' '
+  vim.cmd 'stopinsert'
+  keymaps_mod.setup_terminal_keymaps()
+  window_mod.setup_file_watcher()
+end, { desc = 'ClaudeChat: Commit' })
 
 -- ── <C-y>: extract commit message → write to COMMIT_EDITMSG ───────────────────
 
