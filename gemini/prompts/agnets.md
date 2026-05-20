@@ -39,6 +39,11 @@
 5. **執行**: 執行語系更新指令 (見第 1 節)。
 6. **驗證**: 檢查 `$page.props.translations`。
 
+### B. Code Review 工作流 (Personal Preferences)
+1. **自動歸檔原則**：當執行 Code Review 任務時，若無特別指定輸出路徑，報告應自動輸出至對應 Issue 號碼的資料夾中。
+    - **路徑格式**：`.gemini/{issue_no}/code-review.md`
+    - **範例**：若 Commit Message 包含 `Issue #15168`，報告應產出於 `.gemini/15168/code-review.md`。
+
 ---
 
 ## 4. 程式碼規範 (Coding Standards)
@@ -56,6 +61,7 @@
 
 ## 5. 測試規範 (Testing Guidelines)
 - **必須測試**: 所有 `Actions`、API 終端、權限邏輯、複雜計算。
+- **環境相容性**：禁止使用 `cal_days_in_month()` 等需特定 PHP 擴充的函式。應優先使用 `Carbon` (例如：`Carbon::parse($date)->daysInMonth`) 以確保跨環境相容性。
 - **選配測試**: 單純 CRUD (無邏輯)、純顯示頁面。
 - **瀏覽器測試**: 必須使用 `config('app.system_user.*')` 憑證。
 
