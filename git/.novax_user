@@ -1,3 +1,6 @@
 [user]
   name = Rocko
   email = rockolo@novax.com.tw
+
+[core]
+  hooksPath = ~/code/rocko-vim/git/hooks

@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# 共用 hook：core.hooksPath 會完全取代 .git/hooks，
+# 這裡轉發回 repo 自身的 hook，讓兩者並存。
+
+local_hook="$(git rev-parse --path-format=absolute --git-common-dir)/hooks/post-checkout"
+
+if [ -x "$local_hook" ]; then
+    exec "$local_hook" "$@"
+fi
+
+exit 0

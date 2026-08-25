@@ -1,0 +1,49 @@
+#!/bin/sh
+
+# 驗證 commit 主旨的模組標籤符合 commit-convention。
+# 標籤為建議項目：未帶標籤直接放行，有帶才驗證是否在清單內。
+# 模組清單優先讀 repo 內的 openspec/specs/commit-convention/modules.md，
+# 找不到時退回 ai-tools 的共用副本；兩者皆無才放行。
+
+local_hook="$(git rev-parse --path-format=absolute --git-common-dir)/hooks/commit-msg"
+
+if [ -x "$local_hook" ]; then
+    "$local_hook" "$@" || exit $?
+fi
+
+msg_file="$1"
+subject="$(sed -n '1p' "$msg_file")"
+
+case "$subject" in
+    ''|\#*|Merge\ *|Revert\ *|fixup!\ *|squash!\ *) exit 0 ;;
+esac
+
+repo_root="$(git rev-parse --show-toplevel 2>/dev/null)"
+modules_file="$repo_root/openspec/specs/commit-convention/modules.md"
+
+if [ ! -f "$modules_file" ]; then
+    modules_file="$HOME/code/rocko-vim/ai-tools/openspec/commit-convention/modules.md"
+fi
+
+[ -f "$modules_file" ] || exit 0
+
+# 標籤為 RECOMMENDED，未帶標籤者放行
+printf '%s' "$subject" | grep -qE '^Issue #[0-9]+ \[' || exit 0
+
+if ! printf '%s' "$subject" | grep -qE '^Issue #[0-9]+ \[[^]]+\] .+'; then
+    echo "commit-msg: 標籤格式須為 'Issue #<號碼> [<模組>] <描述>'" >&2
+    echo "  實際: $subject" >&2
+    exit 1
+fi
+
+module="$(printf '%s' "$subject" | sed -n 's/^Issue #[0-9]* \[\([^]]*\)\].*/\1/p')"
+
+# 縮寫（第 2 欄）與模組名稱（第 3 欄）皆可
+if ! awk -F'|' '/^\| [A-Z]/ {gsub(/ /, "", $2); gsub(/ /, "", $3); print $2; print $3}' "$modules_file" | grep -qx "$module"; then
+    echo "commit-msg: 模組標籤 [$module] 不在清單中" >&2
+    echo "  清單: $modules_file" >&2
+    awk -F'|' '/^\| [A-Z]/ {gsub(/ /, "", $2); gsub(/ /, "", $3); printf "  %-6s %s\n", $2, $3}' "$modules_file" >&2
+    exit 1
+fi
+
+exit 0
