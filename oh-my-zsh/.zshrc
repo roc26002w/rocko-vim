@@ -28,8 +28,11 @@ source $ZSH/oh-my-zsh.sh
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+# 在 cmux 環境下禁用 instant prompt，以避免 shell 衝突與掛起
+if [[ -z "$CMUX_WORKSPACE_ID" ]]; then
+  if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+    source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+  fi
 fi
 
 # Preferred editor for local and remote sessions
@@ -115,18 +118,43 @@ alias cc="claude"
 #alias kubectl='microk8s kubectl'
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+if [[ -n "$CMUX_WORKSPACE_ID" ]]; then
+  # 當處於 cmux 環境中時，載入專為 cmux 準備的 Lean 樣式設定檔
+  [[ ! -f ~/.p10k-cmux.zsh ]] || source ~/.p10k-cmux.zsh
+else
+  [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+fi
 
 export PYENV_ROOT="$HOME/.pyenv"
 [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init - zsh)"
+lazyload pyenv -- 'eval "$(pyenv init - zsh)"'
 
 typeset -U path
 
 [[ "$TERM_PROGRAM" == "kiro" ]] && . "$(kiro --locate-shell-integration-path zsh)"
 
+# Added by Antigravity IDE
+export PATH="/Users/rocko/.antigravity-ide/antigravity-ide/bin:$PATH"
 
 # Added by Spectra
 if [[ -z ${path[(r)$HOME/.local/bin]} ]]; then
   path=("$HOME/.local/bin" $path)
 fi
+
+
+# yazi command wrapper to change working directory after command execution
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	command yazi "$@" --cwd-file="$tmp"
+	IFS= read -r -d '' cwd < "$tmp"
+	[ "$cwd" != "$PWD" ] && [ -d "$cwd" ] && builtin cd -- "$cwd"
+	command rm -f -- "$tmp"
+}
+
+# >>> grok installer >>>
+export PATH="$HOME/.grok/bin:$PATH"
+fpath=(~/.grok/completions/zsh $fpath)
+autoload -Uz compinit && compinit -C
+# <<< grok installer <<<
+
+

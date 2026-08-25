@@ -1,0 +1,33 @@
+{
+  "$schema" : "https://raw.githubusercontent.com/manaflow-ai/cmux/main/web/data/cmux.schema.json",
+  "schemaVersion" : 1,
+  "agentChat" : {
+    "fonts" : {
+      "sansFamily" : "FiraCode Nerd Font",
+      "monoFamily" : "FiraCode Nerd Font"
+    }
+  },
+  "shortcuts" : {
+    "bindings" : {
+      "toggleChecklistItemComplete" : {
+        "first" : {
+          "command" : false,
+          "control" : false,
+          "key" : "",
+          "option" : false,
+          "shift" : false
+        }
+      },
+      "toggleFullScreen" : {
+        "first" : {
+          "command" : true,
+          "control" : false,
+          "key" : "\r",
+          "keyCode" : 36,
+          "option" : false,
+          "shift" : false
+        }
+      }
+    }
+  }
+}
