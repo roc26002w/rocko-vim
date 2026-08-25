@@ -1,0 +1,17 @@
+[manager]
+show_hidden = true
+
+[opener]
+phpstorm = [
+	{ run = "phpstorm %s", desc = "PhpStorm", orphan = true, for = "macos" },
+]
+
+[open]
+prepend_rules = [
+	# Folder: same as default (edit, open, reveal) plus phpstorm
+	{ url = "*/", use = [ "edit", "open", "reveal", "phpstorm" ] },
+]
+append_rules = [
+	# Fallback for any file that isn't a folder: same as default (open, reveal) plus phpstorm
+	{ url = "*", use = [ "open", "reveal", "phpstorm" ] },
+]
