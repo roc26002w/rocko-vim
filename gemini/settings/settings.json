@@ -238,5 +238,7 @@
         "auth"
       ]
     }
-  }
+  },
+  "python.languageServer": "Default",
+  "editor.unicodeHighlight.nonBasicASCII": false
 }
