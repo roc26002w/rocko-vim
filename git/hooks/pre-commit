@@ -1,0 +1,31 @@
+#!/bin/sh
+
+# 共用 hook：core.hooksPath 會完全取代 .git/hooks，
+# 這裡先轉發回 repo 自身的 hook，再執行共用邏輯。
+
+local_hook="$(git rev-parse --path-format=absolute --git-common-dir)/hooks/pre-commit"
+
+if [ -x "$local_hook" ]; then
+    "$local_hook" "$@" || exit $?
+fi
+
+# linked worktree 的 spec/ 不受版控，worktree 一刪就沒了。
+# git 沒有 worktree remove 的 hook，改在 commit 時同步回主 worktree。
+main_worktree="$(git worktree list --porcelain | sed -n '1s/^worktree //p')"
+current_worktree="$(git rev-parse --show-toplevel 2>/dev/null)"
+
+if [ -n "$main_worktree" ] && [ -n "$current_worktree" ] \
+    && [ "$main_worktree" != "$current_worktree" ] \
+    && [ -d "$current_worktree/spec" ]; then
+
+    # --update 只覆蓋比主 worktree 舊的檔案，不帶 --delete，主 worktree 不會少任何東西
+    mkdir -p "$main_worktree/spec"
+
+    if rsync -a --update "$current_worktree/spec/" "$main_worktree/spec/"; then
+        echo "pre-commit: spec/ 已同步回 $main_worktree"
+    else
+        echo "pre-commit: spec/ 同步回 $main_worktree 失敗，請手動確認" >&2
+    fi
+fi
+
+exit 0
