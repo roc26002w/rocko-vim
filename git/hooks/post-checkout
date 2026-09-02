@@ -1,12 +1,46 @@
 #!/bin/sh
 
 # 共用 hook：core.hooksPath 會完全取代 .git/hooks，
-# 這裡轉發回 repo 自身的 hook，讓兩者並存。
+# 這裡先轉發回 repo 自身的 hook，再執行共用邏輯。
 
 local_hook="$(git rev-parse --path-format=absolute --git-common-dir)/hooks/post-checkout"
 
 if [ -x "$local_hook" ]; then
-    exec "$local_hook" "$@"
+    "$local_hook" "$@" || exit $?
 fi
+
+# linked worktree 補上主 worktree 的未追蹤設定檔（如 .env、.claude、.gemini）。
+# 只補不覆蓋，worktree 已有同名檔案就跳過。
+main_worktree="$(git worktree list --porcelain | sed -n '1s/^worktree //p')"
+current_worktree="$(git rev-parse --show-toplevel 2>/dev/null)"
+
+[ -n "$main_worktree" ] || exit 0
+[ -n "$current_worktree" ] || exit 0
+[ "$main_worktree" = "$current_worktree" ] && exit 0
+
+copy_missing() {
+    [ -e "$1" ] || return 0
+    [ -e "$current_worktree/$2" ] && return 0
+    cp -R "$1" "$current_worktree/$2"
+}
+
+for path in "$main_worktree"/.*; do
+    name="${path##*/}"
+
+    # .git 是 worktree 專用的連結檔不可覆蓋；
+    # 其餘 git 設定檔皆已被追蹤，checkout 時就存在
+    case "$name" in
+        . | .. | .git | .gitignore | .gitattributes | .gitmodules | .github | .gitlab)
+            continue
+            ;;
+    esac
+
+    copy_missing "$path" "$name"
+done
+
+# 非隱藏的專案設定檔改由 git config 指定，例如 auth.json
+for name in $(git config --get-all hooks.worktreeCopyFile); do
+    copy_missing "$main_worktree/$name" "$name"
+done
 
 exit 0

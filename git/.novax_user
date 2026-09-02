@@ -4,3 +4,6 @@
 
 [core]
   hooksPath = ~/code/rocko-vim/git/hooks
+
+[hooks]
+  worktreeCopyFile = auth.json
