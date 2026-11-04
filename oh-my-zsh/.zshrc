@@ -23,6 +23,10 @@ plugins=(git docker docker-compose zsh-lazyload fzf helm zsh-syntax-highlighting
 
 source $ZSH/oh-my-zsh.sh
 
+# 停用 oh-my-zsh 的 url-quote-magic / bracketed-paste-magic：貼上含 https:// 的指令時不再自動跳脫 { } ;
+zle -A .self-insert self-insert
+zle -A .bracketed-paste bracketed-paste
+
 # User configuration
 #
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
@@ -47,6 +51,7 @@ export FZF_DEFAULT_COMMAND="ag --hidden --skip-vcs-ignores --ignore=.git -g ''"
 
 # homebrew
 export PATH="/opt/homebrew/bin:$PATH"
+export PATH="/opt/homebrew/sbin:$PATH"
 
 # composer
 export COMPOSER_MEMORY_LIMIT=-1
@@ -133,14 +138,10 @@ typeset -U path
 
 [[ "$TERM_PROGRAM" == "kiro" ]] && . "$(kiro --locate-shell-integration-path zsh)"
 
-# Added by Antigravity IDE
-export PATH="/Users/rocko/.antigravity-ide/antigravity-ide/bin:$PATH"
-
 # Added by Spectra
 if [[ -z ${path[(r)$HOME/.local/bin]} ]]; then
   path=("$HOME/.local/bin" $path)
 fi
-
 
 # yazi command wrapper to change working directory after command execution
 function y() {
@@ -156,5 +157,4 @@ export PATH="$HOME/.grok/bin:$PATH"
 fpath=(~/.grok/completions/zsh $fpath)
 autoload -Uz compinit && compinit -C
 # <<< grok installer <<<
-
 
