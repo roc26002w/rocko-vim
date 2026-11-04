@@ -9,6 +9,31 @@ if [ -x "$local_hook" ]; then
     "$local_hook" "$@" || exit $?
 fi
 
+# unarchive 若用複製而非 git mv，archive 下同一個 change 會有兩份。
+# 讀 index，檢查的是即將 commit 的狀態。
+duplicated_archives="$(git ls-files openspec/changes/archive 2>/dev/null \
+    | sed -nE 's#^openspec/changes/archive/[0-9]{4}-[0-9]{2}-[0-9]{2}-([^/]+)/\.openspec\.yaml$#\1#p' \
+    | sort | uniq -d)"
+
+if [ -n "$duplicated_archives" ]; then
+    echo "pre-commit: openspec archive 有重複的 change，unarchive 請用 git mv 搬回：" >&2
+    echo "$duplicated_archives" >&2
+    exit 1
+fi
+
+# 有安裝 pint 才跑：只格式化已暫存的 PHP 檔，並重新加入暫存。
+if command -v pint >/dev/null 2>&1 \
+    && [ -n "$(git diff --cached --name-only --diff-filter=ACM -- '*.php')" ]; then
+
+    if git diff --cached --name-only --diff-filter=ACM -z -- '*.php' \
+        | xargs -0 sh -c 'pint "$@" && git add -- "$@"' _; then
+        echo "pre-commit: pint 已格式化暫存的 PHP 檔"
+    else
+        echo "pre-commit: pint 執行失敗" >&2
+        exit 1
+    fi
+fi
+
 # linked worktree 的 spec/ 不受版控，worktree 一刪就沒了。
 # git 沒有 worktree remove 的 hook，改在 commit 時同步回主 worktree。
 main_worktree="$(git worktree list --porcelain | sed -n '1s/^worktree //p')"
