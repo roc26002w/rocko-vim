@@ -30,28 +30,48 @@
 
 Service 類別 SHALL 在類別頂層以 `private` 宣告所有屬性，不使用 constructor 促進式屬性（constructor property promotion）。
 
+與 `handle()` 參數同名、由 `BoundHandle` 注入的屬性 SHALL NOT 在屬性宣告處給預設值；若 `handle()` 參數有預設值，該預設值 SHALL 只寫在參數簽名，使預設值只有單一來源。非注入的內部狀態屬性（如 `$result`）依需要宣告型別，不受此限。
+
 #### Scenario: 正確宣告方式
 ```php
 class MyService extends Service
 {
-    private array $records = [];
-    private array $shiftDuty = [];
+    private array $records;
+    private array $shiftDuty;
     private Collection $result;
 }
 ```
+
+#### Scenario: 注入屬性不重複預設值
+- **WHEN** `handle(array $providerIds)` 的參數為必填，呼叫端（如 Controller）在未取得輸入時傳入 `[]`
+- **THEN** 屬性宣告為 `private array $providerIds;`，`handle()` 內不手動賦值 `$this->providerIds`，由 `run()` 注入
 
 ---
 
 ### Requirement: handle() 方法參數與屬性對應
 
-`handle()` 的參數名稱 SHALL 與 class 屬性名稱一致，以便 `BoundHandle::assignProperties()` 自動注入。`handle()` 內不需手動賦值，框架在呼叫前已完成注入。
+`handle()` 的參數名稱 SHALL 與 class 屬性名稱一致，以便 `BoundHandle::assignProperties()` 自動注入。`handle()` 內不需手動賦值，框架在呼叫前已完成注入。`handle()` 的參數 SHALL 預設為必填，由呼叫端（Controller、其他 Service）負責傳入，無輸入時傳入空值（如 `[]`、`''`、`0`），屬性宣告處不重複預設值。
+
+`handle()` 參數僅在下列情況 MAY 給預設值，其餘一律必填：
+- 該預設值是此 Service 本身的業務語意，且多數呼叫端都不會覆寫（如固定的每頁筆數、預設排序）
+- 修改既有 Service 時，為不影響既有呼叫端而保留其原有的預設值
+
+新增參數 SHALL NOT 為了「讓既有呼叫端不用修改」而給預設值；應改為必填並同步調整呼叫端與測試。
+
+#### Scenario: 新增參數一律必填
+- **WHEN** 為既有 Service 的 `handle()` 新增參數（如 `string $netaskModule`）
+- **THEN** 參數宣告為必填 `string $netaskModule`，Controller 在請求未帶時傳入 `''`，並同步補上既有測試的呼叫端，而非以 `= ''` 讓既有呼叫端免改
+
+#### Scenario: 篩選條件以空值表示不篩選
+- **WHEN** 列表類 Service 有多個選填篩選條件
+- **THEN** `handle()` 參數皆為必填，Controller 在請求未帶時傳入空值（`''`、`0`），Service 以 `when()` 判斷空值不套用該條件
 
 #### Scenario: handle() 簽名
 ```php
 /**
  * @method static Collection run()
  */
-public function handle(array $records, array $shiftDuty = [], array $dutyList = []): Collection
+public function handle(array $records, array $shiftDuty, array $dutyList): Collection
 {
     // $this->records、$this->shiftDuty、$this->dutyList 已由 BoundHandle 注入
     $this->prepareResult();
@@ -74,9 +94,11 @@ Service 類別 SHALL 遵循以下命名模式組織方法：
 | `init*()` | 迴圈內初始化 per-item 狀態；有兩種用法，見下方說明 | `initUser()`, `initRow()` |
 | `update*ToResult()` | 計算並寫入結果 | `updateDutyInfoToResult()` |
 | `push*()` | 將單筆資料推入 result | `pushCrossMonthSegments()` |
+| `push*ToResult()` | 將單筆資料推入 result，名稱明示推入對象 | `pushModelLabelToResult()` |
 | `push*IfNeed()` | 有條件地推入 result；搭配 `init*()` 檢查 per-item 狀態是否有效 | `pushResultIfNeed()` |
 | `resolve*()` | 查詢或推導單一值（涉及運算或查表） | `resolveMonthBoundary()`, `resolveNextMonthStart()` |
 | `get*()` | 從常數或預建 map 直接取值（不含查詢或推導邏輯） | `getRocWeekday()` |
+| `fetch*()` | 向外部系統（HTTP API 等）取資料；快取讀寫與失敗降級（記錄後回傳空結果）屬同一段連貫流程，維持在同一個方法內 | `fetchModelNames()` |
 | `build*()` | 建構並回傳一個資料結構 | `buildSegment()` |
 | `parse*()` | 解析輸入資料 | `parseDateRange()` |
 | `renderResult()` | 最終輸出轉換 | `return $this->result` |
@@ -299,6 +321,32 @@ foreach ($this->users as $user) {
 ```
 
 > **選擇依據**：若單一 `initRow()` 過長、或 skip 條件來自不同業務維度（班表規則 vs 在職期間），B2 更易讀；若初始化步驟少且 guard 單一，B1 更簡潔。
+
+#### Scenario: 雙層 foreach，Type A init 設定處理對象（參考 Provider/Models/Index.php）
+
+`handle()` 遍歷 Collection 時，迴圈體含多個步驟或條件分支者 SHALL 以 `foreach` 展開；迴圈體簡單、能以一行表達時（如單一委派呼叫）可使用 `->each(fn)`。外層以 Type A `init*()` 設定目前處理的對象後，後續的 `fetch*()`、`build*()`、`resolve*()`、`parse*()` 直接讀取該 class 屬性，不需逐層傳遞參數。
+
+```php
+public function handle(): Collection
+{
+    $this->prepareResult();
+    $this->prepareProviders();
+
+    foreach ($this->providers as $provider) {
+        $this->initTargetProvider($provider);   // Type A：設定 $this->targetProvider
+        $modelsNames = $this->fetchModelNames();
+
+        foreach ($modelsNames as $name) {
+            $this->pushModelLabelToResult($provider, $name);
+        }
+    }
+
+    return $this->renderResult();
+}
+```
+
+- **WHEN** `handle()` 需要對每個項目向外部取資料，再把取回的每一筆推入 result
+- **THEN** 外層含 init 與取資料兩個步驟，以 `foreach` 展開；內層只有單一推入呼叫，以 `foreach` 或 `->each(fn)` 皆可。外層先 `initTargetProvider()`，`fetchModelNames()` 讀 `$this->targetProvider`，不另外抽出只呼叫一次的包裝方法
 
 #### Scenario: 雙層 foreach，內層邏輯複雜時封裝為 private 方法（參考 Duty.php）
 
@@ -614,6 +662,97 @@ Workflow::query()
 
 ---
 
+### Requirement: 優先使用 Laravel helper
+
+Service 內的字串、陣列與集合處理 SHALL 優先使用 Laravel 提供的 helper（`str()` / `Str`、`collect()` / `Collection`、`Arr`），僅在沒有對應 helper 時才使用 PHP 原生函式。
+
+理由：helper 回傳 `Stringable` 或 `Collection`，可直接串接後續操作，不需要中介變數與 out 參數；行為由框架維護，也與專案其他程式碼的寫法一致。
+
+延伸規則：
+
+- 正規表示式取值 SHALL 使用 `str()->match()` / `str()->matchAll()`，SHALL NOT 使用 `preg_match()` / `preg_match_all()` 搭配 `$matches` out 參數
+- 陣列處理 SHALL 使用 `collect()` 的鏈式方法（`map()`、`filter()`、`pluck()`、`flatten()`、`unique()`），SHALL NOT 以 `array_map()` / `array_filter()` 等原生函式處理後再轉回 Collection
+- 已是 `Collection` 的資料 SHALL NOT 先 `->all()` / `->toArray()` 轉成陣列再以原生函式處理
+- 資料轉換與彙整（對應、分組、取最大值、去重、鍵值對照）SHALL 以 `collect()` 鏈式方法表達（`map()`、`mapWithKeys()`、`groupBy()`、`max()`、`unique()`），SHALL NOT 以 `foreach` 搭配累積用的區域陣列（如 `$rows[] = ...`、`$counts[$k] = max(...)`）處理；`handle()` 的 init/push 迴圈結構不受此限
+
+#### Scenario: 以 str()->matchAll() 取代 preg_match_all
+
+```php
+private function resolveHashes(string $content): Collection
+{
+    return str($content)->matchAll(FileHashPath::REGULAR_HASH_PATTEN);
+}
+```
+
+- **WHEN** 需要從內容字串取出全部符合樣式的捕獲群組
+- **THEN** 以 `str()->matchAll()` 回傳 Collection，直接供 `flatMap()` 等後續操作串接
+
+#### Scenario: 不正確的原生函式寫法
+
+```php
+// 禁止：out 參數與索引取值，回傳型別退化為 array
+private function resolveHashes(string $content): array
+{
+    preg_match_all(FileHashPath::REGULAR_HASH_PATTEN, $content, $matches);
+
+    return $matches[1];
+}
+```
+
+- **WHEN** 有對應的 Laravel helper 卻改用原生函式搭配 out 參數
+- **THEN** 此為不合規範的寫法——呼叫端拿到 array 後往往還要再包一次 `collect()`
+
+#### Scenario: 以 collection 鏈取代 foreach 累積陣列（參考 FormBuilder\Row\Upgrade）
+
+```php
+// 正確：分組後取各組最大列數
+$this->rowIds = collect($this->results)
+    ->filter(fn (array $result) => isset($this->childToContainer[$result['key']]))
+    ->groupBy(fn (array $result) => $this->childToContainer[$result['key']])
+    ->map(fn (Collection $group) => $this->makeUniqueIds($group->max(fn (array $result) => count($result['value']))))
+    ->all();
+
+// 禁止：foreach 搭配累積用的區域陣列
+$rowCounts = [];
+foreach ($this->results as $result) {
+    $rowCounts[$container] = max($rowCounts[$container] ?? 0, count($result['value']));
+}
+```
+
+- **WHEN** private 方法內需要對陣列做對應、分組或彙整
+- **THEN** 以 `collect()` 鏈式方法表達；只有最終需要 `array` 時才在鏈尾 `->all()`
+
+---
+
+### Requirement: 建立資料表的 migration 一表一檔
+
+建立資料表的 migration SHALL 一個檔案只建立一張資料表（`Schema::create()` 只出現一次），SHALL NOT 在同一個 migration 內建立多張表。`down()` 只負責還原該檔案所建立的那張表。
+
+檔名以 `create_<table>_table` 描述該表，並加上 issue 前綴（如 `i15396_create_ai_providers_table`）；多張表之間若有建立順序需求，以時間戳記先後排序。
+
+理由：一表一檔讓每張表可獨立 rollback、獨立在 code review 中追蹤，也避免單一 migration 失敗時留下只建立一半的結構。
+
+#### Scenario: 同一變更需要建立兩張新表
+
+- **WHEN** 同一個變更需要新增 `ai_providers` 與 `ai_agent_categories` 兩張表
+- **THEN** 建立兩個 migration 檔（`..._create_ai_providers_table.php`、`..._create_ai_agent_categories_table.php`），各自的 `down()` 只刪除自己的表
+
+#### Scenario: 不正確的合併建立
+
+```php
+// 禁止：同一個 migration 建立多張表
+public function up(): void
+{
+    Schema::create('ai_providers', function (Blueprint $table) { /* ... */ });
+    Schema::create('ai_agent_categories', function (Blueprint $table) { /* ... */ });
+}
+```
+
+- **WHEN** 單一 migration 內出現多個 `Schema::create()`
+- **THEN** 此為不合規範的寫法，須拆為一表一檔
+
+---
+
 ### Requirement: 單元測試覆蓋
 
 每個 Service 類別 SHALL 配有對應的 Unit Test，測試路徑與 `app/Services/` 結構鏡像於 `tests/Unit/Services/`。
@@ -671,3 +810,5 @@ Workflow::query()
 - `app/Services/Vacation/Report/Custom/Haushin/SplitVacation.php` — 單層 foreach 含 passthrough guard 直接寫在 body 內、Type A initRecord + isNoProcess() guard + pushDailyPairsToResult() dispatch
 - `app/Services/OF/Transform/FormResult/Converter.php` — Collection callback 寫法：單一運算式用 fn、兩層以上邏輯用 function Closure（renderResult() 分支留在 Closure 內、聚合運算抽為 mergeContainerChildValues()）
 - `app/Services/WF/NonRetention/Index.php` — 以 `with()` eager loading 取關聯資料取代手寫 join、跨層 relation 存取以 `?->` 短路、私有方法維持單一連貫流程並以 `is_null()` early return guard 處理 null
+- `app/Services/FormBuilder/Row/Upgrade.php` — private 方法內的資料轉換全以 collection 鏈表達（`mapWithKeys`、`groupBy`、`unique`），`handle()` 保留 init/push 迴圈
+- `app/Services/AI/Provider/Models/Index.php` — `handle()` 外層 foreach 展開、Type A `initTargetProvider()` 後由 `fetchModelNames()` 讀屬性對外部 API 取資料（快取與失敗降級在同一方法內）、`push*ToResult()` 推入 result

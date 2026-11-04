@@ -41,11 +41,14 @@ SRC="$SRC_REPO/openspec/specs"
 DST="$(cd "$(dirname "$0")" && pwd)/openspec"
 
 SPECS="
+apidoc-pattern
 app-service-pattern
 code-comment-convention
 commit-convention
 controller-refactor-pattern
+openspec-unarchive-workflow
 tdd-pattern
+worktree-archive-workflow
 "
 
 if [ ! -d "$SRC" ]; then

@@ -9,7 +9,7 @@
 ### Requirement: 拆分時機
 
 Controller method SHALL 在符合以下任一情況時拆分：
-- method 內同時包含驗證邏輯（`$request->post()`/`$request->input()` 手動取值判斷）與業務邏輯（查詢組裝、資料轉換、寫入、外部服務呼叫等）
+- method 內同時包含驗證邏輯（以 `$request->post()`／`$request->input()` 取值後手寫 `empty()`／`is_null()` 等判斷與錯誤回應）與業務邏輯（查詢組裝、資料轉換、寫入、外部服務呼叫等）
 - 業務邏輯無法在不經過完整 HTTP 請求（Feature Test）的情況下被獨立測試
 
 #### Scenario: 需要拆分的 method
@@ -68,11 +68,15 @@ Controller method 原本的業務邏輯 SHALL 抽取為 `App\Services\<Module>\<
 ```php
 public function search(SearchRequest $request): JsonResponse
 {
+    $uid = auth('rpc')->id();
+    $creator = $request->validated('creator', 0);
+    $keyword = $request->validated('keyword', '');
+    // ...其餘欄位
+
     $templates = Search::run([
-        'uid' => auth('rpc')->id(),
-        'creator' => $request->validated('creator', 0),
-        'keyword' => $request->validated('keyword', ''),
-        // ...其餘欄位
+        'uid' => $uid,
+        'creator' => $creator,
+        'keyword' => $keyword,
     ]);
 
     return response()->json([
@@ -80,6 +84,84 @@ public function search(SearchRequest $request): JsonResponse
         'data' => ['templates' => $templates],
     ]);
 }
+```
+
+---
+
+### Requirement: 輸入取值留在 Controller，FormRequest 不定義單欄位取值方法
+
+`FormRequest` SHALL 只負責 `authorize()` 與 `rules()`，SHALL NOT 為個別欄位定義取值方法（如 `expectDate(): int`、`keyword(): string`）。欄位值 SHALL 由 Controller 於呼叫處自行取得：
+
+- 必填欄位（`rules()` 標 `required`）SHALL 使用 `$request->input($key)`。
+- 可選欄位 SHALL 使用 `$request->validated($key, $default)` 的二參數形式提供預設值（見〈預設值職責歸屬於 Controller〉）。
+- 兩種取法並存，以「該欄位是否必填」決定用哪一種；同一個 Controller 內 SHALL NOT 對同一欄位混用兩種取法。
+- 無論用哪一種，Controller SHALL 只取 `rules()` 已宣告的欄位；`input()` MUST NOT 用來讀取未經驗證的欄位。
+
+- **Rationale**: 單欄位 accessor 只是把取值包一層，讀 Controller 時得跳到 `FormRequest` 才知道欄位名與型別，`rules()` 與取值處的對照因此被拉長。欄位名寫在呼叫處，增刪欄位時「驗證規則」與「送進 Service 的內容」在同一個 diff 內就能對照。必填欄位不需要 `validated()` 的預設值語意，`input()` 的意圖更窄也更直白；可選欄位則需要 `validated($key, $default)` 明確標示「未提交時填什麼」。
+
+#### Scenario: 必填與可選欄位的取值
+```php
+public function search(SearchRequest $request): JsonResponse
+{
+    $expectDate = $request->input('expect_date');          // required 欄位
+    $keyword = $request->validated('keyword', '');          // 可選欄位，於此處填預設值
+
+    $rows = Search::run(['expectDate' => $expectDate, 'keyword' => $keyword]);
+    // ...
+}
+```
+
+#### Scenario: 禁止在 FormRequest 定義單欄位取值方法
+```php
+// 禁止：欄位名與型別藏在 FormRequest，Controller 看不出送進 Service 的是哪個欄位
+class SearchRequest extends FormRequest
+{
+    public function expectDate(): int
+    {
+        return (int) $this->validated('expect_date');
+    }
+}
+```
+
+#### Scenario: 回傳資料結構的轉換方法不受此限
+- **WHEN** `FormRequest` 的方法做的是資料結構轉換而非取值（如 `flowIds(): Collection` 回傳 `collect($this->validated('flow_ids'))`，供 Controller 以 `intersect()`／`diff()` 過濾）
+- **THEN** 該方法 SHALL 保留在 `FormRequest`，不受「不定義取值方法」限制——它產出的是下游要用的資料結構，不是單純把欄位值原樣傳出
+
+#### Scenario: 型別轉換交給 Service 的型別宣告
+- **WHEN** 欄位值需要轉成 `int`／`float` 等型別（如 query string 取得的 `'30'`）
+- **THEN** Controller SHALL NOT 自行 cast，由 Service 的屬性宣告與 `handle()` 參數型別（如 `private int $expectDate` 與 `handle(int $expectDate)`）完成轉換；`rules()` 的 `integer`／`numeric` 規則已擋掉無法轉換的輸入
+
+---
+
+### Requirement: Service::run() 的引數先落地為區域變數
+
+傳給 `Service::run([...])` 的每個值 SHALL 先指派為區域變數，引數位置 SHALL NOT 內嵌任何運算式——包含取值呼叫（`$request->input()`／`validated()`）、型別轉換（`(int)`）、`auth()->id()`、`match`／三元運算、`collect()` 等。
+
+- 區域變數命名 SHALL 對應 Service `handle()` 的參數名（`expect_date` → `$expectDate`），讓呼叫處與 `handle()` 簽名可逐行對照。
+- 需要條件分支才能決定的值（如 `match`），SHALL 抽成 Controller 的 private 方法回傳後再指派，不寫在引數位置。
+- 本條與〈輸入取值留在 Controller，FormRequest 不定義單欄位取值方法〉SHALL 適用於新寫或本次一併改動的 Controller method；既有程式碼 SHALL NOT 為符合本條而單獨回溯改寫。
+
+- **Rationale**: 引數位置只放名字時，`run([...])` 的陣列就是一份「送進 Service 的欄位清單」，一眼可與 `handle()` 對照；把取值、轉型與分支塞進引數，讀者得先在腦中拆解每個運算式才知道傳的是什麼，欄位一多就無法對照。落地後的變數也讓「這個值從哪來」與「這個值送去哪」分成兩段閱讀。
+
+#### Scenario: 引數位置只放區域變數
+```php
+public function destroy(RetentionExpiryDestroyRequest $request): JsonResponse
+{
+    $userId = auth()->id();
+    $expiredIds = Index::run(['expectDate' => 0])->pluck('flowid');
+    $destroyed = $request->flowIds()->intersect($expiredIds)->values();
+    $destroyedIds = $destroyed->all();
+
+    Destroy::run(['flowIds' => $destroyedIds, 'userId' => $userId]);
+    // ...
+}
+```
+
+#### Scenario: 禁止的寫法
+```php
+// 禁止：引數位置做取值、轉型與分支
+Destroy::run(['flowIds' => $request->flowIds()->all(), 'userId' => (int) auth()->id()]);
+Search::run(['range' => match ($request->input('type')) { 1 => 30, 2 => 60 }]);
 ```
 
 ---
@@ -100,17 +182,21 @@ Search::run([...$request->validated(), 'uid' => auth('rpc')->id()]);
 
 ### Requirement: 預設值職責歸屬於 Controller（HTTP 輸入邊界）
 
-Service 的 `handle()` 參數 SHALL 為必填、不帶 PHP 預設值（不使用 `= null`、`= 0`、`= ''` 等）；可選欄位的預設值 SHALL 由 Controller 呼叫端透過 `FormRequest::validated(string $key, mixed $default)` 的二參數形式明確提供。
+Service 的 `handle()` 參數 SHALL 為必填、不帶 PHP 預設值（不使用 `= null`、`= 0`、`= ''` 等）；可選欄位的預設值 SHALL 由 Controller 呼叫端透過 `FormRequest::validated(string $key, mixed $default)` 的二參數形式明確提供（必填欄位無此需求，依〈輸入取值留在 Controller〉以 `input($key)` 取得）。
 
 - **Rationale**: `validated($key)`（單參數）在欄位未提交時回傳 `null`，若 Service 屬性型別為非 nullable（如 `int`、`string`、`array`），指派 `null` 會拋出 `TypeError`。將預設值收斂在 Controller 一處，比在 Service 內部散落 `?int $x = null` 後又於方法體內判斷 `$x ?? 0` 更集中、更符合「HTTP 輸入邊界負責填補預設值，Service 內部信任已收到合法型別資料」的分工。
 - 若某欄位的合法值域無法表達「未指定」語意（如 `open_status` 合法值恰為 `0`/`1`，兩者皆有意義），Service SHALL 定義 `public const UNSET_<FIELD> = <不在值域內的哨兵值>`，供 Controller 呼叫 `$request->validated($key, Service::UNSET_<FIELD>)` 使用。
 
 #### Scenario: Controller 提供逐欄位 default
 ```php
+$creator = $request->validated('creator', 0);
+$openStatus = $request->validated('open_status', Search::UNSET_OPEN_STATUS);
+$keywordMethod = $request->validated('keyword_method', []);
+
 Search::run([
-    'creator' => $request->validated('creator', 0),
-    'open_status' => $request->validated('open_status', Search::UNSET_OPEN_STATUS),
-    'keyword_method' => $request->validated('keyword_method', []),
+    'creator' => $creator,
+    'open_status' => $openStatus,
+    'keyword_method' => $keywordMethod,
 ]);
 ```
 
@@ -220,3 +306,4 @@ Issue #15384 OpenFormController@search 抽取為 SearchRequest 與 Service
 
 - `App\Http\Requests\OF\StoreRequest` + `App\Services\OF\Reply\Store` — `ReplyController@store` 拆分：檔案搬移、內容轉換、簽核流程掛載、寄送感謝信等多步驟業務邏輯封裝
 - `App\Http\Requests\OF\SearchRequest` + `App\Services\OF\Template\Search` + `App\Enum\OF\CategoryMethodEnum` — `OpenFormController@search` 拆分：權限判斷、多欄位篩選組裝、`UNSET_OPEN_STATUS` sentinel 常數、Controller 提供逐欄位 default 值
+- `App\Http\Requests\WF\RetentionExpiryRequest`（抽象基底，共用 `authorize()`）+ `App\Http\Controllers\WF\WfRetentionExpiryController` — 三個端點共用權限、必填欄位以 `input()` 取值、引數先落地為區域變數、`flowIds(): Collection` 作為資料結構轉換方法的範例

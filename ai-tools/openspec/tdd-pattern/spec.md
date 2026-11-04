@@ -97,6 +97,36 @@ protected function setUp(): void
 
 ---
 
+### Requirement: 受測主體直接寫在呼叫處
+
+測試的受測主體 SHALL 直接寫在呼叫處，MUST NOT 抽成 `private const` 再以 `self::XXX` 引用。受測主體指這個測試實際要驗證的對象，如 console command 的命令字串、被請求的路由 URI。
+
+測試的主體就是該命令／端點本身，把它藏在常數後面會讓讀測試的人看不出實際被呼叫的是什麼；主體被實際寫出來，命令或路由改名時也才會在測試中直接顯現。
+
+固定的測試資料（如 `Carbon::setTestNow()` 的基準日）同樣 SHALL 直接寫在使用處，即使既有測試檔已有此類常數也 MUST NOT 照抄。
+
+#### Scenario: 命令字串直接寫在呼叫處
+```php
+// 正確
+$this->artisan('netask:wf-retention-expiry-notify')->assertExitCode(0);
+
+// 錯誤
+private const COMMAND = 'netask:wf-retention-expiry-notify';
+$this->artisan(self::COMMAND)->assertExitCode(0);
+```
+
+#### Scenario: 測試基準日直接寫在 setUp
+```php
+// 正確
+Carbon::setTestNow('2026-08-24');
+
+// 錯誤
+private const TODAY = '2026-08-24';
+Carbon::setTestNow(self::TODAY);
+```
+
+---
+
 ### Requirement: 斷言訊息與結構
 
 回應內容的斷言 SHALL 驗證關鍵資料是否出現在回應中，建議使用 `assertSee` 確保資料正確性。
