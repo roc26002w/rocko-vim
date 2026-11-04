@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 4,
   "lines": [
     [
       {
@@ -54,14 +54,32 @@
         "backgroundColor": "bgBrightRed"
       }
     ],
-    []
+    [
+      {
+        "id": "1df2db87-e49f-4103-92b7-befebede0188",
+        "type": "thinking-effort",
+        "backgroundColor": "bgWhite"
+      },
+      {
+        "id": "6f990912-c0f2-49e4-9936-7d23e02c13eb",
+        "type": "free-memory",
+        "backgroundColor": "bgGreen"
+      },
+      {
+        "id": "173a2c68-1047-4106-8f5a-83130541057b",
+        "type": "session-cost",
+        "backgroundColor": "bgBrightWhite"
+      }
+    ]
   ],
   "flexMode": "full-minus-40",
   "compactThreshold": 60,
   "colorLevel": 2,
   "defaultPadding": " ",
+  "defaultPaddingSide": "both",
   "inheritSeparatorColors": false,
   "globalBold": false,
+  "gitCacheTtlSeconds": 5,
   "minimalistMode": false,
   "powerline": {
     "enabled": true,
