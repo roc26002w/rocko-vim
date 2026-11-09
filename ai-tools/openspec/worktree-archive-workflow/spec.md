@@ -8,7 +8,7 @@ change 在 git worktree 分支上開發並需要 archive 時，spectra CLI（3.0
 
 ### Requirement: 以 worktree 的 git 內容為準
 
-change 與主 spec 的變動 SHALL 完成並提交於 worktree 所屬分支，SHALL NOT 為了讓 spectra 看得到而把 change 資料夾放進主倉庫工作區。主倉庫的未提交內容 SHALL NOT 被修改。
+change 與主 spec 的變動 SHALL 完成並提交於 worktree 所屬分支，SHALL NOT 為了讓 spectra 看得到而把 change 資料夾放進主倉庫工作區，唯一例外是 `spectra-worktree-workflow` 規定的「驗證用暫時副本」（複製、驗證後立即刪除，且前後主倉庫 `git status --short` 一致）。主倉庫的未提交內容 SHALL NOT 被修改。worktree 內 artifacts 的編輯與 CLI 驗證分工見 `spectra-worktree-workflow`。
 
 #### Scenario: spectra 在 worktree 找不到 change
 
@@ -53,6 +53,7 @@ change 與主 spec 的變動 SHALL 完成並提交於 worktree 所屬分支，SH
 - 主 spec 內不得出現 `## ADDED Requirements`、`## MODIFIED Requirements`、`## REMOVED Requirements`、`## RENAMED Requirements`。
 - 主 spec 結構為 `# <capability> Specification`、`## Purpose`、`## Requirements`，且只有一個 `## Requirements`。
 - delta spec 新增的文字已存在於主 spec。
+- 主 spec 內不得留有本次 archive 注入的 `<!-- @trace ... -->` 區塊（`source:` 為本次 change 者）；其他 change 留下的 `@trace` 維持原樣。
 
 分支合併後 SHALL 在主倉庫再執行一次 `spectra validate --specs`。
 
@@ -60,6 +61,12 @@ change 與主 spec 的變動 SHALL 完成並提交於 worktree 所屬分支，SH
 
 - **WHEN** 主 spec 內出現 `## ADDED Requirements`
 - **THEN** 視為 delta 被直接貼入，改為標準主 spec 結構（標題、Purpose、Requirements），需求內容不變
+
+#### Scenario: archive 注入 @trace 區塊
+
+- **WHEN** archive 後主 spec 的需求底下出現 `<!-- @trace` 區塊，且 `source:` 為本次 change
+- **THEN** 移除該區塊，因為 `code:` 清單可能列入大量與 change 無關的工作區檔案（如 `public/` 的靜態資源），使主 spec 的 diff 膨脹數千行
+- **THEN** 只移除區塊本身，需求內容與 `---` 分隔線的原有格式不變，並確認各主 spec 的需求數量與 delta 一致
 
 #### Scenario: 無法在 worktree 驗證
 

@@ -47,6 +47,7 @@ code-comment-convention
 commit-convention
 controller-refactor-pattern
 openspec-unarchive-workflow
+spectra-worktree-workflow
 tdd-pattern
 worktree-archive-workflow
 "
